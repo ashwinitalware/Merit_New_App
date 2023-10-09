@@ -1,0 +1,7 @@
+{
+  "name": "Merit_New_App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
