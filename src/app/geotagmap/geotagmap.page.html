@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="light">GeoTag</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div #mapElement class="map"></div>
+
+  <div class="address_main_div ">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="5.5">
+          <div (click)="toggleSatelliteView()"
+            class="bg-white rounded-md p-1 border border-blue-700 flex justify-between w-full"
+            style="z-index: 1000; position: absolute; margin-top: -25%;">
+            <img width="40" height="40" src="assets/orbit.png" alt="">
+            <p class="text-blue-600 font-bold text-sm mt-2 pr-3">Satellite View </p>
+          </div>
+        </ion-col>
+        <ion-col size="1"></ion-col>
+        <ion-col size="5.5">
+          <div (click)="geotag()" class="bg-white rounded-md p-1 border border-blue-700 flex justify-between w-full"
+            style="z-index: 1000; position: absolute; margin-top: -25%;">
+            <img width="40" height="40" src="assets/geotag.png" alt="">
+            <p class="text-blue-600 font-bold text-sm mt-2  pr-3">Geotag</p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

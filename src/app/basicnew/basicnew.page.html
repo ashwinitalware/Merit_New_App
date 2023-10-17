@@ -1,0 +1,2377 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons color="light" slot="start">
+      <ion-back-button color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="light">Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-accordion-group>
+    <ion-accordion value="first">
+      <ion-item slot="header" color="light">
+        <ion-label>Admin</ion-label>
+      </ion-item>
+      <div class="p-1" slot="content">
+          <ion-grid *ngFor="let admin of alladmindata">
+            <ion-row>
+              <ion-col size="2.5">
+                <ion-label class="text-xs font-semibold">Name :</ion-label>
+              </ion-col>
+              <ion-col size="4.5">
+                <ion-label class="text-xs text-gray-500"> {{admin.firstname}} {{admin.middelname}} {{admin.lastname}}</ion-label>
+              </ion-col>
+
+              <ion-col size="3">
+                <ion-label class="text-xs font-semibold">Valuation ID: </ion-label>
+              </ion-col>
+              <ion-col size="2" class="pr-2">
+                <ion-label class="text-xs text-gray-500"> {{valuation_id}}</ion-label>
+              </ion-col>
+
+              <ion-col size="2.5">
+                <ion-label class="text-xs font-semibold">Contact :</ion-label>
+              </ion-col>
+              <ion-col size="9.5">
+                <ion-label class="text-xs text-gray-500"> {{admin.contact_no}} / {{admin.alt_cont_no}}</ion-label>
+              </ion-col>
+
+              <ion-col size="2.5">
+                <ion-label class="text-xs font-semibold">Address :</ion-label>
+              </ion-col>
+              <ion-col size="9.5">
+                <ion-label class="text-xs text-gray-500"> {{admin.address}}, {{admin.area}}, {{admin.city}}, {{admin.state}} -
+                  {{admin.pincode}}.</ion-label>
+              </ion-col>
+
+              <ion-col size="2.5">
+                <ion-label class="text-xs font-semibold">Remarks :</ion-label>
+              </ion-col>
+              <ion-col size="9.5">
+                <ion-label class="text-xs text-gray-500"> {{admin.comment}}.</ion-label>
+              </ion-col>
+
+              <ion-col size="2.5">
+                <ion-label class="text-xs font-semibold"> Client :</ion-label>
+              </ion-col>
+              <ion-col size="4">
+                <ion-label class="text-xs text-gray-500"> {{admin.bankname}}</ion-label>
+              </ion-col>
+
+              <ion-col size="2.5">
+                <ion-label class="text-xs font-semibold">Location :</ion-label>
+              </ion-col>
+              <ion-col size="3" class="pr-2">
+                <ion-label class="text-xs text-gray-500"> {{admin.locations}}</ion-label>
+              </ion-col>
+
+
+              <ion-col size="2.5">
+                <ion-label class="text-xs font-semibold">Product :</ion-label>
+              </ion-col>
+              <ion-col size="4">
+                <ion-label class="text-xs text-gray-500"> {{admin.products}}</ion-label>
+              </ion-col>
+
+              <ion-col size="2.5">
+                <ion-label class="text-xs  font-semibold">DueDate:</ion-label>
+              </ion-col>
+              <ion-col size="3">
+                <ion-label class="text-xs text-gray-500"> {{admin.date}}</ion-label>
+              </ion-col>
+
+              <ion-col size="2.5">
+                <ion-label class="text-xs  font-semibold">Status:</ion-label>
+              </ion-col>
+              <ion-col size="2.5">
+                <ion-label class="text-xs text-gray-500"> {{admin.static_status}}</ion-label>
+              </ion-col>
+
+              <ion-col size="12">
+                <ion-label class="text-xs font-semibold">All Documents:</ion-label>
+              </ion-col>
+
+              <ion-grid class="p-2">
+                <ion-row *ngFor="let adminimg of alladminimg" class="border border-gray-200 rounded-md">
+                  <ion-col size="7">
+                    <div align="left">
+                      <ion-label class="flex items-stretch text-sm font-bold text-black py-8 pl-2">{{adminimg.document_name}}</ion-label>
+                    </div>
+                  </ion-col>
+              
+                  <ion-col size="3">
+                    <div class="">
+                      <!-- Check if the file is a PDF and display it in an iframe -->
+                      <ng-container *ngIf="isPDF(adminimg.image)">
+                        <iframe class="h-20 mt-2 object-fit w-full rounded-sm" [src]="sanitizePDFUrl(this.url.imageUrl + 'New-valuation/' + adminimg.image[0])" frameborder="0"></iframe>
+                      </ng-container>
+                      <!-- If it's not a PDF, display an image -->
+                      <ng-container *ngIf="!isPDF(adminimg.image)">
+                        <img class="h-20 mt-2 object-fit w-full rounded-sm" [src]="adminimg.image ? this.url.imageUrl + 'New-valuation/' + adminimg.image : 'assets/.png'" />
+                      </ng-container>
+                    </div>
+                  </ion-col>
+              
+                  <!-- <ion-col size="2">
+                    <div class="mt-8 pr-1" align="right">
+                      <a [href]="imageUrl + adminimg.image" download="{{ adminimg.image }}">
+                        <ion-icon class="bg-blue-500 p-1 rounded-sm text-white text-lg" name="cloud-download"></ion-icon>
+                      </a>
+                    </div>
+                  </ion-col> -->
+                  <!-- (click)="downloadPDF(adminimg.image)" -->
+                  <ion-col size="2">
+                    <div class="mt-8 pr-1" align="right">
+                      <!-- <a href="{{this.url.imageUrl + 'New-valuation/' + adminimg.image[0]}}" download >
+                        <ion-icon class="bg-blue-500 p-1 rounded-sm text-white text-lg" name="cloud-download"></ion-icon>
+                      </a> -->
+                      <a *ngIf="adminimg.image" [href]="sanitizeUrl('https://cms.meritassociates.in/public/images/New-valuation/' + adminimg.image[0])" download>
+                        <ion-icon class="bg-blue-500 p-1 rounded-sm text-white text-lg" name="cloud-download"></ion-icon>
+                      </a>   
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            
+      
+            </ion-row>
+          </ion-grid>
+      </div>
+    </ion-accordion>
+
+  </ion-accordion-group>
+
+
+  <ion-toolbar>
+    <div class="segment-container">
+      <ion-segment #segment (ionChange)='segmentChanged($event)' scrollable value="general">
+        <ion-segment-button value="general" class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">General </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="address" class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Address </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="border" class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Border </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="land" class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Land Area </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="construction"
+          class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Construction </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="deviation" class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Deviation</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="others" class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Others</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="property" class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Property Rate</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="remarks" class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Remarks On Property</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="geotag" class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Geotag</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="capphoto" class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Capture Property Photo</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="preview"  #showpreview
+          class="border-b-4 border-blue-200 hover:border-white hover:bg-orange-600">
+          <ion-label color="light">Preview</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-toolbar>
+
+  <form #executive_step1="ngForm">
+    <div class="ion-padding" *ngIf="switchTab === 'general'">
+      <div class="flex justify-between bg-green-200 test-sm p-1 rounded-sm">
+        <p>
+          Valuation Report
+        </p>
+        <p>
+          Valuation ID:{{valuation_id}}
+        </p>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Date of Visit</ion-label>
+        <ion-input class="text-gray-600" type="date" name="date_of_visit" id="date_of_visit" required
+          [(ngModel)]="date_of_visit" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="mt-2">
+        <ion-label position="floating" class="text-balck font-semibold"> Name Of Owner As per Site Visit</ion-label>
+        <ion-input class="text-gray-600" type="text" name="name" id="name" value="name" required [(ngModel)]="name" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Person Met At Site*</ion-label>
+        <ion-input class="text-gray-600" type="text" name="person_met_at_site" id="person_met_at_site"
+          value="person_met_at_site" required [(ngModel)]="person_met_at_site" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="pt-4">
+        <ion-label class="text-balck text-xs font-semibold">Relation With Owner</ion-label>
+        <ion-select [(ngModel)]="selectedOption16" name="selectedOption16" value="selectedOption16" >
+          <ion-select-option value="Self">
+            Self
+          </ion-select-option>
+          <ion-select-option value="Friend">
+            Friend
+          </ion-select-option>
+          <ion-select-option value="Relative">
+            Relative
+          </ion-select-option>
+          <ion-select-option value="Neighbor">
+            Neighbor
+          </ion-select-option>
+          <ion-select-option value="Wife">
+            Wife
+          </ion-select-option>
+          <ion-select-option value="Husband">
+            Husband
+          </ion-select-option>
+          <ion-select-option value="Company Employee">
+            Company Employee
+          </ion-select-option>
+          <ion-select-option value="Buider / Site Supervisior">
+            Buider / Site Supervisior
+          </ion-select-option>
+          <ion-select-option value="N.A">
+            N.A
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="pt-4">
+        <ion-label class="font-bold">Property Type</ion-label>
+        <ion-select [(ngModel)]="selectedOption17" name="selectedOption17" value="selectedOption17" >
+          <ion-select-option *ngFor="let propertytype of allpropertytype1; let i = index" [value]="propertytype.id">
+            {{ propertytype.property }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="mt-2">
+        <ion-label position="floating" class="text-black font-semibold">Electric Meter No</ion-label>
+        <ion-input class="text-gray-600" type="text" name="meter_no" id="meter_no" value="meter_no" required
+          [(ngModel)]="meter_no" >
+        </ion-input>
+      </ion-item>
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="field_executive_step(executive_step1, 0); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+    </div>
+
+    <div class="ion-padding" *ngIf="switchTab === 'address'">
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">House No/Plot No/Flat No</ion-label>
+        <ion-input class="text-gray-600" type="text" name="house_no" id="house_no" value="house_no" required
+          [(ngModel)]="house_no" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Road Name/Galii no</ion-label>
+        <ion-input class="text-gray-600" type="text" name="road_name" id="road_name" value="road_name" required
+          [(ngModel)]="road_name" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Building Name</ion-label>
+        <ion-input class="text-gray-600" type="text" name="building_name" id="building_name" value="building_name"
+          required [(ngModel)]="building_name" >
+        </ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Wing/Block No.</ion-label>
+        <ion-input class="text-gray-600" type="text" name="wing_no" id="wing_no" value="wing_no" required
+          [(ngModel)]="wing_no" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Colony /Locality/Nagar</ion-label>
+        <ion-input class="text-gray-600" type="text" name="colony" id="colony" value="colony" required
+          [(ngModel)]="colony" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Village/City/Town</ion-label>
+        <ion-input class="text-gray-600" type="text" name="village_city" id="village_city" value="village_city" required
+          [(ngModel)]="village_city" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="pt-4">
+        <ion-label class="text-balck font-semibold">State</ion-label>
+        <ion-select [(ngModel)]="selectedOption21" name="selectedOption21" value="selectedOption21"
+          (ionChange)="onStateChange(selectedOption21)" >
+          <ion-select-option *ngFor="let statetype of allstatetype1; let i = index" [value]="statetype.id">
+            {{statetype.state}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="pt-4">
+        <ion-label class="text-balck font-semibold">District</ion-label>
+        <ion-select [(ngModel)]="selectedOption22" name="selectedOption22" value="selectedOption22"
+          (ionChange)="onDistrictChange(selectedOption22)" >
+          <ion-select-option *ngFor="let districttype of alldistricttype1; let i = index" [value]="districttype.id">
+            {{districttype.District}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="pt-4">
+        <ion-label class="text-balck font-semibold">Tehsil</ion-label>
+        <ion-select [(ngModel)]="selectedOption29" name="selectedOption29" value="selectedOption29" >
+          <ion-select-option *ngFor="let tehsiltype of alltehsiltype1; let i = index" [value]="tehsiltype.id">
+            {{tehsiltype.tehsil}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Landmark</ion-label>
+        <ion-input class="text-gray-600" type="text" name="landmark" id="landmark" value="landmark" required
+          [(ngModel)]="landmark" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Pincode</ion-label>
+        <ion-input class="text-gray-600" type="number" name="pin_code" id="pin_code" value="pin_code" required
+          [(ngModel)]="pin_code" >
+        </ion-input>
+      </ion-item>
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="field_executive_step(executive_step1, 0); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+      <!-- </form> -->
+    </div>
+
+    <div class="ion-padding" *ngIf="switchTab === 'border'">
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">East</ion-label>
+        <ion-input class="text-gray-600" type="text" name="four_borders[0]" value="four_borders[0]" required
+          [(ngModel)]="four_borders[0]" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">West</ion-label>
+        <ion-input class="text-gray-600" type="text" name="four_borders[1]" value="four_borders[1]" required
+          [(ngModel)]="four_borders[1]" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">North</ion-label>
+        <ion-input class="text-gray-600" type="text" name="four_borders[2]" value="four_borders[2]" required
+          [(ngModel)]="four_borders[2]" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">South</ion-label>
+        <ion-input class="text-gray-600" type="text" name="four_borders[3]" value="four_borders[3]" required
+          [(ngModel)]="four_borders[3]" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item slot="header" color="light">
+        <ion-label class="text-balck font-semibold"> Whether
+          Boundaries Matching with Document</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-item color="none" class="border border-gray-200 rounded-sm mt-2">
+          <ion-label></ion-label>
+          <ion-select [(ngModel)]="selectedOption18" name="selectedOption18" value="selectedOption18" >
+            <ion-select-option value="Yes">
+              Yes
+            </ion-select-option>
+            <ion-select-option value="No">
+              No
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+      </div>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold"> Remark On Boundaries Matching*</ion-label>
+        <ion-input class="text-gray-600" type="text" name="remark_on_boundaries_matching"
+          id="remark_on_boundaries_matching" value="remark_on_boundaries_matching" required
+          [(ngModel)]="remark_on_boundaries_matching" >
+        </ion-input>
+      </ion-item>
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="field_executive_step(executive_step1, 0); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+      <!-- </form> -->
+    </div>
+
+    <div class="ion-padding" *ngIf="switchTab === 'land'">
+      <!-- <form #executive_step1="ngForm" class="form"> -->
+      <ion-item slot="header" color="light">
+        <ion-label class="text-balck font-semibold">Plot Area
+          (Dimention in Feet)</ion-label>
+      </ion-item>
+      <div slot="content">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">East</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200 p-2" placeholder="&nbsp;Enter East" type="text"
+                name="plot_area[0]" value="plot_area[0]" required [(ngModel)]="plot_area[0]" ></ion-input>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">West</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200 p-2" placeholder="&nbsp;Enter West" type="text"
+                name="plot_area[1]" value="plot_area[1]" required [(ngModel)]="plot_area[1]" ></ion-input>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">North</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200 p-2" placeholder="&nbsp;Enter North" type="text"
+                name="plot_area[2]" value="plot_area[2]" required [(ngModel)]="plot_area[2]" ></ion-input>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">South</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200 p-2" placeholder="&nbsp;Enter South" type="text"
+                name="plot_area[3]" value="plot_area[3]" required [(ngModel)]="plot_area[3]" ></ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Land Area As Per Site (in sqft)</ion-label>
+        <ion-input class="text-gray-600" type="text" name="land_area_per_site" id="land_area_per_site"
+          value="land_area_per_site" required [(ngModel)]="land_area_per_site" >
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Land Area As Per Documents (in sqft)</ion-label>
+        <ion-input class="text-gray-600" type="text" name="land_area_per_documents" id="land_area_per_documents"
+          value="land_area_per_documents" required [(ngModel)]="land_area_per_documents" >
+        </ion-input>
+      </ion-item>
+
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="field_executive_step(executive_step1, 0); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+      <!-- </form> -->
+    </div>
+
+    <div class="ion-padding" *ngIf="switchTab === 'construction'">
+      <!-- <form #executive_step1="ngForm" class="form"> -->
+      <ion-item slot="header" color="light">
+        <ion-label class="text-balck font-semibold"> Construction Area (In sqft)</ion-label>
+      </ion-item>
+      <div slot="content">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">G.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200  p-2" placeholder="Enter Ground Floor" type="text"
+                name="construction_area[0]" value="construction_area[0]" required [(ngModel)]="construction_area[0]" >
+              </ion-input>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">F.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200  p-2" placeholder="Enter First Floor" type="text"
+                name="construction_area[1]" value="construction_area[1]" required [(ngModel)]="construction_area[1]" >
+              </ion-input>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">S.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200  p-2" placeholder="Enter Second Floor" type="text"
+                name="construction_area[2]" value="construction_area[2]" required [(ngModel)]="construction_area[2]" >
+              </ion-input>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">T.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200  p-2" placeholder="Enter Third Floor" type="text"
+                name="construction_area[3]" value="construction_area[3]" required [(ngModel)]="construction_area[3]" >
+              </ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <ion-item slot="header" color="light">
+        <ion-label class="text-balck font-semibold">Construction
+          Year</ion-label>
+      </ion-item>
+      <div slot="content">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">G.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+
+              <ion-item class="pt-4">
+                <ion-label class="text-balck font-semibold"></ion-label>
+                <ion-select [(ngModel)]="selectedOption25" name="selectedOption25" value="selectedOption25" >
+                  <ion-select-option *ngFor="let getyears of allgetyears1; let i = index" [value]="getyears.id">
+                    {{getyears.year}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">F.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-item>
+                <ion-label class="text-balck font-semibold"></ion-label>
+                <ion-select [(ngModel)]="selectedOption26" name="selectedOption26" value="selectedOption26" >
+                  <ion-select-option *ngFor="let getyears of allgetyears1; let i = index" [value]="getyears.id">
+                    {{getyears.year}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">S.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-item>
+                <ion-label class="text-balck font-semibold"></ion-label>
+                <ion-select [(ngModel)]="selectedOption27" name="selectedOption27" value="selectedOption27" >
+                  <ion-select-option *ngFor="let getyears of allgetyears1; let i = index" [value]="getyears.id">
+                    {{getyears.year}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">T.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-item>
+                <ion-label class="text-balck font-semibold"></ion-label>
+                <ion-select [(ngModel)]="selectedOption28" name="selectedOption28" value="selectedOption28" >
+                  <ion-select-option *ngFor="let getyears of allgetyears1; let i = index" [value]="getyears.id">
+                    {{getyears.year}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <ion-item class="mt-2">
+        <ion-label class="text-balck font-semibold">Type of structure *</ion-label>
+        <ion-select [(ngModel)]="selectedOption19" name="selectedOption19" value="selectedOption19" >
+          <ion-select-option value="RCC">
+            RCC
+          </ion-select-option>
+          <ion-select-option value="Load Bearing">
+            Load Bearing
+          </ion-select-option>
+          <ion-select-option value="Composite">
+            Composite
+          </ion-select-option>
+          <ion-select-option value="Tin Roof">
+            Tin Roof
+          </ion-select-option>
+          <ion-select-option value="RCC + Tin Roof">
+            RCC + Tin Roof
+          </ion-select-option>
+          <ion-select-option value="Kaccha House">
+            Kaccha House
+          </ion-select-option>
+          <ion-select-option value="NA">
+            NA
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="mt-2">
+        <ion-label class="text-balck font-semibold">No. Of Floor</ion-label>
+        <ion-select [(ngModel)]="selectedOption20" name="selectedOption20" value="selectedOption20" >
+          <ion-select-option value="1">
+            1
+          </ion-select-option>
+          <ion-select-option value="2">
+            2
+          </ion-select-option>
+          <ion-select-option value="3">
+            3
+          </ion-select-option>
+          <ion-select-option value="4">
+            4
+          </ion-select-option>
+          <ion-select-option value="5">
+            5
+          </ion-select-option>
+          <ion-select-option value="6">
+            6
+          </ion-select-option>
+          <ion-select-option value="7">
+            7
+          </ion-select-option>
+          <ion-select-option value="8">
+            8
+          </ion-select-option>
+          <ion-select-option value="9">
+            9
+          </ion-select-option>
+          <ion-select-option value="10">
+            10
+          </ion-select-option>
+          <ion-select-option value="1">
+            11
+          </ion-select-option>
+          <ion-select-option value="2">
+            12
+          </ion-select-option>
+          <ion-select-option value="3">
+            13
+          </ion-select-option>
+          <ion-select-option value="4">
+            14
+          </ion-select-option>
+          <ion-select-option value="5">
+            15
+          </ion-select-option>
+          <ion-select-option value="6">
+            16
+          </ion-select-option>
+          <ion-select-option value="7">
+            17
+          </ion-select-option>
+          <ion-select-option value="8">
+            18
+          </ion-select-option>
+          <ion-select-option value="9">
+            19
+          </ion-select-option>
+          <ion-select-option value="10">
+            20
+          </ion-select-option>
+          <ion-select-option value="NA">
+            NA
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+
+      <ion-item class="mt-2">
+        <ion-label class="text-balck font-semibold">No. Of Flat Per Floor</ion-label>
+        <ion-select [(ngModel)]="selectedOption6" name="selectedOption6" value="selectedOption6" >
+          <ion-select-option value="1">
+            1
+          </ion-select-option>
+          <ion-select-option value="2">
+            2
+          </ion-select-option>
+          <ion-select-option value="3">
+            3
+          </ion-select-option>
+          <ion-select-option value="4">
+            4
+          </ion-select-option>
+          <ion-select-option value="5">
+            5
+          </ion-select-option>
+          <ion-select-option value="6">
+            6
+          </ion-select-option>
+          <ion-select-option value="7">
+            7
+          </ion-select-option>
+          <ion-select-option value="8">
+            8
+          </ion-select-option>
+          <ion-select-option value="9">
+            9
+          </ion-select-option>
+          <ion-select-option value="10">
+            10
+          </ion-select-option>
+          <ion-select-option value="1">
+            11
+          </ion-select-option>
+          <ion-select-option value="2">
+            12
+          </ion-select-option>
+          <ion-select-option value="3">
+            13
+          </ion-select-option>
+          <ion-select-option value="4">
+            14
+          </ion-select-option>
+          <ion-select-option value="5">
+            15
+          </ion-select-option>
+          <ion-select-option value="6">
+            16
+          </ion-select-option>
+          <ion-select-option value="7">
+            17
+          </ion-select-option>
+          <ion-select-option value="8">
+            18
+          </ion-select-option>
+          <ion-select-option value="9">
+            19
+          </ion-select-option>
+          <ion-select-option value="10">
+            20
+          </ion-select-option>
+          <ion-select-option value="NA">
+            NA
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+
+      <!-- //need to dynammic -->
+      <ion-item slot="header" color="light">
+        <ion-label class="text-balck font-semibold"> Details of Existing Construction</ion-label>
+      </ion-item>
+      <div slot="content">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">G.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-textarea class="border-b border-gray-200" [autoGrow]="true" type="text"
+                placeholder="Enter Ground Floor" name="discription_of_property[0]" id="discription_of_property"
+                value="discription_of_property[0]" required [(ngModel)]="discription_of_property[0]" ></ion-textarea>
+  
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">F.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-textarea class="border-b border-gray-200" [autoGrow]="true" type="text"
+                placeholder="Enter First Floor" name="discription_of_property[1]" id="discription_of_property"
+                value="discription_of_property[1]" required [(ngModel)]="discription_of_property[1]" ></ion-textarea>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">S.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-textarea class="border-b border-gray-200" [autoGrow]="true" type="text"
+                placeholder="Enter Second Floor" name="discription_of_property[2]" id="discription_of_property"
+                value="discription_of_property[2]" required [(ngModel)]="discription_of_property[2]" ></ion-textarea>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">T.F.</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-textarea class="border-b border-gray-200" [autoGrow]="true" type="text"
+                placeholder="Enter Third Floor" name="discription_of_property[3]" id="discription_of_property"
+                value="discription_of_property[3]" required [(ngModel)]="discription_of_property[3]" ></ion-textarea>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+ 
+      <!-- //need to dynammic -->
+      <div>
+        <ion-item slot="header" color="light">
+          <ion-label class="text-balck font-semibold"> Amenities (Select Appropriate)</ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <ion-checkbox  [(ngModel)]="selectedAmenities['NA']" [ngModelOptions]="{standalone: true}" (ionChange)="updateSelectedAmenities('NA', $event)"></ion-checkbox>
+          <ion-label class="pl-4">NA</ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-checkbox  [(ngModel)]="selectedAmenities['Bore Well']" [ngModelOptions]="{standalone: true}" (ionChange)="updateSelectedAmenities('Bore Well', $event)"></ion-checkbox>
+          <ion-label class="pl-4">Bore Well</ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <ion-checkbox  [(ngModel)]="selectedAmenities['Compound wall with gate']" [ngModelOptions]="{standalone: true}" (ionChange)="updateSelectedAmenities('Compound wall with gate', $event)"></ion-checkbox>
+          <ion-label class="pl-4">Compound wall with gate</ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <ion-checkbox  [(ngModel)]="selectedAmenities['Car Parking']" [ngModelOptions]="{standalone: true}" (ionChange)="updateSelectedAmenities('Car Parking', $event)"></ion-checkbox>
+          <ion-label class="pl-4">Car Parking</ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <ion-checkbox  [(ngModel)]="selectedAmenities['Modular Kitchen']" [ngModelOptions]="{standalone: true}" (ionChange)="updateSelectedAmenities('Modular Kitchen', $event)"></ion-checkbox>
+          <ion-label class="pl-4">Modular Kitchen</ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <ion-checkbox  [(ngModel)]="selectedAmenities['Lift']"  [ngModelOptions]="{standalone: true}" (ionChange)="updateSelectedAmenities('Lift', $event)"></ion-checkbox>
+          <ion-label class="pl-4">Lift</ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <ion-checkbox [(ngModel)]="selectedAmenities['Swimming Pool']" [ngModelOptions]="{standalone: true}" (ionChange)="updateSelectedAmenities('Swimming Pool', $event)"></ion-checkbox>
+          <ion-label class="pl-4">Swimming Pool</ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <ion-checkbox [(ngModel)]="selectedAmenities['Electric car Charging Station']" [ngModelOptions]="{standalone: true}" (ionChange)="updateSelectedAmenities('Electric car Charging Station', $event)"></ion-checkbox>
+          <ion-label class="pl-4">Electric car Charging Station</ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <ion-checkbox [(ngModel)]="selectedAmenities['Garden']" [ngModelOptions]="{standalone: true}" (ionChange)="updateSelectedAmenities('Garden', $event)"></ion-checkbox>
+          <ion-label class="pl-4">Garden</ion-label>
+        </ion-item>
+  
+      </div>
+      <!-- //need to dynammic -->
+      <ion-item class="mt-2 mb-12">
+        <ion-label class="text-balck font-semibold">Percentage Completion As on Date %</ion-label>
+        <ion-select [(ngModel)]="selectedOption7" name="selectedOption7" value="selectedOption7" [ngModelOptions]="{standalone: true}">
+          <ion-select-option value="0">
+            0
+          </ion-select-option>
+          <ion-select-option value="5">
+            5
+          </ion-select-option>
+          <ion-select-option value="10">
+            10
+          </ion-select-option>
+          <ion-select-option value="15">
+            15
+          </ion-select-option>
+          <ion-select-option value="20">
+            20
+          </ion-select-option>
+          <ion-select-option value="25">
+            25
+          </ion-select-option>
+          <ion-select-option value="30">
+            30
+          </ion-select-option>
+          <ion-select-option value="35">
+            35
+          </ion-select-option>
+          <ion-select-option value="40">
+            40
+          </ion-select-option>
+          <ion-select-option value="45">
+            45
+          </ion-select-option>
+          <ion-select-option value="50">
+            50
+          </ion-select-option>
+          <ion-select-option value="55">
+            55
+          </ion-select-option>
+          <ion-select-option value="60">
+            60
+          </ion-select-option>
+          <ion-select-option value="65">
+            65
+          </ion-select-option>
+          <ion-select-option value="70">
+            70
+          </ion-select-option>
+          <ion-select-option value="75">
+            75
+          </ion-select-option>
+          <ion-select-option value="80">
+            80
+          </ion-select-option>
+          <ion-select-option value="85">
+            85
+          </ion-select-option>
+          <ion-select-option value="90">
+            90
+          </ion-select-option>
+          <ion-select-option value="95">
+            95
+          </ion-select-option>
+          <ion-select-option value="100">
+            100
+          </ion-select-option>
+
+        </ion-select>
+      </ion-item>
+
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="field_executive_step(executive_step1, 0); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+    </div>
+  
+    <div class="ion-padding" *ngIf="switchTab === 'deviation'">
+      <ion-item>
+        <ion-checkbox  (ionChange)="updateSelectedDeviation('High Tension', $event)"></ion-checkbox>
+        <ion-label class="pl-4">High Tension Line</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Temple In', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Temple In Property</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Near Nala', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Near Nala / River/ Water Body</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Land Lock Property', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Land Lock Property</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Common Entrance', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Common Entrance</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Railway Line', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Railway Line</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('No Development Area', $event)"></ion-checkbox>
+        <ion-label class="pl-4">No Development Area</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Community Dominated Area', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Community Dominated Area</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Site area and document area mismatch', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Site area and document area mismatch</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Wine shop near property', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Wine shop near property</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Property not identified', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Property not identified</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Property not demarcated', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Property not demarcated</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Approach road less than 10 feet', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Approach road less than 10 feet</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Encroachment on others land', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Encroachment on others land</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Property structurally not divided', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Property structurally not divided</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Construction Beyond Plot Limit', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Construction Beyond Plot Limit</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('Construction Not Satisfactory', $event)"></ion-checkbox>
+        <ion-label class="pl-4">Construction Not Satisfactory</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox (ionChange)="updateSelectedDeviation('No Deviation', $event)"></ion-checkbox>
+        <ion-label class="pl-4">No Deviation</ion-label>
+      </ion-item>
+
+
+
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="field_executive_step(executive_step1, 0); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+    </div>
+
+    <div class="ion-padding" *ngIf="switchTab === 'others'">
+      <!-- <form #executive_step1="ngForm" class="form"> -->
+      <ion-item class="mt-2">
+        <ion-label class="text-balck font-semibold">Is Construction As Per Sanction Plan</ion-label>
+        <ion-select [(ngModel)]="selectedOption8" name="selectedOption8" value="selectedOption8" [ngModelOptions]="{standalone: true}">
+          <ion-select-option value="yes">
+            Yes
+          </ion-select-option>
+          <ion-select-option value="no">
+            No
+          </ion-select-option>
+          <ion-select-option value="na">
+            NA
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+
+      <ion-item class="mt-2">
+        <ion-label class="text-balck font-semibold">Is Property identified As Per Local Inquiry</ion-label>
+        <ion-select [(ngModel)]="selectedOption9" name="selectedOption9" value="selectedOption9" [ngModelOptions]="{standalone: true}">
+          <ion-select-option value="yes">
+            Yes
+          </ion-select-option>
+          <ion-select-option value="no">
+            No
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Road Width</ion-label>
+        <ion-input class="text-gray-600" type="text" name="road_width_in_feet" id="road_width_in_feet"
+          value="road_width_in_feet" required [(ngModel)]="road_width_in_feet" [ngModelOptions]="{standalone: true}">
+        </ion-input>
+      </ion-item> -->
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold">Road Width</ion-label>
+        <ion-input class="text-gray-600" type="text" name="road_width_in_feet" id="road_width_in_feet"
+          value="road_width_in_feet" required [(ngModel)]="road_width_in_feet">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="mt-2">
+        <ion-label class="text-balck font-semibold">Road Type *</ion-label>
+        <ion-select [(ngModel)]="selectedOption10" name="selectedOption10" value="selectedOption10" [ngModelOptions]="{standalone: true}">
+          <ion-select-option value="Tar Road">
+            Tar Road
+          </ion-select-option>
+          <ion-select-option value="Concrete Road">
+            Concrete Road
+          </ion-select-option>
+          <ion-select-option value="WBM Road">
+            WBM Road
+          </ion-select-option>
+          <ion-select-option value="Kaccha Road">
+            Kaccha Road
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="mt-2">
+        <ion-label class="text-balck font-semibold">Occupancy Status*</ion-label>
+        <ion-select [(ngModel)]="selectedOption11" name="selectedOption11" value="selectedOption11" [ngModelOptions]="{standalone: true}">
+          <ion-select-option value="Vacant">
+            Vacant
+          </ion-select-option>
+          <ion-select-option value="Occupied">
+            Occupied
+          </ion-select-option>
+          <ion-select-option value="Under Construction">
+            Under Construction
+          </ion-select-option>
+          <ion-select-option value=" NA">
+            NA
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label class="text-balck font-semibold">Occupied By*</ion-label>
+        <ion-select [(ngModel)]="selectedOption12" name="selectedOption12" value="selectedOption12" [ngModelOptions]="{standalone: true}">
+          <ion-select-option value="Self Occupied">
+            Self Occupied
+          </ion-select-option>
+          <ion-select-option value="Tenant Occupied">
+            Tenant Occupied
+          </ion-select-option>
+          <ion-select-option value="Self + Tenant">
+            Self + Tenant
+          </ion-select-option>
+          <ion-select-option value="Vacant">
+            Vacant
+          </ion-select-option>
+          <ion-select-option value="Seller Occupied">
+            Seller Occupied
+          </ion-select-option>
+          <ion-select-option value="Seller Occupied">
+            Buyer Occupied
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item slot="header" color="light">
+        <ion-label class="text-balck font-semibold"> Side Marginal Distance (Mesurement in Feet) </ion-label>
+      </ion-item>
+      <div slot="content">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">East</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200  p-2" placeholder="Enter East" type="text"
+                name="side_marginal_distance_in_feet[0]" value="side_marginal_distance_in_feet[0]" required
+                [(ngModel)]="side_marginal_distance_in_feet[0]" [ngModelOptions]="{standalone: true}">
+              </ion-input>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">West</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200  p-2" placeholder="Enter West" type="text"
+                name="side_marginal_distance_in_feet[1]" value="side_marginal_distance_in_feet[1]" required
+                [(ngModel)]="side_marginal_distance_in_feet[1]" [ngModelOptions]="{standalone: true}">
+              </ion-input>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">North</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200  p-2" placeholder="Enter North" type="text"
+                name="side_marginal_distance_in_feet[2]" value="side_marginal_distance_in_feet[2]" required
+                [(ngModel)]="side_marginal_distance_in_feet[2]" [ngModelOptions]="{standalone: true}">
+              </ion-input>
+            </ion-col>
+
+            <ion-col size="3">
+              <ion-label class="text-balck font-semibold">South</ion-label>
+            </ion-col>
+            <ion-col size="1">
+              :
+            </ion-col>
+            <ion-col size="8">
+              <ion-input class="border-b border-gray-200  p-2" placeholder="Enter South" type="text"
+                name="side_marginal_distance_in_feet[3]" value="side_marginal_distance_in_feet[3]" required
+                [(ngModel)]="side_marginal_distance_in_feet[3]" [ngModelOptions]="{standalone: true}">
+              </ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </div>
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="field_executive_step(executive_step1, 0); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+
+      <!-- </form> -->
+    </div>
+
+    <div class="ion-padding" *ngIf="switchTab === 'property'">
+      <!-- <form #executive_step1="ngForm" class="form"> -->
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold"> Land Rate Per Sqft </ion-label>
+        <ion-input class="text-gray-600" type="text" name="land_rate_per_sqft" id="land_rate_per_sqft"
+          value="land_rate_per_sqft" required [(ngModel)]="land_rate_per_sqft" [ngModelOptions]="{standalone: true}">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold"> Land Rate Per Acre </ion-label>
+        <ion-input class="text-gray-600" type="text" name="land_rate_per_acre" id="land_rate_per_acre"
+          value="land_rate_per_acre" required [(ngModel)]="land_rate_per_acre" [ngModelOptions]="{standalone: true}">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold"> Land Rate Per Guntha </ion-label>
+        <ion-input class="text-gray-600" type="text" name="land_rate_per_guntha" id="land_rate_per_guntha"
+          value="land_rate_per_guntha" required [(ngModel)]="land_rate_per_guntha" [ngModelOptions]="{standalone: true}">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold"> Locality Price of Shop/ Flat /Row House
+        </ion-label>
+        <ion-input class="text-gray-600" type="text" name="locality_price" id="locality_price" value="locality_price"
+          required [(ngModel)]="locality_price" [ngModelOptions]="{standalone: true}">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label class="text-balck font-semibold">Reference Type</ion-label>
+        <ion-select [(ngModel)]="selectedOption13" name="selectedOption13" value="selectedOption13" [ngModelOptions]="{standalone: true}">
+          <ion-select-option value="Property Broker">
+            Property Broker
+          </ion-select-option>
+          <ion-select-option value="Builder/Supervisior">
+            Builder/Supervisior
+          </ion-select-option>
+          <ion-select-option value="Neighbor">
+            Neighbor
+          </ion-select-option>
+          <ion-select-option value="Shop Keeper">
+            Shop Keeper
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold"> Reference Name </ion-label>
+        <ion-input class="text-gray-600" type="text" name="reference_name" id="reference_name" value="reference_name"
+          required [(ngModel)]="reference_name" [ngModelOptions]="{standalone: true}">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold"> Reference Mobile No. </ion-label>
+        <ion-input class="text-gray-600" type="text" name="reference_mobile" id="reference_mobile"
+          value="reference_mobile" required [(ngModel)]="reference_mobile" [ngModelOptions]="{standalone: true}">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold"> Reference Feedback </ion-label>
+        <ion-input class="text-gray-600" type="text" name="reference_feedback" id="reference_feedback"
+          value="reference_feedback" required [(ngModel)]="reference_feedback" [ngModelOptions]="{standalone: true}">
+        </ion-input>
+      </ion-item>
+
+
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="field_executive_step(executive_step1,0); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+    </div>
+
+    <div class="ion-padding" *ngIf="switchTab === 'remarks'">
+      <ion-item>
+        <ion-label position="floating" class="text-balck font-semibold"> Remarks (If Any)</ion-label>
+        <ion-textarea [autoGrow]="true" type="text" name="remark_on_property" id="remark_on_property"
+          value="remark_on_property" required [(ngModel)]="remark_on_property" [ngModelOptions]="{standalone: true}"></ion-textarea>
+      </ion-item>
+
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="field_executive_step(executive_step1,0); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+
+      <!-- </form> -->
+    </div>
+
+    <div class="ion-padding" *ngIf="switchTab === 'geotag'">
+
+      <ion-item>
+        <ion-label position="floating">Latitude</ion-label>
+        <ion-input class="text-gray-600" type="text" name="lat" id="lat" [value]="latitude" [(ngModel)]="latitude"
+          readonly>
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="mb-4">
+        <ion-label position="floating">Longitude</ion-label>
+        <ion-input class="text-gray-600" type="text" name="long" id="long" [value]="longitude" [(ngModel)]="longitude"
+          readonly></ion-input>
+      </ion-item>
+
+      <div *ngIf="loading" class="loading-indicator">
+        <!-- Display loading indicator or message -->
+        Loading longitude...
+      </div>
+
+      <div (click)="geotag_map()" class="p-2 bg-blue-50 border border-blue-600 rounded-md flex justify-between">
+        <p clas="text-blue-600">View Map</p>
+        <ion-icon class="text-blue-600" name="location"></ion-icon>
+      </div>
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="field_executive_step(executive_step1,0); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+    </div>
+
+    <div class="ion-padding" *ngIf="switchTab === 'capphoto'">
+
+      <ion-label class="text-md font-bold" class="text-balck font-semibold">
+        Upload Photos
+      </ion-label>
+
+      <ion-item>
+        <ion-label class="text-balck font-semibold">Category*</ion-label>
+        <ion-select [(ngModel)]="selectedOption23" (ionChange)="tags23($event)" name="selectedOption23"
+          value="selectedOption23">
+          <ion-select-option *ngFor="let category of allcategory1; let i = index" [value]="category">
+            {{category.category}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-chip class="mt-3" [class.selected]="selectedOption24 === tag" *ngFor="let tag of alltags1"
+        (click)="selectTag(tag)">
+        {{ tag.tag }}
+      </ion-chip>
+
+      <ion-row class="p-2">
+        <ion-col align="center" size="6" id="open-modal" class="pr-2  flex items-center ">
+          <label class="text-black border border-gray-200 rounded-sm flex items-center  p-2 mt-1" for="dateofbirth"
+            style="font-size: small;">
+            <ion-icon class="text-blue-400" name="cloud-upload"></ion-icon>&nbsp; Upload Photo
+          </label>
+        </ion-col>
+
+        <ion-col size="3" class="pr-2 mt-1 flex items-center">
+          <ng-container *ngIf="fileToUpload">
+            <ng-container *ngIf="isImageFile(fileToUpload)">
+              <img [src]="fileToUpload" alt="Preview" id="profile_img" style="max-width: 100%; max-height: 200px;">
+            </ng-container>
+            <ng-container *ngIf="isPdfFile(fileToUpload)">
+              <object [data]="fileToUpload" type="image/*pdf" style="width: 100%; height: 200px;">
+                Your browser does not support PDFs.
+              </object>
+            </ng-container>
+          </ng-container>
+        </ion-col>
+
+        <ion-col size="2" class="mt-1">
+          <div align="center" class="p-2 pr-2 h-20">
+            <ion-button class="mt-4" (click)="addData()">
+              <ion-icon name="add-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.20" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+        <ng-template>
+          <ion-content>
+            <ion-list>
+              <input type="file" class="hidden" multiple="multiple" accept="image/*" capture #fileUploadCamera
+                (change)="handleFileInput1($event)" />
+
+              <ion-item (click)="fileUploadCamera.click()">
+                <ion-icon class="text-blue-600" slot="start" name="camera"></ion-icon>
+                <ion-label>
+                  <h2>Click Photo</h2>
+                </ion-label>
+              </ion-item>
+
+              <input type="file" class="hidden" multiple="multiple" #fileUploadCamera1
+                (change)="handleFileInput1($event)" />
+              <ion-item (click)="fileUploadCamera1.click()">
+                <ion-icon class="text-blue-600" slot="start" name="image"></ion-icon>
+                <ion-label>
+                  <h2>Gallery</h2>
+                </ion-label>
+              </ion-item>
+
+            </ion-list>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+
+      <ng-container *ngFor="let document of data; let i = index">
+        <ion-row class="p-1 border border-red-200 rounded-sm">
+          <ion-col align="left" size="3.5" class="flex items-center">
+            <ion-label>{{document.category_id1}}</ion-label>
+          </ion-col>
+
+          <ion-col align="left" size="3.5" class="flex items-center">
+            <ion-label>{{selectedTagName[i]}}</ion-label>
+          </ion-col>
+
+          <ion-col size="4">
+            <img class="p-2 rounded-md shadow-md pr-2 h-20" style="width: 100%; object-fit: cover;"
+              [src]="document.image" alt="">
+          </ion-col>
+
+          <ion-col size="1">
+            <div align="center" class="flex items-center">
+              <ion-icon class="text-red-600 mt-4" (click)="removeDocument1(i)" name="trash"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ng-container>
+
+      <ion-grid>
+        <ion-row class="p-1 border border-blue-300 rounded-md shadow-md mt-2" *ngFor="let image of allcapture_image; let i = index">
+          <ion-col align="left" size="3.5" class="flex items-center">
+            <ion-label>{{ allcapture_cat[i] }}</ion-label>
+          </ion-col>
+      
+          <ion-col align="left" size="3.5" class="flex items-center">
+            <ion-label>{{ allcapture_tags[i]}}</ion-label>
+          </ion-col>
+      
+          <ion-col size="4">
+            <img class="h-20 mt-2 object-fit w-full rounded-md shadow-md"
+              [src]="image ? this.url.imageUrl + 'FE-valuation/' + image : 'assets/.png'" />
+          </ion-col>
+
+          <ion-col size="1">
+            <div align="center" class="flex items-center" (click)="deleteCaptureData(image.valuation_id, i)">
+              <ion-icon class="text-red-600 mt-4" name="trash"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <div>
+        <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+          <ion-fab-button color="dark">
+            <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="top" style="margin-bottom: 100%;">
+            <ion-fab-button data-desc="Save" color="dark"
+              (click)="new_field_executive(executive_step1); showSaveToast()">
+              <ion-icon name="bookmark"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+              <ion-icon name="eye"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+      </div>
+    </div>
+
+
+
+    <div class="p-2" *ngIf="switchTab === 'preview'">
+      <div class="p-1">
+        <ion-accordion-group>
+          <ion-accordion value="general" class="mt-2 bg-blue-50 border-b-2 border-orange-400">
+            <ion-item slot="header" color="light">
+              <ion-label>General</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid *ngFor="let field of allfieldlist">
+                <ion-row>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Date Of Visit</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.date_of_visit}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Name Of Owner As per Site Visit</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.name}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Person Met At Site</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7" class="text-sm">
+                    <p class="text-sm">{{field.person_met_at_site}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Relation With Owner</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.relation_with_owner}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Property Type</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.property}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Electric Meter No</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.meter_no}}</p>
+                  </ion-col>
+
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="address" class="mt-2 bg-blue-50 border-b-2 border-orange-400">
+            <ion-item slot="header" color="light">
+              <ion-label>Address</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid *ngFor="let field of allfieldlist">
+                <ion-row>
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">House No/Plot No/Flat No</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.house_no}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Road Name/Galii no</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.road_name}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Building Name</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.building_name}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Wing/Block No.</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.wing_no}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Colony /Locality/Nagar</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.colony}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Village/City/Town</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.village_city}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">State</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.state}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">District</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.District}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Tehsil</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.tt}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Landmark</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.landmark}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Pincode</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.pin_code}}</p>
+                  </ion-col>
+
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="border" class="mt-2 bg-blue-50 border-b-2 border-orange-400">
+            <ion-item slot="header" color="light">
+              <ion-label>Border</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid *ngFor="let field of allfieldlist">
+                <ion-row>
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">East</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.four_borders[0]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">West</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.four_borders[1]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">North</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.four_borders[2]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">South</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.four_borders[3]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Whether
+                      Boundaries Matching with Document</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.whether_boundaries_matching}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Remark On Boundaries Matching</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.remark_on_boundaries_matching}}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+
+          <ion-accordion value="land" class="mt-2 bg-blue-50 border-b-2 border-orange-400">
+            <ion-item slot="header" color="light">
+              <ion-label>Plot Area
+                (Dimention in Feet)</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid *ngFor="let field of allfieldlist">
+                <ion-row>
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">East</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.plot_area[0]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">West</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.plot_area[1]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">North</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.plot_area[2]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">South</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.plot_area[3]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Land Area As Per Site</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.land_area_per_site}}</p>
+
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Land Area As Per Documents</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.land_area_per_documents}}</p>
+
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="construction" class="mt-2 bg-blue-50 border-b-2 border-orange-400">
+            <ion-item slot="header" color="light">
+              <ion-label>Construction Area (In sqft)</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid *ngFor="let field of allfieldlist">
+                <ion-row>
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">G.F.</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.construction_area[0]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">F.F.</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.construction_area[1]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">S.F.</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.construction_area[2]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">T.F.</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.construction_area[3]}}</p>
+                  </ion-col>
+
+                  <ion-col size="12">
+                    <p>Construction
+                      Year</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold"> G.F.</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.gf}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">F.F.</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.ff}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">S.F.</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.sf}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">T.F.</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.tf}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Type of structure</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.type_of_structure}}</p>
+
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">No. Of Floor</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.no_of_floor}}</p>
+
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">No. Of Floor</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.no_of_flat_per_floor}}
+                    </p>
+
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Details Of Existing Construction </p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.discription_of_property}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Aminities (Select Appropriate) </p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.aminities}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Percentage Completion
+                      As On Date %</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.percentage_completion}}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+
+          <ion-accordion value="deviation" class="mt-2 bg-blue-50 border-b-2 border-orange-400">
+            <ion-item slot="header" color="light">
+              <ion-label>Deviation</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid *ngFor="let field of allfieldlist">
+                <ion-row>
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Deviation</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.deviation}}</p>
+                  </ion-col>
+
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+
+          <ion-accordion value="others" class="mt-2 bg-blue-50 border-b-2 border-orange-400">
+            <ion-item slot="header" color="light">
+              <ion-label>Others</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid *ngFor="let field of allfieldlist">
+                <ion-row>
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Is Construction As Per Sanction Plan</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.construction_plan}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Is Property identified As Per Local Inquiry</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.property_inquiry}}</p>
+                  </ion-col>
+
+                  <!-- <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Road Width</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.road_width_in_feet}}</p>
+                  </ion-col> -->
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Road Width</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.road_width_in_feet}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Road Type</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.road_type}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold"> Occupancy Status </p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.occupancy_status}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Occupied By</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.occupied_by}}</p>
+                  </ion-col>
+
+                  <ion-col size="12">
+                    <p>Side Marginal
+                      (Distance in Feet)</p>
+                  </ion-col>
+
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">East</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.side_marginal_distance_in_feet[0]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">West</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.side_marginal_distance_in_feet[1]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">North</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.side_marginal_distance_in_feet[2]}}</p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">South</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.side_marginal_distance_in_feet[3]}}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+
+          <ion-accordion value="property" class="mt-2 bg-blue-50 border-b-2 border-orange-400">
+            <ion-item slot="header" color="light">
+              <ion-label>Property Rate</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid *ngFor="let field of allfieldlist">
+                <ion-row>
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Land Rate Per Sqft</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field. land_rate_per_sqft}}</p>
+
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Land Rate Per Acre</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.land_rate_per_acre}}</p>
+
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Land Rate Per Guntha</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.land_rate_per_guntha}}</p>
+
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Locality Price of Shop/ Flat /Row House</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.locality_price}}</p>
+
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold"> Reference Type </p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.reference_type}}</p>
+
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Reference Name</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.reference_name}}</p>
+
+                  </ion-col>
+
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Reference Mobile No.</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm"> {{field.reference_mobile}}
+                    </p>
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <p class="text-xs font-semibold">Reference Feedback</p>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    <p class="text-sm">{{field.reference_feedback}}</p>
+
+
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="remarks" class="mt-2 bg-blue-50 border-b-2 border-orange-400">
+            <ion-item slot="header" color="light">
+              <ion-label>Remarks On Property</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid *ngFor="let field of allfieldlist">
+                <ion-row>
+                  <ion-col size="4.5">
+                    <ion-label class="text-xs font-semibold">Remarks (If Any)</ion-label>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    {{field.remark_on_property}}
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="geotag" class="mt-2 bg-blue-50 border-b-2 border-orange-400 rounded-md">
+            <ion-item slot="header" color="light">
+              <ion-label>Geotag</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid *ngFor="let field of allfieldlist">
+                <ion-row>
+                  <ion-col size="4.5">
+                    <ion-label class="text-xs font-semibold">Latitude</ion-label>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    {{field.lat}}
+                  </ion-col>
+
+                  <ion-col size="4.5">
+                    <ion-label class="text-xs font-semibold">Longitude</ion-label>
+                  </ion-col>
+                  <ion-col size="0.5">:</ion-col>
+                  <ion-col size="7">
+                    {{field.long}}
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="capphoto" class="mt-2 bg-blue-50 border-b-2 border-orange-400 rounded-md">
+            <ion-item slot="header" color="light">
+              <ion-label>Capture Property Photo</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="3" *ngFor="let fieldcap of allcapture_image">
+                    <img class="h-20 mt-2 object-fit w-full  rounded-md"
+                      [src]="fieldcap ? this.url.imageUrl + 'FE-valuation/' + fieldcap : 'assets/.png'" />
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
+
+        </ion-accordion-group>
+        <div class="pt-8">
+          <button expand="block" class="btn-3 w-full p-4 text-white rounded-sm text-sm"
+          (click)="field_executive_step(executive_step1,1); showSubmitToast()">
+          Submit
+        </button>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</ion-content>

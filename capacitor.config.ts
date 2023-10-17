@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'Merit_New_App',
+  appId: 'meritassociate.io.com',
+  appName: 'Merit-Associates-App',
   webDir: 'www',
   server: {
     androidScheme: 'https'

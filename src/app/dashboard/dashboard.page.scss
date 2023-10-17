@@ -1,0 +1,56 @@
+ion-chip {
+    --background: #ff5122;
+    --color: #ffffff;
+  }
+  ion-segment-button {
+    --indicator-color: #1e6ff7;
+  }
+  
+  /* Material Design styles */
+  ion-segment-button.md {
+    --color: #000;
+    --color-checked: #1e6ff7;
+    --indicator-height: 4px;
+  }
+  
+  /* iOS styles */
+  ion-segment-button.ios {
+    --color: #1e6ff7;
+    --color-checked: #fff;
+    --border-radius: 20px;
+  }
+  
+  
+  .palette {
+    height: 100px;
+    width: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .palette > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 10px solid var(--c, red);
+    border-radius: 50%;
+    clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 33.745%);
+  }
+  .color1 {
+    transform: rotate(72deg);
+    --c: blue;
+  }
+  .color2 {
+    transform: rotate(144deg);
+    --c: orange;
+  }
+  .color3 {
+    transform: rotate(-72deg);
+    --c: green;
+  }
+  .color4 {
+    transform: rotate(-144deg);
+    --c: purple;
+  }
+  

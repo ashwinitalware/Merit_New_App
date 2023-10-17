@@ -1,0 +1,265 @@
+<ion-content >
+  <div class="p-8">
+    <div  style="margin-top: 25%;" >
+        <div align="center" class="p-1" >
+          <img  src="assets/logologo.png" width="30%" height="30%"
+            alt="">
+        </div>
+    </div>
+
+    <div *ngIf="show" style="margin-top: 20%;">
+      <form #form_login="ngForm" style="margin-top: -15%;">
+        <div *ngIf="isShown">
+          <div align="center" class="">
+            <ion-label class="text-xl tracking-in-expand-fwd-top text-white">
+              Welcome To<span> Merit </span><span>Associates</span>
+            </ion-label>
+            <p class="text-sm" style="color: #ccc;">Sign in to your account</p>
+          </div>
+    
+          <div class="p-4">
+            
+            <!-- <ion-item class="pt-2 rounded-sm ">
+              <ion-label position="floating" class="text-xs text-gray-300 ">
+                <ion-icon class="text-orange-500 text-sm" name="person"></ion-icon>&nbsp; 
+              </ion-label>
+              <ion-input placeholder="Mobile Number"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                type="number" name="contact" maxlength="10" value="contact" ngModel></ion-input>
+            </ion-item> -->
+
+           <div clasd="w-full">
+            <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            type="number" name="contact" maxlength="10" value="contact" ngModel  class="input" pattern="\d+" placeholder="Mobile Number">
+           </div>
+
+
+            <div class="pt-4">
+              <button expand="block" (click)="login_submit(form_login)"
+                class="btn-4 w-full p-4 text-white rounded-md text-sm">
+                Login
+              </button>
+            </div>
+         
+          </div>
+        </div>
+    
+        <div *ngIf="isShown1">
+    
+          <div align="center" class="pt-1">
+            <ion-label class="text-xl tracking-in-expand-fwd-top text-white">
+              Welcome To<span> Merit </span><span>Associates</span>
+            </ion-label>
+            <p class="text-sm" style="color: #ccc;">Enter the 4 digit OTP number</p>
+          </div>
+    
+    
+          <div class="p-4" >
+            <ion-grid fixed>
+              <ion-row class="mb-2">
+                <ion-col size="3">
+                  <div class="border-2 border-gray-200 shadow-md bg-white"
+                    style="border-radius: 10%; border-style: outset;text-align: center;">
+                    <ion-input ngModel [(ngModel)]="t1" name="a" #a (keyup)="moveFocus($event,b,'')"
+                      (ionFocus)="clear_field($event)" type="number" placeholder="-">
+                    </ion-input>
+                  </div>
+                </ion-col>
+                <ion-col size="3">
+                  <div class="border-2 border-gray-200 shadow-md bg-white"
+                    style=" border-radius: 10%; border-style: outset; text-align: center;">
+                    <ion-input [(ngModel)]="t2" ngModel name="b" #b (keyup)="moveFocus($event,c,a)"
+                      (ionFocus)="clear_field($event)" type="number" placeholder="-">
+                    </ion-input>
+                  </div>
+                </ion-col>
+                <ion-col size="3">
+                  <div class="border-2 border-gray-200 shadow-md bg-white"
+                    style="border-radius: 10%; border-style: outset;text-align: center;">
+                    <ion-input [(ngModel)]="t3" ngModel name="c" #c (keyup)="moveFocus($event,d,b)"
+                      (ionFocus)="clear_field($event)" type="number" placeholder="-">
+                    </ion-input>
+                  </div>
+                </ion-col>
+                <ion-col size="3">
+                  <div class="border-2 border-gray-200 shadow-md bg-white"
+                    style="border-radius: 10%; border-style: outset;text-align: center;">
+                    <ion-input [(ngModel)]="t4" ngModel name="d" #d (keyup)="moveFocus($event,'',c)"
+                      (ionFocus)="clear_field($event)" type="number" placeholder="-">
+                    </ion-input>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+    
+            <div >
+              <button expand="block" (click)="verify_submit(form_login)"
+                class="btn-3 w-full p-4 text-white rounded-sm text-sm">
+                Verify OTP
+              </button>
+            </div>
+    
+           
+            <div style="margin-top:10px;float:right;margin-right: 7%;">
+              <p class="text-xs text-gray-600 p-1" (click)="resend_otp()" *ngIf="time===0">Didn't receive code ? <span
+                  class="primary-color">Resend</span> </p>
+              <p class="text-xs text-gray-600 p-1" *ngIf="time>0"> Didn't receive code? Resend <span
+                  style="color: var(--ion-color-primary);"> 00:{{time}}</span> </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+   </div>
+</ion-content>
+
+
+
+<!-- <ion-content >
+  <div>
+    <img src="assets/imglogin.jpg" alt="">
+  </div>
+
+  <div *ngIf="show" class="bg-white w-full rounded-tl-3xl rounded-tr-3xl" style="z-index: 1000; position: absolute; margin-top: -5%;">
+
+    
+    <div class="flex justify-center pb-5">
+      <div style="z-index: 1000; position: absolute; margin-top: -8%; margin-left: 35%;">
+        <img class="shadow-md rounded-full border-2 border-gray-200 p-2" src="assets/meritlogo.png" width="45%" height="45%"
+          alt="">
+      </div>
+    </div>
+  
+    <form #form_login="ngForm" class="pt-10 mt-3">
+      <div *ngIf="isShown">
+        <div align="center" class="pt-8">
+          <ion-label class="text-xl">
+            Welcome To<span> Merit </span><span>Associates</span>
+          </ion-label>
+          <p class="text-sm text-gray-600">Sign in to your account</p>
+        </div>
+  
+        <div class="p-4">
+          <ion-item class="pt-2">
+            <ion-label position="floating" class="text-xs text-gray-300 ">
+              <ion-icon class="text-orange-500 text-sm" name="person"></ion-icon>&nbsp; Mobile Number
+            </ion-label>
+            <ion-input
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+              type="number" name="contact" maxlength="10" value="contact" ngModel></ion-input>
+          </ion-item>
+          <div class="pt-8">
+            <button expand="block" (click)="login_submit(form_login)"
+              class="btn-3 w-full p-4 text-white rounded-sm text-sm">
+              Login
+            </button>
+          </div>
+       
+        </div>
+      </div>
+  
+      <div *ngIf="isShown1">
+  
+        <div align="center" class="pt-5">
+          <ion-label class="text-xl">
+            Welcome To<span> Merit </span><span>Associates</span>
+          </ion-label>
+          <p class="text-sm text-gray-600">Enter the 4 digit OTP number</p>
+        </div>
+  
+  
+        <div class="p-4">
+          <ion-grid fixed>
+            <ion-row class="mb-5">
+              <ion-col size="3">
+                <div class="border-2 border-gray-200 shadow-md"
+                  style="border-radius: 10%; border-style: outset;text-align: center;">
+                  <ion-input ngModel [(ngModel)]="t1" name="a" #a (keyup)="moveFocus($event,b,'')"
+                    (ionFocus)="clear_field($event)" type="number" placeholder="-">
+                  </ion-input>
+                </div>
+              </ion-col>
+              <ion-col size="3">
+                <div class="border-2 border-gray-200 shadow-md"
+                  style=" border-radius: 10%; border-style: outset; text-align: center;">
+                  <ion-input [(ngModel)]="t2" ngModel name="b" #b (keyup)="moveFocus($event,c,a)"
+                    (ionFocus)="clear_field($event)" type="number" placeholder="-">
+                  </ion-input>
+                </div>
+              </ion-col>
+              <ion-col size="3">
+                <div class="border-2 border-gray-200 shadow-md"
+                  style="border-radius: 10%; border-style: outset;text-align: center;">
+                  <ion-input [(ngModel)]="t3" ngModel name="c" #c (keyup)="moveFocus($event,d,b)"
+                    (ionFocus)="clear_field($event)" type="number" placeholder="-">
+                  </ion-input>
+                </div>
+              </ion-col>
+              <ion-col size="3">
+                <div class="border-2 border-gray-200 shadow-md"
+                  style="border-radius: 10%; border-style: outset;text-align: center;">
+                  <ion-input [(ngModel)]="t4" ngModel name="d" #d (keyup)="moveFocus($event,'',c)"
+                    (ionFocus)="clear_field($event)" type="number" placeholder="-">
+                  </ion-input>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+  
+          <div class="pt-8">
+            <button expand="block" (click)="verify_submit(form_login)"
+              class="btn-3 w-full p-4 text-white rounded-sm text-sm">
+              Verify OTP
+            </button>
+          </div>
+  
+         
+          <div style="margin-top:10px;float:right;margin-right: 7%;">
+            <p class="text-xs text-gray-600 p-1" (click)="resend_otp()" *ngIf="time===0">Didn't receive code ? <span
+                class="primary-color">Resend</span> </p>
+            <p class="text-xs text-gray-600 p-1" *ngIf="time>0"> Didn't receive code? Resend <span
+                style="color: var(--ion-color-primary);"> 00:{{time}}</span> </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ion-content> -->
+
+<!-- <ion-content>
+  <form>
+    <div align="center" style="margin-top: 20%;">
+      <img class="shadow-md rounded-full border-2 border-gray-200 p-2" src="assets/meritlogo.png" width="32%"
+        height="32%" alt="">
+    </div>
+    <div align="center" class="pt-5">
+      <ion-label class="text-xl">
+        Welcome To<span> Merit </span><span>Associates</span>
+      </ion-label>
+      <p class="text-sm text-gray-600">Sign in to your account</p>
+    </div>
+
+    <div class="p-4 ">
+      <ion-item class="pt-2">
+        <ion-label position="floating" class="text-xs text-gray-300 ">
+          <ion-icon class="text-orange-500 text-sm" name="person"></ion-icon>&nbsp; UserName
+        </ion-label>
+        <ion-input type="text" name="contact_no" maxlength="10" value="contact_no" ngModel></ion-input>
+      </ion-item>
+      <ion-item class="pt-2">
+        <ion-label position="floating" class="text-xs">
+          <ion-icon class="text-orange-500 text-sm" name="lock-closed"></ion-icon>&nbsp; Password
+        </ion-label>
+        <ion-input type="text" name="contact_no" maxlength="10" value="contact_no" ngModel></ion-input>
+      </ion-item>
+
+      <div class="pt-8">
+        <button expand="block" routerLink="/dashboard" class="btn-3 w-full p-4 text-white rounded-sm text-sm">
+          Login
+        </button>
+      </div>
+    </div>
+
+  </form>
+
+</ion-content> -->

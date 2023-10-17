@@ -1,0 +1,145 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons color="light" slot="start">
+      <ion-back-button color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="light">Unit Converter</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="p-2">
+    <div>
+      <div>
+        <ion-item class="border border-gray-100 rounded-sm">
+          <ion-label>Select Length/Area</ion-label>
+          <ion-select [(ngModel)]="selectedType" (ionChange)="onUnitChange($event)">
+            <ion-select-option value="length">Length</ion-select-option>
+            <ion-select-option value="area">Area</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-grid *ngIf="selectedType === 'length'">
+          <ion-row>
+            <ion-col size="4">
+              <div align="center">
+                <ion-item>
+                  <input type="number" [(ngModel)]="value1" (input)="convertUnits()" />
+                </ion-item>
+              </div>
+            </ion-col>
+            <ion-col size="8">
+              <div align="center">
+                <ion-item class="border border-gray-100 rounded-sm">
+                  <ion-select [(ngModel)]="selectedUnit1" (ionChange)="convertUnits()" aria-label="Fruit"
+                    interface="popover" placeholder="Select Unit">
+                    <ion-select-option value="me">Meter</ion-select-option>
+                    <ion-select-option value="kme">Kilometer</ion-select-option>
+                    <!-- <ion-select-option value="cm">Centimeter</ion-select-option> -->
+                    <ion-select-option value="mm">Millimeter</ion-select-option>
+                    <ion-select-option value="nm">Nanometer</ion-select-option>
+                    <ion-select-option value="ft">Foot</ion-select-option>
+                    <ion-select-option value="in">Inch</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </div>
+            </ion-col>
+
+            <ion-col size="4">
+              <div align="center">
+                <ion-item>
+                  <ion-label>
+                    {{ convertedValue }}
+                  </ion-label>
+                </ion-item>
+              </div>
+            </ion-col>
+
+            <ion-col size="8">
+              <div align="center">
+                <ion-item class="border border-gray-100 rounded-sm">
+                  <ion-select [(ngModel)]="selectedUnit2" (ionChange)="convertUnits()" aria-label="Fruit"
+                    interface="popover" placeholder="Select Unit">
+                    <ion-select-option value="ft">Foot</ion-select-option>
+                    <ion-select-option value="me">Meter</ion-select-option>
+                    <ion-select-option value="kme">Kilometer</ion-select-option>
+                    <!-- <ion-select-option value="cm">Centimeter</ion-select-option> -->
+                    <ion-select-option value="mm">Millimeter</ion-select-option>
+                    <ion-select-option value="nm">Nanometer</ion-select-option>
+                    <ion-select-option value="in">Inch</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid *ngIf="selectedType === 'area'">
+          <ion-row>
+            <ion-col size="4">
+              <div align="center">
+                <ion-item>
+                  <input type="number" [(ngModel)]="value2" (input)="convertArea()" />
+                </ion-item>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div align="center">
+                <ion-item class="border border-gray-100 rounded-sm">
+                  <ion-select [(ngModel)]="selectedUnit3" (ionChange)="convertArea()" aria-label="" interface="popover"
+                    placeholder="Select Unit">
+                    <ion-select-option value="sq. km">Square kilometer</ion-select-option>
+                    <ion-select-option value="sq m">Square meter</ion-select-option>
+                    <ion-select-option value="mi2">Square mile</ion-select-option>
+                    <ion-select-option value="yd2">
+                      Square Yard</ion-select-option>
+                    <ion-select-option value="ft2">Square foot</ion-select-option>
+                    <ion-select-option value="sq. in">Square inch</ion-select-option>
+                    <!-- <ion-select-option value="ha">Hectare</ion-select-option>
+                    <ion-select-option value="ac">Acre</ion-select-option> -->
+                  </ion-select>
+                </ion-item>
+              </div>
+            </ion-col>
+
+            <ion-col size="4">
+              <div align="center">
+                <ion-item>
+                  <ion-label>
+                    {{ convertedValuearea }}
+                  </ion-label>
+                </ion-item>
+              </div>
+            </ion-col>
+            <ion-col size="8">
+              <div align="center">
+                <ion-item class="border border-gray-100 rounded-sm">
+                  <ion-select [(ngModel)]="selectedUnit4" (ionChange)="convertArea()" aria-label="" interface="popover"
+                    placeholder="Select Unit">
+                    <ion-select-option value="sq. km">Square kilometer</ion-select-option>
+                    <ion-select-option value="sq m">Square meter</ion-select-option>
+                    <ion-select-option value="mi2">Square mile</ion-select-option>
+                    <ion-select-option value="yd2">
+                      Square Yard</ion-select-option>
+                    <ion-select-option value="ft2">Square foot</ion-select-option>
+                    <ion-select-option value="sq. in">Square inch</ion-select-option>
+                    <!-- <ion-select-option value="ha">Hectare</ion-select-option>
+                    <ion-select-option value="ac">Acre</ion-select-option> -->
+                  </ion-select>
+                </ion-item>
+                <!-- <ion-item class="border border-gray-100 rounded-sm">
+                  <ion-label>Select</ion-label>
+                  <ion-select [(ngModel)]="selectedUnit4" (ionChange)="convertArea()">
+                    <ion-select-option value="sq m">Square Meter</ion-select-option>
+                    <ion-select-option value="ft2">Square foot</ion-select-option>
+                  </ion-select>
+                </ion-item> -->
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

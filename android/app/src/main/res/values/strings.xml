@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Merit-Associates</string>
+    <string name="title_activity_main">Merit-Associates</string>
+    <string name="package_name">meritassociate.io.com</string>
+    <string name="custom_url_scheme">meritassociate.io.com</string>
+</resources>

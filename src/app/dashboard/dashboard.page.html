@@ -1,0 +1,457 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="flex justify-between p-2">
+      <div>
+        <ion-menu-button>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16" />
+          </svg>
+        </ion-menu-button>
+      </div>
+      <div>
+        <ion-label class="text-white text-lg font-bold">
+          MERIT-ASSOCIATES
+        </ion-label>
+      </div>
+      <div slot="end" class="pr-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <path fill="none" d="M0 0h24v24H0z" />
+          <path d="M20 17h2v2H2v-2h2v-7a8 8 0 1 1 16 0v7zm-2 0v-7a6 6 0 1 0-12 0v7h12zm-9 4h6v2H9v-2z"
+            fill="rgba(255,255,255,1)" />
+        </svg>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <div class="p-1">
+    <div class="flex justify-between">
+      <p class="text-sm pl-3 mt-2 font-bold">You have unsynced data</p>
+      <ion-chip class="pr-2">
+        <ion-icon class="text-white text-sm" name="sync-outline"></ion-icon> &nbsp; Sync now
+      </ion-chip>
+    </div>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <div rounterLink="/overall" align="center"
+            class="border-b-4 border-orange-200 p-2 bg-gray-50 pb-2 h-35 rounded-md shadow-lg">
+            <div class="flex justify-between">
+              <h5 class="text-xs font-bold">This month</h5>
+              <ion-label class=" text-xs">Average Tat</ion-label>
+            </div>
+            <img class="mb-2" src="assets/1.png" alt="">
+          </div>
+        </ion-col>
+       
+
+        <ion-col size="6">
+          <app-donut-chart></app-donut-chart>
+        </ion-col>
+
+        <ion-col size="12">
+          <div align="center" class="border-b-4 border-orange-200 bg-gray-50  h-35 rounded-md shadow-lg">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6" align="center" class="flex items-center pl-4">
+                  <ion-label class="text-sm"><span><b>70 KM</b></span><br>Travelled</ion-label>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-label class="mt-5 text-xs ">Visits</ion-label>
+                  <img src="assets/3.png" alt="">
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+    <div class="flex justify-between p-2 mt-2 mb-2">
+      <p class="text-sm pl-2 font-bold "> Assigned Cases</p>
+      <p routerLink="/assigned" class="text-orange-500 text-xs pr-2">View All<ion-icon class="mt-1"
+          name="chevron-forward-outline"></ion-icon></p>
+    </div>
+
+    <ion-segment mode="ios" value="planned" (ionChange)='segmentChanged($event)'>
+      <ion-segment-button value="planned">
+        <ion-label>Assigned </ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="overdue">
+        <ion-label>Overdue</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="completed">
+        <ion-label>Completed</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <!-- [ngClass]="{'accordion-open': isAccordionOpen}" -->
+    <div *ngIf="switchTab === 'planned'" class="p-1">
+     
+      <ng-container *ngFor="let btable of allbooktables">
+        <ion-card 
+          class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
+          *ngIf="btable.status !== 'Visited by FE' && btable.status !== 'Resubmitted By FE' && btable.status !== 'Approved'">
+          <ion-grid>
+            <ion-row (click)="bookEFcase(btable.valuation_id)">
+
+              <ion-col size="9">
+                <p class="text-sm text-black font-bold">{{btable.firstname}} {{btable.middelname}} {{btable.lastname}}
+                </p>
+              </ion-col>
+
+              <ion-col size="3">
+                <p class="font-bold text-orange-500" style="font-size: x-small;">
+                  <ion-icon name="calendar"></ion-icon>&nbsp;{{btable.date}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path fill-rule="evenodd"
+                    d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625zM7.5 15a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 017.5 15zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H8.25z"
+                    clip-rule="evenodd" />
+                  <path
+                    d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="11">
+                <p class="text-xs">
+                  {{btable.valuation_id}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path fill-rule="evenodd"
+                    d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
+                    clip-rule="evenodd" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="11">
+                <p class="text-xs">
+                  {{btable.address}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path
+                    d="M11.584 2.376a.75.75 0 01.832 0l9 6a.75.75 0 11-.832 1.248L12 3.901 3.416 9.624a.75.75 0 01-.832-1.248l9-6z" />
+                  <path fill-rule="evenodd"
+                    d="M20.25 10.332v9.918H21a.75.75 0 010 1.5H3a.75.75 0 010-1.5h.75v-9.918a.75.75 0 01.634-.74A49.109 49.109 0 0112 9c2.59 0 5.134.202 7.616.592a.75.75 0 01.634.74zm-7.5 2.418a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75zm3-.75a.75.75 0 01.75.75v6.75a.75.75 0 01-1.5 0v-6.75a.75.75 0 01.75-.75zM9 12.75a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75z"
+                    clip-rule="evenodd" />
+                  <path d="M12 7.875a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="11" align="left">
+                <p class="text-xs">
+                  {{btable.bankname}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path fill-rule="evenodd"
+                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z"
+                    clip-rule="evenodd" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="6">
+                <!-- {{calculateTimeDifference(btable.admin)}} -->
+                <!-- {{ btable.timeDifference }} -->
+                {{ btable.timeDifference.days }} days, {{ btable.timeDifference.hours }} hours, {{ btable.timeDifference.minutes }} minutes
+
+              </ion-col>
+
+              <ion-col size="6"></ion-col>
+
+              <ion-col class="border-b border-gray-200 -mt-2" size="12"></ion-col>
+
+              <ion-col size="12" align="center">
+                <p class="text-xs text-red-600 font-semibold">
+                  Status :{{btable.status}}
+                </p>
+              </ion-col>
+            </ion-row>
+
+            <ion-row align="center" class="bg-white  p-1 rounded-sm">
+              <ion-col size="6" align="center" class="border-r-2 border-gray-200">
+                <div class="flex justify-center " (click)="show_map()">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                    <path
+                      d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"
+                      fill="rgba(30,111,247,1)"></path>
+                  </svg>
+                  <p class="text-xs pl-1" style="color: #1e6ff7;"> Location</p>
+                </div>
+              </ion-col>
+
+              <ion-col size="6" align="center">
+                <div class="flex justify-center" (click)="makePhoneCall(btable.contact_no)">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                    <path
+                      d="M21 16.42V19.9561C21 20.4811 20.5941 20.9167 20.0705 20.9537C19.6331 20.9846 19.2763 21 19 21C10.1634 21 3 13.8366 3 5C3 4.72371 3.01545 4.36687 3.04635 3.9295C3.08337 3.40588 3.51894 3 4.04386 3H7.5801C7.83678 3 8.05176 3.19442 8.07753 3.4498C8.10067 3.67907 8.12218 3.86314 8.14207 4.00202C8.34435 5.41472 8.75753 6.75936 9.3487 8.00303C9.44359 8.20265 9.38171 8.44159 9.20185 8.57006L7.04355 10.1118C8.35752 13.1811 10.8189 15.6425 13.8882 16.9565L15.4271 14.8019C15.5572 14.6199 15.799 14.5573 16.001 14.6532C17.2446 15.2439 18.5891 15.6566 20.0016 15.8584C20.1396 15.8782 20.3225 15.8995 20.5502 15.9225C20.8056 15.9483 21 16.1633 21 16.42Z"
+                      fill="rgba(30,111,247,1)">
+                    </path>
+                  </svg>
+                  <p class="text-xs pl-1" style="color: #1e6ff7;">Call</p>
+                </div>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ng-container>
+    </div>
+    <!-- [ngClass]="{'accordion-open': isAccordionOpen}" -->
+    <div *ngIf="switchTab === 'overdue'" class="p-1">
+      <ng-container *ngFor="let btable of overdueBooktables">
+        <ion-card
+          class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
+          *ngIf="btable.status !== 'Visited by FE' && btable.status !== 'Resubmitted By FE' && btable.status !== 'Approved'">
+          <ion-grid>
+            <ion-row (click)="bookEFcase(btable.valuation_id)">
+
+              <ion-col size="9">
+                <p class="text-sm text-black font-bold">{{btable.firstname}} {{btable.middelname}} {{btable.lastname}}
+                </p>
+              </ion-col>
+
+              <ion-col size="3">
+                <p class="font-bold text-orange-500" style="font-size: x-small;">
+                  <ion-icon name="calendar"></ion-icon>&nbsp;{{btable.date}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path fill-rule="evenodd"
+                    d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625zM7.5 15a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 017.5 15zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H8.25z"
+                    clip-rule="evenodd" />
+                  <path
+                    d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="11">
+                <p class="text-xs">
+                  {{btable.valuation_id}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path fill-rule="evenodd"
+                    d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
+                    clip-rule="evenodd" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="11">
+                <p class="text-xs">
+                  {{btable.address}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path
+                    d="M11.584 2.376a.75.75 0 01.832 0l9 6a.75.75 0 11-.832 1.248L12 3.901 3.416 9.624a.75.75 0 01-.832-1.248l9-6z" />
+                  <path fill-rule="evenodd"
+                    d="M20.25 10.332v9.918H21a.75.75 0 010 1.5H3a.75.75 0 010-1.5h.75v-9.918a.75.75 0 01.634-.74A49.109 49.109 0 0112 9c2.59 0 5.134.202 7.616.592a.75.75 0 01.634.74zm-7.5 2.418a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75zm3-.75a.75.75 0 01.75.75v6.75a.75.75 0 01-1.5 0v-6.75a.75.75 0 01.75-.75zM9 12.75a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75z"
+                    clip-rule="evenodd" />
+                  <path d="M12 7.875a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="11" align="left">
+                <p class="text-xs">
+                  {{btable.bankname}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path fill-rule="evenodd"
+                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z"
+                    clip-rule="evenodd" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="6">
+                <!-- {{calculateTimeDifference(btable.admin)}} -->
+                <!-- {{ btable.timeDifference }} -->
+                {{ btable.timeDifference.days }} days, {{ btable.timeDifference.hours }} hours, {{ btable.timeDifference.minutes }} minutes
+              </ion-col>
+
+              <ion-col size="6"></ion-col>
+
+              <ion-col class="border-b border-gray-200 -mt-2" size="12"></ion-col>
+
+              <ion-col size="12" align="center">
+                <p class="text-xs text-red-600 font-semibold">
+                  Status :{{btable.status}}
+                </p>
+              </ion-col>
+            </ion-row>
+
+            <ion-row align="center" class="bg-white  p-1 rounded-sm">
+              <ion-col size="6" align="center" class="border-r-2 border-gray-200">
+                <div class="flex justify-center " (click)="show_map()">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                    <path
+                      d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"
+                      fill="rgba(30,111,247,1)"></path>
+                  </svg>
+                  <p class="text-xs pl-1" style="color: #1e6ff7;"> Location</p>
+                </div>
+              </ion-col>
+
+              <ion-col size="6" align="center">
+                <div class="flex justify-center" (click)="makePhoneCall(btable.contact_no)">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                    <path
+                      d="M21 16.42V19.9561C21 20.4811 20.5941 20.9167 20.0705 20.9537C19.6331 20.9846 19.2763 21 19 21C10.1634 21 3 13.8366 3 5C3 4.72371 3.01545 4.36687 3.04635 3.9295C3.08337 3.40588 3.51894 3 4.04386 3H7.5801C7.83678 3 8.05176 3.19442 8.07753 3.4498C8.10067 3.67907 8.12218 3.86314 8.14207 4.00202C8.34435 5.41472 8.75753 6.75936 9.3487 8.00303C9.44359 8.20265 9.38171 8.44159 9.20185 8.57006L7.04355 10.1118C8.35752 13.1811 10.8189 15.6425 13.8882 16.9565L15.4271 14.8019C15.5572 14.6199 15.799 14.5573 16.001 14.6532C17.2446 15.2439 18.5891 15.6566 20.0016 15.8584C20.1396 15.8782 20.3225 15.8995 20.5502 15.9225C20.8056 15.9483 21 16.1633 21 16.42Z"
+                      fill="rgba(30,111,247,1)">
+                    </path>
+                  </svg>
+                  <p class="text-xs pl-1" style="color: #1e6ff7;">Call</p>
+                </div>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ng-container>
+    </div>
+    <!-- [ngClass]="{'accordion-open': isAccordionOpen}" -->
+    <div *ngIf="switchTab === 'completed'" class="p-1">
+      <ng-container *ngFor="let ctable of allcomtables">
+        <ion-card 
+          class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
+          *ngIf="ctable.status === 'Visited by FE' || ctable.status === 'Resubmitted By FE' || ctable.status === 'Approved'">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="9">
+                <p class="text-sm text-black font-bold">{{ctable.firstname}} {{ctable.middelname}} {{ctable.lastname}}
+                </p>
+              </ion-col>
+              <ion-col size="3">
+                <p class="font-bold text-orange-500" style="font-size: x-small;">
+                  <ion-icon name="calendar"></ion-icon>&nbsp;{{ctable.date}}
+                </p>
+              </ion-col>
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path fill-rule="evenodd"
+                    d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625zM7.5 15a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 017.5 15zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H8.25z"
+                    clip-rule="evenodd" />
+                  <path
+                    d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z" />
+                </svg>
+
+              </ion-col>
+              <ion-col size="11">
+                <p class="text-xs">
+                  {{ctable.valuation_id}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path fill-rule="evenodd"
+                    d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
+                    clip-rule="evenodd" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="11">
+                <p class="text-xs">
+                  {{ctable.address}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path
+                    d="M11.584 2.376a.75.75 0 01.832 0l9 6a.75.75 0 11-.832 1.248L12 3.901 3.416 9.624a.75.75 0 01-.832-1.248l9-6z" />
+                  <path fill-rule="evenodd"
+                    d="M20.25 10.332v9.918H21a.75.75 0 010 1.5H3a.75.75 0 010-1.5h.75v-9.918a.75.75 0 01.634-.74A49.109 49.109 0 0112 9c2.59 0 5.134.202 7.616.592a.75.75 0 01.634.74zm-7.5 2.418a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75zm3-.75a.75.75 0 01.75.75v6.75a.75.75 0 01-1.5 0v-6.75a.75.75 0 01.75-.75zM9 12.75a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75z"
+                    clip-rule="evenodd" />
+                  <path d="M12 7.875a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="11" align="left">
+                <p class="text-xs">
+                  {{ctable.bankname}}
+                </p>
+              </ion-col>
+
+              <ion-col size="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                  <path fill-rule="evenodd"
+                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z"
+                    clip-rule="evenodd" />
+                </svg>
+              </ion-col>
+
+              <ion-col size="6">
+                <!-- {{calculateTimeDifference(ctable.admin)}} -->
+                <!-- {{ctable.timeDifference }} -->
+                {{ ctable.timeDifference.days }} days, {{ ctable.timeDifference.hours }} hours, {{ ctable.timeDifference.minutes }} minutes
+
+              </ion-col>
+
+              <ion-col size="6"></ion-col>
+
+              <ion-col class="border-b border-gray-200 -mt-2" size="12"></ion-col>
+
+              <ion-col size="12" align="center">
+                <p class="text-xs text-red-600 font-semibold">
+                  Status : {{ctable.status}}
+                </p>
+              </ion-col>
+            </ion-row>
+
+            <ion-row align="center" class="bg-white  p-1 rounded-sm">
+              <ion-col size="6" align="center" class="border-r-2 border-gray-200">
+                <div class="flex justify-center " (click)="show_map()">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                    <path
+                      d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"
+                      fill="rgba(30,111,247,1)"></path>
+                  </svg>
+                  <p class="text-xs pl-1" style="color: #1e6ff7;"> Location</p>
+                </div>
+              </ion-col>
+
+              <ion-col size="6" align="center">
+                <div class="flex justify-center" (click)="makePhoneCall(ctable.contact_no)">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                    <path
+                      d="M21 16.42V19.9561C21 20.4811 20.5941 20.9167 20.0705 20.9537C19.6331 20.9846 19.2763 21 19 21C10.1634 21 3 13.8366 3 5C3 4.72371 3.01545 4.36687 3.04635 3.9295C3.08337 3.40588 3.51894 3 4.04386 3H7.5801C7.83678 3 8.05176 3.19442 8.07753 3.4498C8.10067 3.67907 8.12218 3.86314 8.14207 4.00202C8.34435 5.41472 8.75753 6.75936 9.3487 8.00303C9.44359 8.20265 9.38171 8.44159 9.20185 8.57006L7.04355 10.1118C8.35752 13.1811 10.8189 15.6425 13.8882 16.9565L15.4271 14.8019C15.5572 14.6199 15.799 14.5573 16.001 14.6532C17.2446 15.2439 18.5891 15.6566 20.0016 15.8584C20.1396 15.8782 20.3225 15.8995 20.5502 15.9225C20.8056 15.9483 21 16.1633 21 16.42Z"
+                      fill="rgba(30,111,247,1)">
+                    </path>
+                  </svg>
+                  <p class="text-xs pl-1" style="color: #1e6ff7;">Call</p>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ng-container>
+  </div>
+  </div>
+</ion-content>

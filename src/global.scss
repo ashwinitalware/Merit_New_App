@@ -24,3 +24,31 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+
+.toast-scheme {
+    // .toast-message {
+    //     --background: rgb(25, 3, 3) !important ;
+    //     color: red!important ;
+    // }
+    // .toast-container {
+    //     --background: rgb(4, 201, 255) !important ;
+    //     color: red!important ;
+  
+    // }
+    // .toast-md {
+    //     --background: rgb(114, 250, 135) !important ;
+    //     color: red!important ;
+  
+    // }
+    --background: rgb(0, 121, 201)  !important ;
+    color: rgb(255, 255, 255)!important ;
+  
+    // .ion-toast{
+    //     --background: rgb(222, 63, 63) !important ;
+    //     color: red!important ;
+    // }
+  }
+  ion-content{
+    background-image: linear-gradient(197deg, rgb(188, 210, 224) 0%, rgb(188, 210, 224) 13.5%, rgb(188, 210, 224) 33.33%, rgb(188, 210, 224) 100%) !important
+  }
