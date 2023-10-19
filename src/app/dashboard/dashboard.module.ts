@@ -8,6 +8,7 @@ import { DashboardPageRoutingModule } from './dashboard-routing.module';
 
 import { DashboardPage } from './dashboard.page';
 import { DonutChartComponent } from '../donut-chart/donut-chart.component';
+import { GaugeChartComponent } from '../gauge-chart/gauge-chart.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { DonutChartComponent } from '../donut-chart/donut-chart.component';
     IonicModule,
     DashboardPageRoutingModule
   ],
-  declarations: [DashboardPage,DonutChartComponent,
+  declarations: [DashboardPage,DonutChartComponent,GaugeChartComponent,
     // SpeedometerComponent,
   ]
 })

@@ -25,7 +25,6 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true">
   <div class="p-1">
     <div class="flex justify-between">
@@ -37,15 +36,19 @@
 
     <ion-grid>
       <ion-row>
+        <!-- <ion-col size="12">
+          <app-gauge-chart></app-gauge-chart>
+        </ion-col> -->
         <ion-col size="6">
-          <div rounterLink="/overall" align="center"
+          <!-- <div rounterLink="/overall" align="center"
             class="border-b-4 border-orange-200 p-2 bg-gray-50 pb-2 h-35 rounded-md shadow-lg">
             <div class="flex justify-between">
               <h5 class="text-xs font-bold">This month</h5>
               <ion-label class=" text-xs">Average Tat</ion-label>
             </div>
             <img class="mb-2" src="assets/1.png" alt="">
-          </div>
+          </div> -->
+          <app-gauge-chart></app-gauge-chart>
         </ion-col>
        
 
