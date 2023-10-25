@@ -17,7 +17,7 @@ export class GaugeChartComponent  implements OnInit {
   }
 
   ngOnInit() {
-    this.createGaugeChart();
+    // this.createGaugeChart();
   }
 
   // createGaugeChart() {
@@ -95,41 +95,40 @@ export class GaugeChartComponent  implements OnInit {
 //   });
 // }
 
-createGaugeChart() {
-  this.gaugeChart = new Chart('gaugeChart', {
-    type: 'doughnut',
-    data: {
-      labels: ['Progress'],
-      datasets: [
-        {
-          data: [75], // Change this value to set the initial gauge value (0-100%)
-          backgroundColor: ['#36A2EB', 'transparent'],
-        },
-      ],
-    },
-    options: {
-      cutout: '70%', // Adjust this value to change the gauge thickness
-      responsive: true,
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      rotation: -Math.PI,
-      circumference: Math.PI,
-    },
-  });
+// createGaugeChart() {
+//   this.gaugeChart = new Chart('gaugeChart', {
+//     type: 'doughnut',
+//     data: {
+//       labels: ['Progress'],
+//       datasets: [
+//         {
+//           data: [75], // Change this value to set the initial gauge value (0-100%)
+//           backgroundColor: ['#36A2EB', 'transparent'],
+//         },
+//       ],
+//     },
+//     options: {
+//       cutout: '70%', // Adjust this value to change the gauge thickness
+//       responsive: true,
+//       plugins: {
+//         legend: {
+//           display: false,
+//         },
+//       },
+//       rotation: -Math.PI,
+//       circumference: Math.PI,
+//     },
+//   });
 
-  // Rotate the needle based on the data value (0-100%)
-  this.rotateNeedle(75);
-}
+//   this.rotateNeedle(75);
+// }
 
-rotateNeedle(value: number) {
-  const needle = document.querySelector('.needle') as HTMLElement;
-  const maxRotation = 135; // Maximum rotation in degrees
-  const rotation = maxRotation * (value / 100);
-  needle.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
-}
+// rotateNeedle(value: number) {
+//   const needle = document.querySelector('.needle') as HTMLElement;
+//   const maxRotation = 135; // Maximum rotation in degrees
+//   const rotation = maxRotation * (value / 100);
+//   needle.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
+// }
 
 // createGaugeChart() {
 //   this.gaugeChart = new Chart('gaugeChart', {

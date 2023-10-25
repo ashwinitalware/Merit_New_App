@@ -40,25 +40,30 @@
           <app-gauge-chart></app-gauge-chart>
         </ion-col> -->
         <ion-col size="6">
-          <!-- <div rounterLink="/overall" align="center"
-            class="border-b-4 border-orange-200 p-2 bg-gray-50 pb-2 h-35 rounded-md shadow-lg">
+          <div rounterLink="/overall" align="center"
+            class="border-b-4 border-orange-200 p-2 bg-gray-50 pb-2 h-35 rounded-md ">
             <div class="flex justify-between">
               <h5 class="text-xs font-bold">This month</h5>
               <ion-label class=" text-xs">Average Tat</ion-label>
             </div>
             <img class="mb-2" src="assets/1.png" alt="">
-          </div> -->
-          <app-gauge-chart></app-gauge-chart>
+          </div>
+          <!-- <app-gauge-chart></app-gauge-chart> -->
         </ion-col>
-       
+
 
         <ion-col size="6">
           <app-donut-chart></app-donut-chart>
         </ion-col>
 
         <ion-col size="12">
-          <div align="center" class="border-b-4 border-orange-200 bg-gray-50  h-35 rounded-md shadow-lg">
-            <ion-grid>
+          <div align="center" class="border-b-4 border-orange-200 bg-gray-50 p-3">
+            <div class="flex justify-between">
+              <ion-label class=" pl-10 text-lg flex items-center">All Visits</ion-label>
+              <div class="chart-area pr-10"></div>
+            </div>
+
+            <!--  <ion-grid>
               <ion-row>
                 <ion-col size="6" align="center" class="flex items-center pl-4">
                   <ion-label class="text-sm"><span><b>70 KM</b></span><br>Travelled</ion-label>
@@ -68,7 +73,7 @@
                   <img src="assets/3.png" alt="">
                 </ion-col>
               </ion-row>
-            </ion-grid>
+            </ion-grid> -->
           </div>
         </ion-col>
       </ion-row>
@@ -96,10 +101,9 @@
     </ion-segment>
     <!-- [ngClass]="{'accordion-open': isAccordionOpen}" -->
     <div *ngIf="switchTab === 'planned'" class="p-1">
-     
+
       <ng-container *ngFor="let btable of allbooktables">
-        <ion-card 
-          class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
+        <ion-card class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
           *ngIf="btable.status !== 'Visited by FE' && btable.status !== 'Resubmitted By FE' && btable.status !== 'Approved'">
           <ion-grid>
             <ion-row (click)="bookEFcase(btable.valuation_id)">
@@ -173,7 +177,8 @@
               <ion-col size="6">
                 <!-- {{calculateTimeDifference(btable.admin)}} -->
                 <!-- {{ btable.timeDifference }} -->
-                {{ btable.timeDifference.days }} days, {{ btable.timeDifference.hours }} hours, {{ btable.timeDifference.minutes }} minutes
+                {{ btable.timeDifference.days }} days, {{ btable.timeDifference.hours }} hours, {{
+                btable.timeDifference.minutes }} minutes
 
               </ion-col>
 
@@ -220,8 +225,7 @@
     <!-- [ngClass]="{'accordion-open': isAccordionOpen}" -->
     <div *ngIf="switchTab === 'overdue'" class="p-1">
       <ng-container *ngFor="let btable of overdueBooktables">
-        <ion-card
-          class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
+        <ion-card class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
           *ngIf="btable.status !== 'Visited by FE' && btable.status !== 'Resubmitted By FE' && btable.status !== 'Approved'">
           <ion-grid>
             <ion-row (click)="bookEFcase(btable.valuation_id)">
@@ -295,7 +299,8 @@
               <ion-col size="6">
                 <!-- {{calculateTimeDifference(btable.admin)}} -->
                 <!-- {{ btable.timeDifference }} -->
-                {{ btable.timeDifference.days }} days, {{ btable.timeDifference.hours }} hours, {{ btable.timeDifference.minutes }} minutes
+                {{ btable.timeDifference.days }} days, {{ btable.timeDifference.hours }} hours, {{
+                btable.timeDifference.minutes }} minutes
               </ion-col>
 
               <ion-col size="6"></ion-col>
@@ -341,8 +346,7 @@
     <!-- [ngClass]="{'accordion-open': isAccordionOpen}" -->
     <div *ngIf="switchTab === 'completed'" class="p-1">
       <ng-container *ngFor="let ctable of allcomtables">
-        <ion-card 
-          class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
+        <ion-card class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
           *ngIf="ctable.status === 'Visited by FE' || ctable.status === 'Resubmitted By FE' || ctable.status === 'Approved'">
           <ion-grid>
             <ion-row>
@@ -413,7 +417,8 @@
               <ion-col size="6">
                 <!-- {{calculateTimeDifference(ctable.admin)}} -->
                 <!-- {{ctable.timeDifference }} -->
-                {{ ctable.timeDifference.days }} days, {{ ctable.timeDifference.hours }} hours, {{ ctable.timeDifference.minutes }} minutes
+                {{ ctable.timeDifference.days }} days, {{ ctable.timeDifference.hours }} hours, {{
+                ctable.timeDifference.minutes }} minutes
 
               </ion-col>
 
@@ -455,6 +460,6 @@
           </ion-grid>
         </ion-card>
       </ng-container>
-  </div>
+    </div>
   </div>
 </ion-content>

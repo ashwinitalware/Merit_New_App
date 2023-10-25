@@ -1,0 +1,353 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>cap-photo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- <div class="ion-padding" *ngIf="switchTab === 'capphoto'">
+
+    <ion-label class="text-md font-bold" class="text-balck font-semibold">
+      Upload Photos
+    </ion-label>
+
+    <ion-item>
+      <ion-label class="text-balck font-semibold">Category*</ion-label>
+      <ion-select [(ngModel)]="selectedOption23" (ionChange)="tags23($event)" name="selectedOption23"
+        value="selectedOption23">
+        <ion-select-option *ngFor="let category of allcategory1; let i = index" [value]="category">
+          {{category.category}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-chip class="mt-3" [class.selected]="selectedOption24 === tag" *ngFor="let tag of alltags1"
+      (click)="selectTag(tag)">
+      {{ tag.tag }}
+    </ion-chip>
+
+    <ion-row class="p-2">
+      <ion-col align="center" size="6" id="open-modal" class="pr-2  flex items-center ">
+        <label class="text-black border border-gray-200 rounded-sm flex items-center  p-2 mt-1" for="dateofbirth"
+          style="font-size: small;">
+          <ion-icon class="text-blue-400" name="cloud-upload"></ion-icon>&nbsp; Upload Photo
+        </label>
+      </ion-col>
+
+      <ion-col size="3" class="pr-2 mt-1 flex items-center">
+        <ng-container *ngIf="fileToUpload">
+          <ng-container *ngIf="isImageFile(fileToUpload)">
+            <img [src]="fileToUpload" alt="Preview" id="profile_img" style="max-width: 100%; max-height: 200px;">
+          </ng-container>
+          <ng-container *ngIf="isPdfFile(fileToUpload)">
+            <object [data]="fileToUpload" type="image/*pdf" style="width: 100%; height: 200px;">
+              Your browser does not support PDFs.
+            </object>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+
+      <ion-col size="2" class="mt-1">
+        <div align="center" class="p-2 pr-2 h-20">
+          <ion-button class="mt-4" (click)="addData()">
+            <ion-icon name="add-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.20" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+      <ng-template>
+        <ion-content>
+          <ion-list>
+            <input type="file" class="hidden" multiple="multiple" accept="image/*" capture #fileUploadCamera
+              (change)="handleFileInput1($event)" />
+
+            <ion-item (click)="fileUploadCamera.click()">
+              <ion-icon class="text-blue-600" slot="start" name="camera"></ion-icon>
+              <ion-label>
+                <h2>Click Photo</h2>
+              </ion-label>
+            </ion-item>
+
+            <input type="file" class="hidden" multiple="multiple" #fileUploadCamera1
+              (change)="handleFileInput1($event)" />
+            <ion-item (click)="fileUploadCamera1.click()">
+              <ion-icon class="text-blue-600" slot="start" name="image"></ion-icon>
+              <ion-label>
+                <h2>Gallery</h2>
+              </ion-label>
+            </ion-item>
+
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <ng-container *ngFor="let document of data; let i = index">
+      <ion-row class="p-1 border border-red-200 rounded-sm">
+        <ion-col align="left" size="3.5" class="flex items-center">
+          <ion-label>{{document.category_id1}}</ion-label>
+        </ion-col>
+
+        <ion-col align="left" size="3.5" class="flex items-center">
+          <ion-label>{{selectedTagName[i]}}</ion-label>
+        </ion-col>
+
+        <ion-col size="4">
+          <img class="p-2 rounded-md shadow-md pr-2 h-20" style="width: 100%; object-fit: cover;"
+            [src]="document.image" alt="">
+        </ion-col>
+
+        <ion-col size="1">
+          <div align="center" class="flex items-center">
+            <ion-icon class="text-red-600 mt-4" (click)="removeDocument1(i)" name="trash"></ion-icon>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+
+    <ion-grid>
+      <ion-row class="p-1 border border-blue-300 rounded-md shadow-md mt-2" *ngFor="let image of allcapture_image; let i = index">
+        <ion-col align="left" size="3.5" class="flex items-center">
+          <ion-label>{{ allcapture_cat[i] }}</ion-label>
+        </ion-col>
+    
+        <ion-col align="left" size="3.5" class="flex items-center">
+          <ion-label>{{ allcapture_tags[i]}}</ion-label>
+        </ion-col>
+    
+        <ion-col size="4">
+          <img class="h-20 mt-2 object-fit w-full rounded-md shadow-md"
+            [src]="image ? this.url.imageUrl + 'FE-valuation/' + image : 'assets/.png'" />
+        </ion-col>
+
+        <ion-col size="1">
+          <div align="center" class="flex items-center" (click)="deleteCaptureData(image.valuation_id, i)">
+            <ion-icon class="text-red-600 mt-4" name="trash"></ion-icon>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-button routerLink="/cap-photo" >
+      CapPhoto
+    </ion-button>
+
+    <div>
+      <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+        <ion-fab-button color="dark">
+          <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top" style="margin-bottom: 100%;">
+          <ion-fab-button data-desc="Save" color="dark"
+            (click)="new_field_executive(executive_step1); showSaveToast()">
+            <ion-icon name="bookmark"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button (click)="moveToPreviewSegment()" data-desc="Preview" color="dark">
+            <ion-icon name="eye"></ion-icon>
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
+    </div>
+  </div> -->
+
+
+
+  <div>
+
+    <ion-item>
+      <ion-label class="text-balck font-semibold">Category*</ion-label>
+      <ion-select [(ngModel)]="selectedOption23" (ionChange)="loadTags()" name="selectedOption23">
+        <ion-select-option *ngFor="let category of allcategory1; let i = index" [value]="category">
+          {{category.category}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="radio-inputs w-full" size="4" *ngFor="let tag of alltags1">
+            <label>
+              <input class="radio-input" type="radio" name="engine">
+            </label>
+            <span class="radio-tile">
+              <span class="radio-ion-col">{{tag.tag}}</span>
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    
+
+    <ion-row class="p-2">
+      <ion-col align="center" size="6"   class="pr-2  flex items-center ">
+        <label  id="open-modal" class="text-black border border-gray-200 rounded-sm flex items-center  p-2 mt-1" for="dateofbirth"
+          style="font-size: small;">
+          <ion-icon class="text-blue-400" name="cloud-upload"></ion-icon>&nbsp; Upload Photo
+        </label>
+       
+      </ion-col>
+
+      <ion-col size="3" class="pr-2 mt-1 flex items-center">
+        <ng-container *ngIf="fileToUpload">
+          <ng-container *ngIf="isImageFile(fileToUpload)">
+            <img [src]="fileToUpload" alt="Preview" id="profile_img" style="max-width: 100%; max-height: 200px;">
+          </ng-container>
+          <ng-container *ngIf="isPdfFile(fileToUpload)">
+            <object [data]="fileToUpload" type="image/*pdf" style="width: 100%; height: 200px;">
+              Your browser does not support PDFs.
+            </object>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+
+      <ion-col size="2" class="mt-1">
+        <div align="center" class="p-2 pr-2 h-20">
+          <ion-button class="mt-4" (click)="addData()">
+            <ion-icon name="add-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+      <ng-template>
+        <ion-content>
+          <ion-searchbar placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
+          <ion-list>
+            <ion-item>
+              <ion-avatar slot="start">
+                <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
+              </ion-avatar>
+              <ion-label>
+                <h2>Connor Smith</h2>
+                <p>Sales Rep</p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-avatar slot="start">
+                <ion-img src="https://i.pravatar.cc/300?u=a"></ion-img>
+              </ion-avatar>
+              <ion-label>
+                <h2>Daniel Smith</h2>
+                <p>Product Designer</p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-avatar slot="start">
+                <ion-img src="https://i.pravatar.cc/300?u=d"></ion-img>
+              </ion-avatar>
+              <ion-label>
+                <h2>Greg Smith</h2>
+                <p>Director of Operations</p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-avatar slot="start">
+                <ion-img src="https://i.pravatar.cc/300?u=e"></ion-img>
+              </ion-avatar>
+              <ion-label>
+                <h2>Zoey Smith</h2>
+                <p>CEO</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <!-- <ion-modal  #modal [initialBreakpoint]="0.20" [breakpoints]="[0, 0.25, 0.5, 0.75]" *ngIf="isModalOpen">
+      <ng-template>
+        <ion-content>
+          <ion-list>
+            <input type="file" class="hidden" multiple="multiple" accept="image/*" capture #fileUploadCamera
+              (change)="handleFileInput1($event)" />
+
+            <ion-item (click)="fileUploadCamera.click()">
+              <ion-icon class="text-blue-600" slot="start" name="camera"></ion-icon>
+              <ion-label>
+                <h2>Click Photo</h2>
+              </ion-label>
+            </ion-item>
+
+            <input type="file" class="hidden" multiple="multiple" #fileUploadCamera1
+              (change)="handleFileInput1($event)" />
+            <ion-item (click)="fileUploadCamera1.click()">
+              <ion-icon class="text-blue-600" slot="start" name="image"></ion-icon>
+              <ion-label>
+                <h2>Gallery</h2>
+              </ion-label>
+            </ion-item>
+
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal> -->
+
+    <!-- <ng-container *ngFor="let document of data; let i = index">
+      <ion-row class="p-1 border border-red-200 rounded-sm">
+        <ion-col align="left" size="3.5" class="flex items-center">
+          <ion-label>{{document.category_id1}}</ion-label>
+        </ion-col>
+
+        <ion-col align="left" size="3.5" class="flex items-center">
+          <ion-label>{{selectedTagName[i]}}</ion-label>
+        </ion-col>
+
+        <ion-col size="4">
+          <img class="p-2 rounded-md shadow-md pr-2 h-20" style="width: 100%; object-fit: cover;"
+            [src]="document.image" alt="">
+        </ion-col>
+
+        <ion-col size="1">
+          <div align="center" class="flex items-center">
+            <ion-icon class="text-red-600 mt-4" (click)="removeDocument1(i)" name="trash"></ion-icon>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ng-container> -->
+
+    <!-- <ion-grid>
+      <ion-row class="p-1 border border-blue-300 rounded-md shadow-md mt-2" *ngFor="let image of allcapture_image; let i = index">
+        <ion-col align="left" size="3.5" class="flex items-center">
+          <ion-label>{{ allcapture_cat[i] }}</ion-label>
+        </ion-col>
+    
+        <ion-col align="left" size="3.5" class="flex items-center">
+          <ion-label>{{ allcapture_tags[i]}}</ion-label>
+        </ion-col>
+    
+        <ion-col size="4">
+          <img class="h-20 mt-2 object-fit w-full rounded-md shadow-md"
+            [src]="image ? this.url.imageUrl + 'FE-valuation/' + image : 'assets/.png'" />
+        </ion-col>
+
+        <ion-col size="1">
+          <div align="center" class="flex items-center" (click)="deleteCaptureData(image.valuation_id, i)">
+            <ion-icon class="text-red-600 mt-4" name="trash"></ion-icon>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+
+    <!-- <div>
+      <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
+        <ion-fab-button color="dark">
+          <ion-icon style="font-size: 1.5em;" name="save"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top" style="margin-bottom: 100%;">
+          <ion-fab-button data-desc="Save" color="dark"
+            (click)="new_field_executive(executive_step1); showSaveToast()">
+            <ion-icon name="bookmark"></ion-icon>
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
+    </div> -->
+
+
+  </div>
+
+</ion-content>

@@ -45,31 +45,63 @@ interface YerasType {
 })
 export class BasicnewPage implements OnInit {
 
-  alladmindata:any;
 
-   // selectedAmenities: string[] = [];
-   selectedAmenities: { [key: string]: boolean } = {
-    'NA': false,
-    'Bore Well': false,
-    'Compound wall with gate': false,
-    'Car Parking': false
-  };
+  profiledata = {
+    High_Tension: false,
+    Temple_In: false,
+    Near_Nala: false,
+    Land_Lock_Property: false,
+    Common_Entrance: false,
+    Railway_Line: false,
+    No_Development: false,
+    Community_Dominated: false,
+    Site_area: false,
+    Wine_shop: false,
+    Property_not: false,
+    Property_demarcated: false,
+    Approach_road: false,
+    Encroachment_on: false,
+    Property_structurally: false,
+    Construction_Beyond: false,
+    Construction_Not: false,
+    No_Deviation: false,
+  }
 
-  selectedDeviation: string[] = [];
-  imageUrl: string = 'https://cms.meritassociates.in/public/images/New-valuation/';
-
-  formData: any = {
-    name: '',
+  aminitiesdata = {
     NA: false,
-    BoreWell: false,
-    Compoundwallwithgate: false,
-    CarParking: false,
-    ModularKitchen: false,
+    Bore_Well: false,
+    Compound_wall: false,
+    Car_Parking: false,
+    Modular_Kitchen: false,
     Lift: false,
     Swimming_Pool: false,
-    Electric_carChargingStation: false,
+    Electric_car: false,
     Garden: false,
-  };
+  }
+
+
+  alladmindata: any;
+
+ 
+  selectedDeviation: string[] = [];
+
+  selectedaminities: string[] = [];
+
+
+  imageUrl: string = 'https://cms.meritassociates.in/public/images/New-valuation/';
+
+  // formData: any = {
+  //   name: '',
+  //   NA: false,
+  //   BoreWell: false,
+  //   Compoundwallwithgate: false,
+  //   CarParking: false,
+  //   ModularKitchen: false,
+  //   Lift: false,
+  //   Swimming_Pool: false,
+  //   Electric_carChargingStation: false,
+  //   Garden: false,
+  // };
 
 
   loading: boolean = false;
@@ -78,23 +110,26 @@ export class BasicnewPage implements OnInit {
 
   tagnew: any[] = [];
   image1: any[] = [];
-  aminities: string[] = ['NA'];
+  aminities: any;
+  deviation:any;
   // aminities: string[] = [];
-  deviation: string[] = ['High Tension'];
+  // deviation: string[] = [];
   wine_shop: string[] = [];
   // @ViewChild('segment') segment!: IonSegment;
   @ViewChild('segment', { static: false }) segment!: IonSegment;
   // @ViewChild('segment', { static: false }) segment!: IonSegment;
 
   newdocuments: { name: string; file: string }[] = [];
-  documents: { category: string;category1: string; tag: string; tag1: string; file: string; file1: any }[] = [];
+  documents: { category: string; category1: string; tag: string; tag1: string; file: string; file1: any }[] = [];
 
-  data: { valuation_id: 0;
-     category_id: string;
-     category_id1: string; 
-     tag_id: string; 
-     tag_id1: string; 
-     image: string; }[] = [];
+  data: {
+    valuation_id: 0;
+    category_id: string;
+    category_id1: string;
+    tag_id: string;
+    tag_id1: string;
+    image: string;
+  }[] = [];
   // data: { valuation_id: string; category_id: string; tag_id: string; } | undefined;
 
   session_datan = {
@@ -199,6 +234,7 @@ export class BasicnewPage implements OnInit {
   session_data2: any;
   allcapturedata: any;
   field_executive_id: any;
+  checkParent: any;
 
 
   segmentChanged(ev: any) {
@@ -320,7 +356,7 @@ export class BasicnewPage implements OnInit {
 
   field_update_data = {
     valuation_id: '',
-    field_executive_id:'',
+    field_executive_id: '',
     name: '',
     person_met_at_site: '',
     relation_with_owner: '',
@@ -383,17 +419,17 @@ export class BasicnewPage implements OnInit {
     deviation: '',
     wine_shop: '',
     image_files: '',
-    status_field:'',
+    status_field: '',
   };
 
   categorytext: any;
   tagtext: any;
   selectedCategoryText: any;
   selectedTagText: any;
-  allcapture_image:any;
-  allcapture_cat:any;
-  allcapture_tags:any;
-
+  allcapture_image: any;
+  allcapture_cat: any;
+  allcapture_tags: any;
+  Checkboxes: any;
   constructor(
     public url: DataService,
     private http: HttpClient,
@@ -403,41 +439,37 @@ export class BasicnewPage implements OnInit {
     private alertController: AlertController,
     private navCtrl: NavController,
     private sanitizer: DomSanitizer
-    // private sanitizer: DomSanitizer
-  ) { 
+  ) {
     this.date_of_visit = '';
-   }
+    this.construction_area[0] = 'Initial Value for Ground Floor';
+    this.construction_area[1] = 'Initial Value for First Floor';
+  }
   async ngOnInit() {
     await this.storage.create();
+    this.get_year(); 
+    this.get_fe_data();
+    // this.profiledata.volunteer_flag = true;
   }
+
 
   ionViewWillEnter() {
     this.route.queryParams.subscribe((params) => {
       this.address = this.url.user_map_address;
       this.lat = this.url.user_map_lat;
       this.long = this.url.user_map_lan;
-
       this.customer_file2 = 'assets/dummy.png';
       this.customer_file = 'assets/dummy.png';
 
       if (params && params['id']) {
         try {
           this.session_data1 = JSON.parse(params['id']);
-          // console.log(this.session_data1);
         } catch (error) {
-          // console.error('Error parsing JSON data:', error);
         }
       }
-
       if (params && params['latitude'] && params['longitude']) {
         this.latitude = Number(params['latitude']);
-        // console.log(this.longitude, 5);
-        // alert(this.latitude);
         this.longitude = Number(params['longitude']);
-        // console.log(this.longitude, 6);
-        // alert(this.longitude);
       }
-
       this.url.presentLoading();
       this.get_all_data_admin();
       this.client();
@@ -445,13 +477,12 @@ export class BasicnewPage implements OnInit {
       this.location();
       this.property_type();
       this.category();
-      // this.tagss();
       this.get_fe_data();
       this.get_state();
       this.get_year();
       this.getadminimg();
       this.get_capture_data();
-      this.get_all_data_admin1();
+      // this.get_all_data_admin1();
       this.url.dismiss();
     });
   }
@@ -468,39 +499,35 @@ export class BasicnewPage implements OnInit {
     const endpoint = 'your-destination-url';
     const formData: FormData = new FormData();
     formData.append('files', this.fileToUpload1, this.fileToUpload1.name);
-    // console.log(formData);
   }
 
   updateSelectedDeviation(deviation: string, event: any) {
     const isChecked = event.detail.checked;
-  
     if (isChecked) {
       if (!this.selectedDeviation.includes(deviation)) {
         this.selectedDeviation.push(deviation);
+        console.log(this.selectedDeviation)
       }
     } else {
       this.selectedDeviation = this.selectedDeviation.filter(item => item !== deviation);
     }
   }
 
-  // updateSelectedAmenities(amenity: string, event: any) {
-  //   this.selectedAmenities[amenity] = event.detail.checked;
-  // }
-
-  updateSelectedAmenities(amenity: string, event: any) {
-    this.selectedAmenities[amenity] = event.detail.checked;
+  updateSelectedAmenities(aminities: string, event: any) {
+    const isChecked = event.detail.checked;
+    if (isChecked) {
+      if (!this.selectedaminities.includes(aminities)) {
+        this.selectedaminities.push(aminities);
+        console.log(this.selectedaminities)
+      }
+    } else {
+      this.selectedaminities = this.selectedaminities.filter(item => item !== aminities);
+    }
   }
 
-  // updateSelectedAmenities(aminities: string, event: any) {
-  //   const isChecked = event.detail.checked;
-  
-  //   if (isChecked) {
-  //     if (!this.selectedAmenities.includes(aminities)) {
-  //       this.selectedAmenities.push(aminities);
-  //     }
-  //   } else {
-  //     this.selectedAmenities = this.selectedAmenities.filter(item => item !== aminities);
-  //   }
+
+  // updateSelectedAmenities(amenity: string, event: any) {
+  //   this.selectedAmenities[amenity] = event.detail.checked;
   // }
 
   client() {
@@ -516,7 +543,7 @@ export class BasicnewPage implements OnInit {
       (err) => { }
     );
   }
-  
+
   product() {
     this.http.get(`${this.url.serverUrl}product?`).subscribe(
       (res: any) => {
@@ -577,7 +604,6 @@ export class BasicnewPage implements OnInit {
 
   onStateChange(dd: any) {
     //const selectedStateId = this.selectedOption21; // Assuming the ID is stored in selectedOption21
-    // alert(this.selectedOption21);
     if (dd) {
       this.get_district_by_id(dd);
     }
@@ -673,7 +699,7 @@ export class BasicnewPage implements OnInit {
     this.selectedOption3 = areaid.detail.value;
     this.emp_name();
   }
-  
+
   get_area_by_id() {
     this.storage.get('member').then((res1) => {
       this.user_id1 = parseInt(res1.user_id, 10);
@@ -805,7 +831,7 @@ export class BasicnewPage implements OnInit {
         this.user_id1 = parseInt(res.user_id, 10);
         // console.log(f.value);
         this.update_data.id = this.user_id1;
-        this.update_data.firstname = f.value.firstname;
+        // this.update_data.firstname = f.value.firstname;
         this.update_data.middelname = f.value.middelname;
         this.update_data.lastname = f.value.lastname;
         this.update_data.valuation_id = f.value.valuation_id;
@@ -874,6 +900,7 @@ export class BasicnewPage implements OnInit {
   }
 
   new_field_executive(f: NgForm) {
+    console.log("sendingdata", this.data);
     this.storage.get('member').then((res) => {
       this.user_id1 = parseInt(res.user_id, 10);
       this.field_update_data.valuation_id = this.valuation_id;
@@ -912,13 +939,16 @@ export class BasicnewPage implements OnInit {
         } else {
           // console.log(res.data);
           this.allcategory1 = res.data;
-          console.log( this.allcategory1, 11);
-
+          console.log(this.allcategory1, 11);
         }
       },
       (err) => { }
     );
   }
+
+
+  
+
 
   //Get all Tag
   tags1() {
@@ -942,55 +972,32 @@ export class BasicnewPage implements OnInit {
     console.log(this.selectedOption23, 13);
     if (this.selectedOption23 != undefined) {
       this.categorytext = this.selectedOption23.id;
-      console.log(this.categorytext,23);
+      console.log(this.categorytext, 23);
       this.tags1();
     }
   }
 
   selectTag(tag: any) {
     this.selectedOption24 = tag;
-    console.log(this.selectedOption24,14);
-    this.selectedTagName.push(tag.tag);
-    this.selectedTagName1.push(tag.id);
+    console.log(this.selectedOption24, 14);
   }
 
-  // addData() {
-  //   this.data.push({
-  //     category_id: this.selectedOption23.id,
-  //    category_id1: this.selectedOption23.category,
-  //     tag_id: this.selectedTagName1[this.data.length], // Use the selected tag name for the new row
-  //     tag_id1: this.selectedTagName[this.data.length], // Use the selected tag name for the new row
-  //     valuation_id: this.valuation_id,
-  //     image: this.fileToUpload,
-  //   });
-  //   console.log( this.selectedOption23.id,15);
-  //   console.log(  this.selectedOption23.category,16);
-  //   console.log(this.selectedTagName1[this.data.length],17);
-  //   console.log(this.selectedTagName[this.data.length],17);
-  // }
-
+  
   addData() {
-    if (this.selectedOption23 && this.selectedOption23.id && this.selectedOption23.category) {
-        this.data.push({
-            category_id: this.selectedOption23.id,
-            category_id1: this.selectedOption23.category,
-            tag_id: this.selectedTagName1[this.data.length] !== null ? this.selectedTagName1[this.data.length] : '', // Use the selected tag name for the new row if available or an empty string
-            tag_id1: this.selectedTagName[this.data.length] !== null ? this.selectedTagName[this.data.length] : '', // Use the selected tag name for the new row if available or an empty string
-            valuation_id: this.valuation_id,
-            image: this.fileToUpload,
-        });
-        console.log(this.selectedOption23.id, 15);
-        console.log(this.selectedOption23.category, 16);
-        if (this.selectedTagName1[this.data.length] !== null) {
-            console.log(this.selectedTagName1[this.data.length], 17);
-        }
-        if (this.selectedTagName[this.data.length] !== null) {
-            console.log(this.selectedTagName[this.data.length], 18);
-        }
+
+    if (this.selectedOption23 && this.selectedOption23.id && this.selectedOption23.category && this.selectedOption24) {
+      this.data.push({
+        category_id: this.selectedOption23.id,
+        category_id1: this.selectedOption23.category,
+        tag_id:this.selectedOption24.id,
+        tag_id1:this.selectedOption24.tag,
+        valuation_id: this.valuation_id,
+        image: this.fileToUpload,
+      });
     } else {
-        console.error("selectedOption23 is not properly set.");
+      console.error("selectedOption23 is not properly set.");
     }
-}
+  }
 
 
   addDocument() {
@@ -998,35 +1005,16 @@ export class BasicnewPage implements OnInit {
       this.documents.push({
         category: this.selectedOption23.category,
         category1: this.selectedOption23.id,
-        tag: this.selectedTagName1[this.documents.length], // Use the selected tag name for the new row
-        tag1: this.selectedTagName[this.documents.length],
+        tag:this.selectedOption24.id,
+        tag1:this.selectedOption24.tag,
         file: this.customer_file1,
         file1: this.fileToUpload,
       });
-  
-      this.selectedOption24 = null; // Clear the selected tag
+      this.selectedOption24 = null; 
       this.customer_file1 = '';
-    // console.log( this.selectedOption24,20)
-    // console.log(this.customer_file1, 21);
-
     }
   }
 
-  // addDocument() {
-  //   if (this.selectedOption23 && this.selectedOption24 && this.customer_file1) {
-  //     this.documents.push({
-  //       category: this.selectedOption23.category,
-  //       category1: this.selectedOption23.id,
-  //       tag: this.selectedTagName1[this.documents.length], // Use the selected tag name for the new row
-  //       tag1: this.selectedTagName[this.documents.length], 
-  //       file: this.customer_file1,
-  //       file1: this.fileToUpload,
-  //     });
-  //     // this.documentsnew.push(this.fileToUpload);
-  //     this.selectedOption24 = null; // Clear the selected tag for the next document
-  //     this.customer_file1 = '';
-  //   }
-  // }
 
   get_capture_data() {
     this.storage.get('member').then((res2) => {
@@ -1043,9 +1031,9 @@ export class BasicnewPage implements OnInit {
               // console.log(this.image,89);
               this.allcapture_image = (data[0].image);
               // console.log(this.allcapture_image,78);
-              this.allcapture_cat = (data[0].categorys).split(',');              
+              this.allcapture_cat = (data[0].categorys).split(',');
               // console.log(this.allcapture_cat, 78);
-              this.allcapture_tags = (data[0].tags).split(','); 
+              this.allcapture_tags = (data[0].tags).split(',');
               // console.log(this.allcapture_tags, 88);// 
             }
           },
@@ -1053,10 +1041,6 @@ export class BasicnewPage implements OnInit {
         );
     });
   }
-
-
-
-
 
 
   removeDocument1(index: number) {
@@ -1068,13 +1052,10 @@ export class BasicnewPage implements OnInit {
   tags24(dd: any) {
     console.log(dd);
     if (this.selectedOption24 != undefined) {
-      // alert(1);
       this.tagtext = this.selectedOption24.tag;
-      // this.selectedOption24 = this.selectedOption24.id;
       console.log(this.tagtext);
     }
   }
-
 
   handleFileInput2(files: any) {
     this.fileToUpload = files.target.files.item(0);
@@ -1099,16 +1080,16 @@ export class BasicnewPage implements OnInit {
   handleFileInput1(event: any) {
     if (event && event.target && event.target.files) {
       const file = event.target.files.item(0);
-  
+
       if (file) {
         const reader = new FileReader();
-  
+
         reader.onload = (fileEvent) => {
           if (fileEvent.target && fileEvent.target.result) {
             const result = fileEvent.target.result as string;
-  
+
             const mimeType = file.type;
-  
+
             if (mimeType.startsWith('image/')) {
               this.fileToUpload = result;
             } else if (mimeType === 'image/pdf') {
@@ -1116,7 +1097,7 @@ export class BasicnewPage implements OnInit {
             }
           }
         };
-  
+
         reader.readAsDataURL(file);
       }
     } else {
@@ -1133,8 +1114,8 @@ export class BasicnewPage implements OnInit {
   }
 
 
-  
-  field_executive_step(f: NgForm, dd:any) {
+
+  field_executive_step(f: NgForm, dd: any) {
     this.storage.get('member').then((res) => {
       this.user_id1 = parseInt(res.user_id, 10);
       // console.log(f.value);
@@ -1155,7 +1136,7 @@ export class BasicnewPage implements OnInit {
       this.field_update_data.landmark = f.value.landmark;
       this.field_update_data.pin_code = f.value.pin_code;
       this.field_update_data.whether_boundaries_matching =
-      this.selectedOption18;
+        this.selectedOption18;
       this.field_update_data.remark_on_boundaries_matching = f.value.remark_on_boundaries_matching;
       this.field_update_data.land_area_per_site = f.value.land_area_per_site;
       this.field_update_data.land_area_per_documents =
@@ -1186,29 +1167,16 @@ export class BasicnewPage implements OnInit {
       this.field_update_data.district_id = this.selectedOption22;
       this.field_update_data.tehsil = this.selectedOption29;
       this.field_update_data.GF = this.selectedOption25;
+      // console.clear();
+      // console.log(this.selectedOption25,25);
       this.field_update_data.FF = this.selectedOption26;
       this.field_update_data.SF = this.selectedOption27;
       this.field_update_data.TF = this.selectedOption28;
+
       this.field_update_data.date_of_visit = f.value.date_of_visit;
-       // Create an array of selected amenities
-    // const selectedAmenitiesArray = Object.keys(this.selectedAmenities).filter(
-    //   (amenity) => this.selectedAmenities[amenity]
-    // );
+     
+      this.field_update_data.aminities = this.selectedaminities.join(',');
 
-    // this.field_update_data.aminities = selectedAmenitiesArray.join(',');
-
-     // Create an array of selected amenities
-  const selectedAmenitiesArray = Object.keys(this.selectedAmenities).filter(
-    (amenity) => this.selectedAmenities[amenity]
-  );
-
-  this.field_update_data.aminities = selectedAmenitiesArray.join(',');
-    // Object.keys(this.selectedAmenities).forEach((amenity) => {
-    //   this.selectedAmenities[amenity] = this.selectedAmenities.includes(amenity);
-    // });
-
-      // this.field_update_data.aminities = this.selectedAmenities.join(',');
-      // this.selectedDeviation = dataFromDatabase.selectedDeviations.split(',');
       this.field_update_data.deviation = this.selectedDeviation.join(',');
       this.field_update_data.image_files = this.fileToUpload;
       this.field_update_data.status_field = dd;
@@ -1242,74 +1210,74 @@ export class BasicnewPage implements OnInit {
     this.router.navigate(['/dashboard']);
   }
 
-  get_all_data_admin1() {
-    this.storage.get('member').then((res1) => {
-      this.user_id1 = parseInt(res1.user_id, 10);
-      this.http
-        .get(`${this.url.serverUrl}get_all_data_valuation?valuation_id=${this.session_data1}`)
-        .subscribe(
-          
-          (res: any) => {
-            if (res === 0) {
-              this.url.presentToast('You Have no booking.');
-            } else {
-              this.firstname = res.data[0].firstname;
-              this.middelname = res.data[0].middelname;
-              this.lastname = res.data[0].lastname;
-              this.valuation_id = res.data[0].valuation_id;
-              this.bankname = res.data[0].bankname;
-              this.products = res.data[0].products;
-              this.locations = res.data[0].locations;
-              this.area = res.data[0].area;
-              this.field_executive_name = res.data[0].field_executive_name;
-              this.assistant_valuer_name = res.data[0].assistant_valuer_name;
-              this.technical_manager_name = res.data[0].technical_manager_name;
-              this.technical_head_name = res.data[0].technical_head_name;
-              this.contact_no = res.data[0].contact_no;
-              this.alt_cont_no = res.data[0].alt_cont_no;
-              this.address = res.data[0].address;
-              this.city = res.data[0].city;
-              this.state = res.data[0].state;
-              this.pincode = res.data[0].pincode;
-              // this.longitude = res.data[0].longitude;
-              // this.latitute = res.data[0].latitute;
-              this.tags = res.data[0].tags;
-              this.date = res.data[0].date;
-              this.comment = res.data[0].comment;
-              this.document_name = res.data[0].document_name;
-              // this.image = res.data[0].image;
-              // console.log(this.image, 0);
-              // this.image = `${imageUrl}${image}`;
-              // this.image = 'https://webmediaindia.co.in/merit_associates/public/images/' + res.data[0].image; // Construct the full image URL
-              // this.image = res.data[0].image;
-              this.statu = res.data[0].statu;
-              this.static_status = res.data[0].static_status;
-            }
-          },
-          (err) => { }
-        );
-    });
-  }
+  // get_all_data_admin1() {
+  //   this.storage.get('member').then((res1) => {
+  //     this.user_id1 = parseInt(res1.user_id, 10);
+  //     this.http
+  //       .get(`${this.url.serverUrl}get_all_data_valuation?valuation_id=${this.session_data1}`)
+  //       .subscribe(
+
+  //         (res: any) => {
+  //           if (res === 0) {
+  //             this.url.presentToast('You Have no booking.');
+  //           } else {
+  //             this.firstname = res.data[0].firstname;
+  //             this.middelname = res.data[0].middelname;
+  //             this.lastname = res.data[0].lastname;
+  //             this.valuation_id = res.data[0].valuation_id;
+  //             this.bankname = res.data[0].bankname;
+  //             this.products = res.data[0].products;
+  //             this.locations = res.data[0].locations;
+  //             this.area = res.data[0].area;
+  //             this.field_executive_name = res.data[0].field_executive_name;
+  //             this.assistant_valuer_name = res.data[0].assistant_valuer_name;
+  //             this.technical_manager_name = res.data[0].technical_manager_name;
+  //             this.technical_head_name = res.data[0].technical_head_name;
+  //             this.contact_no = res.data[0].contact_no;
+  //             this.alt_cont_no = res.data[0].alt_cont_no;
+  //             this.address = res.data[0].address;
+  //             this.city = res.data[0].city;
+  //             this.state = res.data[0].state;
+  //             this.pincode = res.data[0].pincode;
+  //             // this.longitude = res.data[0].longitude;
+  //             // this.latitute = res.data[0].latitute;
+  //             this.tags = res.data[0].tags;
+  //             this.date = res.data[0].date;
+  //             this.comment = res.data[0].comment;
+  //             this.document_name = res.data[0].document_name;
+  //             // this.image = res.data[0].image;
+  //             // console.log(this.image, 0);
+  //             // this.image = `${imageUrl}${image}`;
+  //             // this.image = 'https://webmediaindia.co.in/merit_associates/public/images/' + res.data[0].image; // Construct the full image URL
+  //             // this.image = res.data[0].image;
+  //             this.statu = res.data[0].statu;
+  //             this.static_status = res.data[0].static_status;
+  //           }
+  //         },
+  //         (err) => { }
+  //       );
+  //   });
+  // }
 
 
   //segment code start
- //segment code start
- moveToPreviewSegment() {
-  // if (this.segment) {
-  //   this.segment.value = 'preview';
-  // }
-  // this.segment.value = 'preview';
+  //segment code start
+  moveToPreviewSegment() {
+    // if (this.segment) {
+    //   this.segment.value = 'preview';
+    // }
+    // this.segment.value = 'preview';
 
-  this.switchTab = 'preview';
+    this.switchTab = 'preview';
 
-  if (this.segment) {
-    this.segment.value = 'preview';
+    if (this.segment) {
+      this.segment.value = 'preview';
+    }
   }
-}
-//segment code end
+  //segment code end
   //segment code end
 
- 
+
 
   show_map() {
     this.router.navigate([`show-map`]);
@@ -1324,21 +1292,21 @@ export class BasicnewPage implements OnInit {
       // console.log('Image URL is not provided.');
       return;
     }
-  
+
     // Extract the image format from the URL
     const formatMatch = imageUrl.match(/\.(png|jpg|jpeg|gif|pdf)$/i);
     if (!formatMatch) {
       // console.log('Image format not recognized.');
       return;
     }
-  
+
     const imageFormat = formatMatch[1].toLowerCase();
-    const validFormats = ['png', 'jpg', 'jpeg', 'gif','pdf'];
+    const validFormats = ['png', 'jpg', 'jpeg', 'gif', 'pdf'];
     if (!validFormats.includes(imageFormat)) {
       // console.log('Image format not supported.');
       return;
     }
-  
+
     // Fetch the image as a blob
     fetch(imageUrl)
       .then((response) => response.blob())
@@ -1389,26 +1357,26 @@ export class BasicnewPage implements OnInit {
     this.storage.get('member').then((res2) => {
       this.valuation_id1 = parseInt(res2.valuation_id, 10);
       this.http.get(`${this.url.serverUrl}capdatadelete?id=${index}`)
-      .subscribe(
-        (response: any) => {
-          if (response.status) {
-            // Success, handle UI updates and data removal
-            // console.log(response.message);
-            this.allcapturedata.splice(index, 1);
-            // You might also want to remove the deleted item from your local data array
-          } else {
-            // console.log(response.message); // Could not delete
+        .subscribe(
+          (response: any) => {
+            if (response.status) {
+              // Success, handle UI updates and data removal
+              // console.log(response.message);
+              this.allcapturedata.splice(index, 1);
+              // You might also want to remove the deleted item from your local data array
+            } else {
+              // console.log(response.message); // Could not delete
+            }
+          },
+          (error) => {
+            // console.error('Error occurred:', error);
           }
-        },
-        (error) => {
-          // console.error('Error occurred:', error);
-        }
-      );
+        );
     });
-   
+
   }
 
- 
+
   get_fe_data() {
     this.storage.get('member').then((res2) => {
       this.valuation_id1 = parseInt(res2.valuation_id, 10);
@@ -1419,10 +1387,10 @@ export class BasicnewPage implements OnInit {
         .subscribe(
           (res: any) => {
             if (res === 0) {
-              this.url.presentToast('You Have no booking.');
+              this.url.presentToast('You Have no Data.');
             } else {
               let data = res.data;
-              // console.log(data);
+              console.log(data, 85);
               this.allfieldlist = res.data;
               this.name = data[0].name;
               this.selectedOption16 = data[0].relation_with_owner;
@@ -1460,17 +1428,62 @@ export class BasicnewPage implements OnInit {
               // console.log('selectedOption29:', this.selectedOption29);
 
               const selectedTehsileName = data[0].tt;
-              // console.log('selectedTehsileName:', selectedTehsileName);
 
-            
+              // this.aminities = data[0].aminities;
+
+              this.aminities = [data[0].aminities];
+
+              var amini = this.aminities[0];
+
+              for (let i = 0; i < amini.length; i++) {
+                const element = amini[i];
+                if (element == "NA") {
+                  this.aminitiesdata.NA = true
+                  this.selectedaminities.push(element);
+                }
+                if (element == "Bore Well") {
+                  this.aminitiesdata.Bore_Well = true
+                  this.selectedaminities.push(element);
+                }
+                if (element == "Compound wall with gate") {
+                  this.aminitiesdata.Compound_wall = true
+                  this.selectedaminities.push(element);
+                }
+                if (element == "Car Parking") {
+                  this.aminitiesdata.Car_Parking = true
+                  this.selectedaminities.push(element);
+                }
+                if (element == "Modular Kitchen") {
+                  this.aminitiesdata.Modular_Kitchen = true
+                  this.selectedaminities.push(element);
+                }
+                if (element == "Lift") {
+                  this.aminitiesdata.Lift = true
+                  this.selectedaminities.push(element);
+                }
+                if (element == "Swimming Pool") {
+                  this.aminitiesdata.Swimming_Pool = true
+                  this.selectedaminities.push(element);
+                }
+                if (element == "Electric car Charging Station") {
+                  this.aminitiesdata.Electric_car = true
+                  this.selectedaminities.push(element);
+                }
+                if (element == "Garden") {
+                  this.aminitiesdata.Garden = true
+                  this.selectedaminities.push(element);
+                }
+              }
+
+
               this.four_borders[0] = data[0].four_borders[0];
-              
+
               this.four_borders[1] = data[0].four_borders[1];
-              
+
               this.four_borders[2] = data[0].four_borders[2];
-              
+
               this.four_borders[3] = data[0].four_borders[3];
-             
+
 
               this.landmark = data[0].landmark;
 
@@ -1493,29 +1506,32 @@ export class BasicnewPage implements OnInit {
 
               this.selectedOption8 = data[0].construction_plan;
 
+              // this.selectedOption25 = data[0].GF;
+              // const selectedYerasgfName = data[0].gf;
+
               this.selectedOption25 = data[0].GF;
-              // Find the propertytype object with the selected property_type_id
+              // console.log('Selected Option 25:', this.selectedOption25);
               const selectedYerasType = this.allgetyears1.find((getyears: YerasType) => getyears.id === this.selectedOption25);
               if (selectedYerasType) {
                 selectedYerasType.year = data[0].gf;
               }
 
               this.selectedOption26 = data[0].FF;
-              // Find the propertytype object with the selected property_type_id
+              // console.log('Selected Option 26:', this.selectedOption26);
               const selectedYerasType1 = this.allgetyears1.find((getyears: YerasType) => getyears.id === this.selectedOption26);
               if (selectedYerasType1) {
                 selectedYerasType1.year = data[0].ff;
               }
 
               this.selectedOption27 = data[0].SF;
-              // Find the propertytype object with the selected property_type_id
+              console.log('Selected Option 27:', this.selectedOption27);
               const selectedYerasType2 = this.allgetyears1.find((getyears: YerasType) => getyears.id === this.selectedOption27);
               if (selectedYerasType2) {
                 selectedYerasType2.year = data[0].sf;
               }
 
               this.selectedOption28 = data[0].TF;
-              // Find the propertytype object with the selected property_type_id
+              // console.log('Selected Option 28:', this.selectedOption28);
               const selectedYerasType3 = this.allgetyears1.find((getyears: YerasType) => getyears.id === this.selectedOption28);
               if (selectedYerasType3) {
                 selectedYerasType3.year = data[0].tf;
@@ -1543,7 +1559,7 @@ export class BasicnewPage implements OnInit {
 
               // this.latitude = data[0].latitude;
               // this.longitude = data[0].longitude;
-              
+
               this.plot_area[0] = data[0].plot_area[0];
               // console.clear();
               // console.log(this.plot_area[0], 78);
@@ -1566,14 +1582,99 @@ export class BasicnewPage implements OnInit {
               this.discription_of_property[2] = data[0].discription_of_property[2];
               this.discription_of_property[3] = data[0].discription_of_property[3];
 
-              // this.aminities = this.aminities;
-              if (data && data.amenities) {
-                Object.keys(this.selectedAmenities).forEach((amenity) => {
-                  this.selectedAmenities[amenity] = data.amenities.includes(amenity);
-                });
+              // if (data && datadata[0].amenities) {
+              //   Object.keys(this.selectedAmenities).forEach((amenity) => {
+              //     this.selectedAmenities[amenity] = data.amenities.includes(amenity);
+              //     console.log(this.selectedAmenities,67);
+              //   });
+              // }
+              // console.clear();
+              // console.log(this.selectedAmenities, 67);
+
+              this.deviation = [data[0].deviation];
+
+              var devi = this.deviation[0];
+             
+              for (let i = 0; i < devi.length; i++) {
+                const elementdata = devi[i];
+                if (elementdata == "High_Tension") {
+                  this.profiledata.High_Tension = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Temple In") {
+                  this.profiledata.Temple_In = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Near Nala") {
+                  this.profiledata.Near_Nala = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Land Lock Property") {
+                  this.profiledata.Land_Lock_Property = true
+                  this.selectedDeviation.push(elementdata);
+                }
+               
+                if (elementdata == "Common Entrance") {
+                  this.profiledata.Common_Entrance = true
+                  this.selectedDeviation.push(elementdata);
+                }
+
+                if (elementdata == "Railway Line") {
+                  this.profiledata.Railway_Line = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "No Development Area") {
+                  this.profiledata.No_Development = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Community Dominated Area") {
+                  this.profiledata.Community_Dominated = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Site area and document area mismatch") {
+                  this.profiledata.Site_area = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Wine shop near property") {
+                  this.profiledata.Wine_shop = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Property not identified") {
+                  this.profiledata.Property_not = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Property not demarcated") {
+                  this.profiledata.Property_demarcated = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Approach road less than 10 feet") {
+                  this.profiledata.Approach_road = true
+                  this.selectedDeviation.push(elementdata);
+                }
+
+                if (elementdata == "Encroachment on others land") {
+                  this.profiledata.Encroachment_on = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Property structurally not divided") {
+                  this.profiledata.Property_structurally = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Construction Beyond Plot Limit") {
+                  this.profiledata.Construction_Beyond = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "Construction Not Satisfactory") {
+                  this.profiledata.Construction_Not = true
+                  this.selectedDeviation.push(elementdata);
+                }
+                if (elementdata == "No Deviation") {
+                  this.profiledata.No_Deviation = true
+                  this.selectedDeviation.push(elementdata);
+                }
+
+                this.wine_shop = this.wine_shop;
               }
-              this.deviation = this.deviation;
-              this.wine_shop = this.wine_shop;
             }
           },
           (err) => { }
@@ -1595,7 +1696,7 @@ export class BasicnewPage implements OnInit {
               this.url.presentToast('You Have no booking.');
             } else {
               this.valuation_id = res.data[0].valuation_id;
-              this.alladmindata=res.data;
+              this.alladmindata = res.data;
             }
           },
           (err) => { }
@@ -1612,17 +1713,17 @@ export class BasicnewPage implements OnInit {
     }
     return false;
   }
-  
+
   // Function to sanitize the PDF URL
   sanitizePDFUrl(url: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
- 
+
   downloadPDF(pdfUrl: string) {
     // Construct the full URL of the PDF file
     const fullPdfUrl = this.imageUrl + pdfUrl;
-  
+
     // Open the PDF in a new tab
     window.open(fullPdfUrl, '_blank');
   }
@@ -1648,6 +1749,6 @@ export class BasicnewPage implements OnInit {
   }
 
 }
-function triggerEvent(domEl: HTMLElement, arg1: string) {
-  throw new Error('Function not implemented.');
-}
+// function triggerEvent(domEl: HTMLElement, arg1: string) {
+//   throw new Error('Function not implemented.');
+// }

@@ -19,8 +19,6 @@ ion-chip {
     --color-checked: #fff;
     --border-radius: 20px;
   }
-  
-  
   .palette {
     height: 100px;
     width: 100px;
@@ -54,3 +52,14 @@ ion-chip {
     --c: purple;
   }
   
+
+ 
+  // .shadow {
+  //   filter: drop-shadow(0px 5px 4px rgba(0, 0, 0, 0.4));
+  // }
+  .chart-area {
+    // z-index: 2; /* Ensure a higher z-index value */
+    width: 50%;
+    height: 50%;
+  }
+ 

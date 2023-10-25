@@ -559,7 +559,6 @@
     </div>
 
     <div class="ion-padding" *ngIf="switchTab === 'construction'">
-      <!-- <form #executive_step1="ngForm" class="form"> -->
       <ion-item slot="header" color="light">
         <ion-label class="text-balck font-semibold"> Construction Area (In sqft)</ion-label>
       </ion-item>
@@ -574,7 +573,7 @@
             </ion-col>
             <ion-col size="8">
               <ion-input class="border-b border-gray-200  p-2" placeholder="Enter Ground Floor" type="text"
-                name="construction_area[0]" value="construction_area[0]" required [(ngModel)]="construction_area[0]" >
+                name="construction_area[0]" value="construction_area[0]" required [(ngModel)]="construction_area[0]" required>
               </ion-input>
             </ion-col>
 
@@ -621,6 +620,7 @@
         <ion-label class="text-balck font-semibold">Construction
           Year</ion-label>
       </ion-item>
+      
       <div slot="content">
         <ion-grid>
           <ion-row>
@@ -792,7 +792,6 @@
         </ion-select>
       </ion-item>
 
-
       <ion-item class="mt-2">
         <ion-label class="text-balck font-semibold">No. Of Flat Per Floor</ion-label>
         <ion-select [(ngModel)]="selectedOption6" name="selectedOption6" value="selectedOption6" >
@@ -862,7 +861,6 @@
         </ion-select>
       </ion-item>
 
-
       <!-- //need to dynammic -->
       <ion-item slot="header" color="light">
         <ion-label class="text-balck font-semibold"> Details of Existing Construction</ion-label>
@@ -879,8 +877,7 @@
             <ion-col size="8">
               <ion-textarea class="border-b border-gray-200" [autoGrow]="true" type="text"
                 placeholder="Enter Ground Floor" name="discription_of_property[0]" id="discription_of_property"
-                value="discription_of_property[0]" required [(ngModel)]="discription_of_property[0]" ></ion-textarea>
-  
+                value="discription_of_property[0]" required [(ngModel)]="discription_of_property[0]"  ></ion-textarea>
             </ion-col>
 
             <ion-col size="3">
@@ -922,55 +919,54 @@
         </ion-grid>
       </div>
 
- 
-      <!-- //need to dynammic -->
+    
       <div>
         <ion-item slot="header" color="light">
           <ion-label class="text-balck font-semibold"> Amenities (Select Appropriate)</ion-label>
         </ion-item>
-  
+
         <ion-item>
-          <ion-checkbox  [(ngModel)]="selectedAmenities['NA']"  (ionChange)="updateSelectedAmenities('NA', $event)"></ion-checkbox>
+          <ion-checkbox  [(ngModel)]="aminitiesdata['NA']" [checked]="aminitiesdata.NA" (ionChange)="updateSelectedAmenities('NA', $event)"></ion-checkbox>
           <ion-label class="pl-4">NA</ion-label>
         </ion-item>
-        
+
         <ion-item>
-          <ion-checkbox  [(ngModel)]="selectedAmenities['Bore Well']"  (ionChange)="updateSelectedAmenities('Bore Well', $event)"></ion-checkbox>
+          <ion-checkbox  [(ngModel)]="aminitiesdata['Bore_Well']" [checked]="aminitiesdata.Bore_Well"  (ionChange)="updateSelectedAmenities('Bore Well', $event)"></ion-checkbox>
           <ion-label class="pl-4">Bore Well</ion-label>
         </ion-item>
   
         <ion-item>
-          <ion-checkbox  [(ngModel)]="selectedAmenities['Compound wall with gate']"  (ionChange)="updateSelectedAmenities('Compound wall with gate', $event)"></ion-checkbox>
+          <ion-checkbox  [(ngModel)]="aminitiesdata['Compound_wall']" [checked]="aminitiesdata.Compound_wall" (ionChange)="updateSelectedAmenities('Compound wall with gate', $event)"></ion-checkbox>
           <ion-label class="pl-4">Compound wall with gate</ion-label>
         </ion-item>
   
         <ion-item>
-          <ion-checkbox  [(ngModel)]="selectedAmenities['Car Parking']"  (ionChange)="updateSelectedAmenities('Car Parking', $event)"></ion-checkbox>
+          <ion-checkbox  [(ngModel)]="aminitiesdata['Car_Parking']"  [checked]="aminitiesdata.Car_Parking"  (ionChange)="updateSelectedAmenities('Car Parking', $event)"></ion-checkbox>
           <ion-label class="pl-4">Car Parking</ion-label>
         </ion-item>
   
         <ion-item>
-          <ion-checkbox  [(ngModel)]="selectedAmenities['Modular Kitchen']"  (ionChange)="updateSelectedAmenities('Modular Kitchen', $event)"></ion-checkbox>
+          <ion-checkbox  [(ngModel)]="aminitiesdata['Modular_Kitchen']" [checked]="aminitiesdata.Modular_Kitchen"  (ionChange)="updateSelectedAmenities('Modular Kitchen', $event)"></ion-checkbox>
           <ion-label class="pl-4">Modular Kitchen</ion-label>
         </ion-item>
   
         <ion-item>
-          <ion-checkbox  [(ngModel)]="selectedAmenities['Lift']"   (ionChange)="updateSelectedAmenities('Lift', $event)"></ion-checkbox>
+          <ion-checkbox  [(ngModel)]="aminitiesdata['Lift']" [checked]="aminitiesdata.Lift"   (ionChange)="updateSelectedAmenities('Lift', $event)"></ion-checkbox>
           <ion-label class="pl-4">Lift</ion-label>
         </ion-item>
   
         <ion-item>
-          <ion-checkbox [(ngModel)]="selectedAmenities['Swimming Pool']"  (ionChange)="updateSelectedAmenities('Swimming Pool', $event)"></ion-checkbox>
+          <ion-checkbox [(ngModel)]="aminitiesdata['Swimming_Pool']" [checked]="aminitiesdata.Swimming_Pool"  (ionChange)="updateSelectedAmenities('Swimming Pool', $event)"></ion-checkbox>
           <ion-label class="pl-4">Swimming Pool</ion-label>
         </ion-item>
   
         <ion-item>
-          <ion-checkbox [(ngModel)]="selectedAmenities['Electric car Charging Station']"  (ionChange)="updateSelectedAmenities('Electric car Charging Station', $event)"></ion-checkbox>
+          <ion-checkbox [(ngModel)]="aminitiesdata['Electric_car']" [checked]="aminitiesdata.Electric_car"  (ionChange)="updateSelectedAmenities('Electric car Charging Station', $event)"></ion-checkbox>
           <ion-label class="pl-4">Electric car Charging Station</ion-label>
         </ion-item>
   
         <ion-item>
-          <ion-checkbox [(ngModel)]="selectedAmenities['Garden']"  (ionChange)="updateSelectedAmenities('Garden', $event)"></ion-checkbox>
+          <ion-checkbox [(ngModel)]="aminitiesdata['Garden']"  [checked]="aminitiesdata.Garden"   (ionChange)="updateSelectedAmenities('Garden', $event)"></ion-checkbox>
           <ion-label class="pl-4">Garden</ion-label>
         </ion-item>
   
@@ -1066,93 +1062,94 @@
     </div>
   
     <div class="ion-padding" *ngIf="switchTab === 'deviation'">
+    
       <ion-item>
-        <ion-checkbox  (ionChange)="updateSelectedDeviation('High Tension', $event)"></ion-checkbox>
+        <ion-checkbox  [(ngModel)]="profiledata['High_Tension']" [checked]="profiledata.High_Tension" (ionChange)="updateSelectedDeviation('High_Tension', $event)"></ion-checkbox>
         <ion-label class="pl-4">High Tension Line</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Temple In', $event)"></ion-checkbox>
+        <ion-checkbox  [(ngModel)]="profiledata['Temple_In']" [checked]="profiledata.Temple_In" (ionChange)="updateSelectedDeviation('Temple In', $event)"></ion-checkbox>
         <ion-label class="pl-4">Temple In Property</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Near Nala', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Near_Nala']" [checked]="profiledata.Near_Nala"  (ionChange)="updateSelectedDeviation('Near Nala', $event)"></ion-checkbox>
         <ion-label class="pl-4">Near Nala / River/ Water Body</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Land Lock Property', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Land_Lock_Property']" [checked]="profiledata.Land_Lock_Property" (ionChange)="updateSelectedDeviation('Land Lock Property', $event)"></ion-checkbox>
         <ion-label class="pl-4">Land Lock Property</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Common Entrance', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Common_Entrance']" [checked]="profiledata.Common_Entrance"  (ionChange)="updateSelectedDeviation('Common Entrance', $event)"></ion-checkbox>
         <ion-label class="pl-4">Common Entrance</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Railway Line', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Railway_Line']" [checked]="profiledata.Railway_Line" (ionChange)="updateSelectedDeviation('Railway Line', $event)"></ion-checkbox>
         <ion-label class="pl-4">Railway Line</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('No Development Area', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['No_Development']" [checked]="profiledata.No_Development" (ionChange)="updateSelectedDeviation('No Development Area', $event)"></ion-checkbox>
         <ion-label class="pl-4">No Development Area</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Community Dominated Area', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Community_Dominated']" [checked]="profiledata.Community_Dominated" (ionChange)="updateSelectedDeviation('Community Dominated Area', $event)"></ion-checkbox>
         <ion-label class="pl-4">Community Dominated Area</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Site area and document area mismatch', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Site_area']" [checked]="profiledata.Site_area" (ionChange)="updateSelectedDeviation('Site area and document area mismatch', $event)"></ion-checkbox>
         <ion-label class="pl-4">Site area and document area mismatch</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Wine shop near property', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Wine_shop']" [checked]="profiledata.Wine_shop" (ionChange)="updateSelectedDeviation('Wine shop near property', $event)"></ion-checkbox>
         <ion-label class="pl-4">Wine shop near property</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Property not identified', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Property_not']" [checked]="profiledata.Property_not" (ionChange)="updateSelectedDeviation('Property not identified', $event)"></ion-checkbox>
         <ion-label class="pl-4">Property not identified</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Property not demarcated', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Property_demarcated']" [checked]="profiledata.Property_demarcated" (ionChange)="updateSelectedDeviation('Property not demarcated', $event)"></ion-checkbox>
         <ion-label class="pl-4">Property not demarcated</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Approach road less than 10 feet', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Approach_road']" [checked]="profiledata.Approach_road" (ionChange)="updateSelectedDeviation('Approach road less than 10 feet', $event)"></ion-checkbox>
         <ion-label class="pl-4">Approach road less than 10 feet</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Encroachment on others land', $event)"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="profiledata['Encroachment_on']" [checked]="profiledata.Encroachment_on" (ionChange)="updateSelectedDeviation('Encroachment on others land', $event)"></ion-checkbox>
         <ion-label class="pl-4">Encroachment on others land</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Property structurally not divided', $event)"></ion-checkbox>
+        <ion-checkbox  [(ngModel)]="profiledata['Property_structurally']" [checked]="profiledata.Property_structurally" (ionChange)="updateSelectedDeviation('Property structurally not divided', $event)"></ion-checkbox>
         <ion-label class="pl-4">Property structurally not divided</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Construction Beyond Plot Limit', $event)"></ion-checkbox>
+        <ion-checkbox  [(ngModel)]="profiledata['Construction_Beyond']" [checked]="profiledata.Construction_Beyond" (ionChange)="updateSelectedDeviation('Construction Beyond Plot Limit', $event)"></ion-checkbox>
         <ion-label class="pl-4">Construction Beyond Plot Limit</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('Construction Not Satisfactory', $event)"></ion-checkbox>
+        <ion-checkbox  [(ngModel)]="profiledata['Construction_Not']" [checked]="profiledata.Construction_Not" (ionChange)="updateSelectedDeviation('Construction Not Satisfactory', $event)"></ion-checkbox>
         <ion-label class="pl-4">Construction Not Satisfactory</ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-checkbox (ionChange)="updateSelectedDeviation('No Deviation', $event)"></ion-checkbox>
+        <ion-checkbox  [(ngModel)]="profiledata['No_Deviation']" [checked]="profiledata.No_Deviation" (ionChange)="updateSelectedDeviation('No Deviation', $event)"></ion-checkbox>
         <ion-label class="pl-4">No Deviation</ion-label>
       </ion-item>
 
@@ -1609,7 +1606,8 @@
           </ion-col>
 
           <ion-col align="left" size="3.5" class="flex items-center">
-            <ion-label>{{selectedTagName[i]}}</ion-label>
+            <!-- <ion-label>{{selectedTagName[i]}}</ion-label> -->
+            <ion-label>{{document.tag_id1}}</ion-label>
           </ion-col>
 
           <ion-col size="4">
@@ -1647,6 +1645,10 @@
           </ion-col>
         </ion-row>
       </ion-grid>
+
+      <!-- <ion-button routerLink="/cap-photo" >
+        CapPhoto
+      </ion-button> -->
 
       <div>
         <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">

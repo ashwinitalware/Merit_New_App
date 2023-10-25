@@ -43,6 +43,10 @@ const routes: Routes = [
     path: 'checkboxdata',
     loadChildren: () => import('./checkboxdata/checkboxdata.module').then( m => m.CheckboxdataPageModule)
   },
+  {
+    path: 'cap-photo',
+    loadChildren: () => import('./cap-photo/cap-photo.module').then( m => m.CapPhotoPageModule)
+  },
 ];
 
 @NgModule({
