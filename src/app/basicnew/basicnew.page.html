@@ -91,8 +91,8 @@
               <ion-col size="12">
                 <ion-label class="text-xs font-semibold">All Documents:</ion-label>
               </ion-col>
-
-              <ion-grid class="p-2">
+            
+              <!-- <ion-grid class="p-2">
                 <ion-row *ngFor="let adminimg of alladminimg" class="border border-gray-200 rounded-md">
                   <ion-col size="7">
                     <div align="left">
@@ -102,41 +102,53 @@
               
                   <ion-col size="3">
                     <div class="">
-                      <!-- Check if the file is a PDF and display it in an iframe -->
                       <ng-container *ngIf="isPDF(adminimg.image)">
                         <iframe class="h-20 mt-2 object-fit w-full rounded-sm" [src]="sanitizePDFUrl(this.url.imageUrl + 'New-valuation/' + adminimg.image[0])" frameborder="0"></iframe>
                       </ng-container>
-                      <!-- If it's not a PDF, display an image -->
                       <ng-container *ngIf="!isPDF(adminimg.image)">
                         <img class="h-20 mt-2 object-fit w-full rounded-sm" [src]="adminimg.image ? this.url.imageUrl + 'New-valuation/' + adminimg.image : 'assets/.png'" />
                       </ng-container>
                     </div>
                   </ion-col>
               
-                  <!-- <ion-col size="2">
-                    <div class="mt-8 pr-1" align="right">
-                      <a [href]="imageUrl + adminimg.image" download="{{ adminimg.image }}">
-                        <ion-icon class="bg-blue-500 p-1 rounded-sm text-white text-lg" name="cloud-download"></ion-icon>
-                      </a>
-                    </div>
-                  </ion-col> -->
-                  <!-- (click)="downloadPDF(adminimg.image)" -->
                   <ion-col size="2">
                     <div class="mt-8 pr-1" align="right">
-                      <!-- <a href="{{this.url.imageUrl + 'New-valuation/' + adminimg.image[0]}}" download >
-                        <ion-icon class="bg-blue-500 p-1 rounded-sm text-white text-lg" name="cloud-download"></ion-icon>
-                      </a> -->
                       <a *ngIf="adminimg.image" [href]="sanitizeUrl('https://cms.meritassociates.in/public/images/New-valuation/' + adminimg.image[0])" download>
                         <ion-icon class="bg-blue-500 p-1 rounded-sm text-white text-lg" name="cloud-download"></ion-icon>
                       </a>   
                     </div>
                   </ion-col>
                 </ion-row>
-              </ion-grid>
-            
-      
+              </ion-grid> -->
             </ion-row>
           </ion-grid>
+          <ion-grid class="p-2">
+            <ion-row *ngFor="let image of alladmin_image; let i = index" class="border border-gray-200 rounded-md mt-2">
+              <ion-col size="7">
+                <div align="left">
+                  <ion-label class="flex items-stretch text-sm font-bold text-black py-8 pl-2">{{alladmin_doc[i]}}</ion-label>
+                </div>
+              </ion-col>
+              <ion-col size="3">
+                <div class="">
+                  <ng-container *ngIf="isPDF(image)">
+                    <iframe class="h-20 mt-2 object-fit w-full rounded-sm" [src]="sanitizePDFUrl(this.url.imageUrl + 'New-valuation/' + image)" frameborder="0"></iframe>
+                  </ng-container>
+                  <ng-container *ngIf="!isPDF(image)">
+                    <img class="h-20 mt-2 object-fit w-full rounded-sm" [src]="image ? this.url.imageUrl + 'New-valuation/' + image : 'assets/.png'" />
+                  </ng-container>
+                </div>
+              </ion-col>
+              <ion-col size="2">
+                <div class="mt-8 pr-1" align="right">
+                  <a *ngIf="image" [href]="sanitizeUrl('https://cms.meritassociates.in/public/images/New-valuation/' + image)" download>
+                    <ion-icon class="bg-blue-500 p-1 rounded-sm text-white text-lg" name="cloud-download"></ion-icon>
+                  </a>   
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
       </div>
     </ion-accordion>
 

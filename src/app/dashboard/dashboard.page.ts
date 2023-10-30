@@ -224,6 +224,7 @@ export class DashboardPage implements OnInit {
     //     .ease(d3.easeLinear)
     //     .duration(750)
     //     .attr('fill', '#000');
+    
   }
 
   updateChart1() {
@@ -628,6 +629,9 @@ export class DashboardPage implements OnInit {
     this.router.navigate([`show-map`]);
   }
 
+
+
+  
 
 }
 function get_all_data_admin_comp() {

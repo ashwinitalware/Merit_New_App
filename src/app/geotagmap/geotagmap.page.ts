@@ -82,7 +82,7 @@ export class GeotagmapPage implements OnInit {
       lat +
       ',' +
       lng +
-      '&sensor=true&key=AIzaSyDkFrL3p2KR9iAmFiuhmkszKgMHIon1Y0E';
+      '&sensor=true&key=AIzaSyC1kU2qPwMsA-VTbi1fm6kb9M8d7utT0rI';
 
     fetch(reverseGeocodingUrl)
       .then((result) => result.json())
@@ -129,19 +129,6 @@ export class GeotagmapPage implements OnInit {
     });
 
   }
-
-
-  // geotag() {
-  //   Geolocation.getCurrentPosition().then((position) => {
-  //     this.user_lat = position.coords.latitude;
-  //     this.user_lang = position.coords.longitude;
-  //     this.fetchAddress(this.user_lat, this.user_lang);
-  //     this.saveGeotag(this.user_lat, this.user_lang);
-  //   }).catch((error) => {
-  //     console.log('Error getting current position', error);
-  //   });
-  // }
-
 
   geotag() {
     this.loading = true; // Show loading indicator
@@ -193,19 +180,6 @@ export class GeotagmapPage implements OnInit {
     });
   }
 
-  // saveGeotag(latitude: number, longitude: number) {
-  //   console.log('Latitude:', latitude);
-  //   console.log('Longitude:', longitude);
-    
-  //   this.storage.set('geotag', { lat: latitude, long: longitude }).then(() => {
-  //     console.log('Geotag saved successfully');
-  //     this.router.navigate(['/basicnew'], {
-  //       queryParams: { latitude: latitude, longitude: longitude },
-  //     });
-  //   }).catch((error) => {
-  //     console.log('Error saving geotag', error);
-  //   });
-  // }
 
   saveGeotag1(latitude: number, longitude: number) {
     console.log('Latitude:', latitude);

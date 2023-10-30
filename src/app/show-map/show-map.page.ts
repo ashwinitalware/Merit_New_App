@@ -64,20 +64,6 @@ export class ShowMapPage implements OnInit {
     this.dropMarker();
   }
 
-  // ionViewDidEnter() {
-  //   this.map = new google.maps.Map(this.mapElement.nativeElement, {
-  //     center: { lat: this.user_lat, lng: this.user_lang },
-  //     zoom: 14,
-  //     disableDefaultUI: true, // a way to quickly hide all controls
-  //     mapTypeId: 'satellite', // set the map type to satellite view
-  //   });
-  //   this.directionsService = new google.maps.DirectionsService();
-  //   this.directionsRenderer = new google.maps.DirectionsRenderer();
-  //   this.directionsRenderer.setMap(this.map);
-  //   this.printCurrentPosition();
-  //   this.dropMarker();
-  // }
-
   // Add the following function in your class
   toggleSatelliteView() {
     this.isSatelliteView = !this.isSatelliteView;
@@ -113,7 +99,7 @@ export class ShowMapPage implements OnInit {
       lat +
       ',' +
       lng +
-      '&sensor=true&key=AIzaSyDkFrL3p2KR9iAmFiuhmkszKgMHIon1Y0E';
+      '&sensor=true&key=AIzaSyC1kU2qPwMsA-VTbi1fm6kb9M8d7utT0rI';
 
     fetch(reverseGeocodingUrl)
       .then((result) => result.json())

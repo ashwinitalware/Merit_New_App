@@ -45,6 +45,7 @@ interface YerasType {
 })
 export class BasicnewPage implements OnInit {
 
+  // alladminimg: { document_name: string[], image: string[] } = { document_name: [], image: [] };
 
   profiledata = {
     High_Tension: false,
@@ -130,6 +131,13 @@ export class BasicnewPage implements OnInit {
     tag_id1: string;
     image: string;
   }[] = [];
+
+  data1:{
+    valuation_id: 0;
+    documents_name: string;
+    image:string;
+  }[] = [];
+
   // data: { valuation_id: string; category_id: string; tag_id: string; } | undefined;
 
   session_datan = {
@@ -165,6 +173,14 @@ export class BasicnewPage implements OnInit {
   // alltags1: any[] = [];
   customer_file1: any
   selectedTags: any[] = [];
+
+  // alladminimg: {
+  //   document_name: string[];
+  //   image: string[];
+  // } = {
+  //   document_name: ["Document 1", "Document 2"],
+  //   image: ["image1.jpg", "image2.jpg"]
+  // };
 
   // customer_file1: string = 'assets/pre1.png';
   // documents: { category: string; tag: string; file: string }[] = [];
@@ -430,6 +446,10 @@ export class BasicnewPage implements OnInit {
   allcapture_cat: any;
   allcapture_tags: any;
   Checkboxes: any;
+
+  alladmin_image: any;
+  alladmin_doc: any;
+
   constructor(
     public url: DataService,
     private http: HttpClient,
@@ -1027,12 +1047,13 @@ export class BasicnewPage implements OnInit {
               this.url.presentToast('You Have no booking.');
             } else {
               let data = res.data;
+              // console.log(this.data, 56);
               this.image = data[0].image;
-              // console.log(this.image,89);
+              console.log(this.image,89);
               this.allcapture_image = (data[0].image);
-              // console.log(this.allcapture_image,78);
+              console.log(this.allcapture_image,78);
               this.allcapture_cat = (data[0].categorys).split(',');
-              // console.log(this.allcapture_cat, 78);
+              console.log(this.allcapture_cat, 77);
               this.allcapture_tags = (data[0].tags).split(',');
               // console.log(this.allcapture_tags, 88);// 
             }
@@ -1727,7 +1748,7 @@ export class BasicnewPage implements OnInit {
     // Open the PDF in a new tab
     window.open(fullPdfUrl, '_blank');
   }
-
+  
   getadminimg() {
     this.storage.get('member').then((res2) => {
       this.valuation_id1 = parseInt(res2.valuation_id, 10);
@@ -1740,13 +1761,48 @@ export class BasicnewPage implements OnInit {
             if (res === 0) {
               this.url.presentToast('You Have no img.');
             } else {
-              this.alladminimg = res.data;
+              let data1 = res.data;
+              this.image = data1[0].image;
+              this.alladmin_image = (data1[0].image);
+              console.log("Admin Image", this.alladmin_image); 
+              this.alladmin_doc = (data1[0].document_name);
+              console.log("Admin Doc", this.alladmin_doc);
             }
           },
           (err) => { }
         );
     });
   }
+
+  // getadminimg() {
+  //   this.storage.get('member').then((res2) => {
+  //     this.valuation_id1 = parseInt(res2.valuation_id, 10);
+  //     this.http
+  //       .get(`${this.url.serverUrl}get_all_admin_img?valuation_id=${this.valuation_id1}`)
+  //       .subscribe(
+  //         (res: any) => {
+  //           if (res.status === true) {
+  //             if (Array.isArray(res.data?.document_name) && Array.isArray(res.data?.image)) {
+  //               this.alladminimg = {
+  //                 document_name: res.data.document_name,
+  //                 image: res.data.image
+  //               };
+  //             } else {
+  //               this.alladminimg = res.data; // If the data structure matches your expectations
+  //             }
+  //             console.log('Fetched data:', this.alladminimg);
+  //           } else {
+  //             this.url.presentToast('You Have no images.');
+  //           }
+  //         },
+  //         (err) => {
+  //           console.error('Error fetching data:', err);
+  //         }
+  //       );
+  //   });
+  // }
+  
+  
 
 }
 // function triggerEvent(domEl: HTMLElement, arg1: string) {
