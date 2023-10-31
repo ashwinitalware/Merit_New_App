@@ -1197,8 +1197,12 @@ export class BasicnewPage implements OnInit {
       this.field_update_data.date_of_visit = f.value.date_of_visit;
      
       this.field_update_data.aminities = this.selectedaminities.join(',');
+      console.clear();
+      console.log(this.field_update_data.aminities,66);
 
       this.field_update_data.deviation = this.selectedDeviation.join(',');
+      console.log(this.field_update_data.deviation,44);
+
       this.field_update_data.image_files = this.fileToUpload;
       this.field_update_data.status_field = dd;
       this.url.presentLoading();

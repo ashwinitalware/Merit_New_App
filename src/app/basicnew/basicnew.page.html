@@ -130,13 +130,21 @@
                 </div>
               </ion-col>
               <ion-col size="3">
-                <div class="">
+                <!-- <div class="">
                   <ng-container *ngIf="isPDF(image)">
                     <iframe class="h-20 mt-2 object-fit w-full rounded-sm" [src]="sanitizePDFUrl(this.url.imageUrl + 'New-valuation/' + image)" frameborder="0"></iframe>
                   </ng-container>
                   <ng-container *ngIf="!isPDF(image)">
                     <img class="h-20 mt-2 object-fit w-full rounded-sm" [src]="image ? this.url.imageUrl + 'New-valuation/' + image : 'assets/.png'" />
                   </ng-container>
+                </div> -->
+                <div class="">
+                  <ng-container *ngIf="isPDF(image)">
+                    <iframe class="h-20 mt-2 object-fit w-full rounded-sm" [src]="sanitizePDFUrl(this.url.imageUrl + 'New-valuation/' + image)" frameborder="0"></iframe>
+                  </ng-container>
+                  <!-- <ng-container *ngIf="!isPDF(image)">
+                    <img class="h-20 mt-2 object-fit w-full rounded-sm" [src]="image ? this.url.imageUrl + 'New-valuation/' + image : 'assets/doc.png'" />
+                  </ng-container> -->
                 </div>
               </ion-col>
               <ion-col size="2">
