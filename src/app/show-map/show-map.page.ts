@@ -99,7 +99,7 @@ export class ShowMapPage implements OnInit {
       lat +
       ',' +
       lng +
-      '&sensor=true&key=AIzaSyC1kU2qPwMsA-VTbi1fm6kb9M8d7utT0rI';
+      '&sensor=true&key=ASHU';
 
     fetch(reverseGeocodingUrl)
       .then((result) => result.json())
