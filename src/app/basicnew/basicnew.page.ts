@@ -461,8 +461,6 @@ export class BasicnewPage implements OnInit {
     private sanitizer: DomSanitizer
   ) {
     this.date_of_visit = '';
-    this.construction_area[0] = 'Initial Value for Ground Floor';
-    this.construction_area[1] = 'Initial Value for First Floor';
   }
   async ngOnInit() {
     await this.storage.create();
@@ -693,6 +691,8 @@ export class BasicnewPage implements OnInit {
   //   }
   // }
 
+
+  
   get_year() {
     this.http.get(`${this.url.serverUrl}get_year?`).subscribe(
       (res: any) => {

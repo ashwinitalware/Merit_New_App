@@ -14,12 +14,9 @@ export class LoginPage implements OnInit {
 
   show = true;
 
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   isShown: boolean = true;
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   isShown1: boolean = false;
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   contact_no: any;
   // dataService: any;
   otp: any;
@@ -158,14 +155,11 @@ export class LoginPage implements OnInit {
                 {
                   this.isShown = true;
                   this.isShown1 = false;
-                  // eslint-disable-next-line @typescript-eslint/dot-notation
                   this.session_data['user_id'] = res.data.user_id;
-                  // eslint-disable-next-line @typescript-eslint/dot-notation
                   this.session_data['contact'] = '';
                   this.storage.set('member', this.session_data);
                   console.log(this.storage.get('member'));
 
-                  // eslint-disable-next-line @typescript-eslint/no-shadow
                   this.storage.get('member').then((res) => {
                     this.user_id1 = parseInt(res.user_id, 10);
                     console.log(this.user_id1);
@@ -210,9 +204,7 @@ export class LoginPage implements OnInit {
                   {
                     this.isShown = true;
                     this.isShown1 = false;
-                    // eslint-disable-next-line @typescript-eslint/dot-notation
                     this.session_data['user_id'] = res.data.user_id;
-                    // eslint-disable-next-line @typescript-eslint/dot-notation
 
                     this.session_data['mobile_no'] = '';
                     this.storage.set('member', this.session_data);
@@ -250,7 +242,6 @@ export class LoginPage implements OnInit {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   login_submit(f: NgForm) {
     //console.log(f.value.contact_no)
     if (f.value.contact !== '') {
