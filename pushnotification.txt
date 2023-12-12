@@ -1,0 +1,117 @@
+ async initializeApp() {
+    try {
+      await this.storage.create();
+      await this.platform.ready();
+  
+      const userData = await this.storage.get('member');
+      if (userData && userData.user_id) {
+        this.cust_id1 = parseInt(userData.user_id, 10);
+        alert(this.cust_id1);
+        this.router.navigate(['/dashboard']);
+        this.setupPushNotifications();
+      } else {
+        this.router.navigate(['/login']);
+      }
+  
+      this.subscribeToDataChanges();
+      this.handleBackButtonBehavior();
+    } catch (error) {
+      console.error('Initialization error:', error);
+    }
+  }
+  
+  private subscribeToDataChanges() {
+    this.url.getObservable().subscribe((data) => {
+      this.field_executive_name = data.field_executive_name;
+      console.log(this.field_executive_name, 90);
+    });
+  }
+  
+  private handleBackButtonBehavior() {
+    this.platform.backButton.subscribeWithPriority(-1, () => {
+      const currentLocation = window.location + '';
+      if (
+        currentLocation.includes('localhost/dashboard') ||
+        currentLocation.includes('localhost' + this.dataService.directNavigate) ||
+        currentLocation.includes('localhost/login')
+      ) {
+        App.exitApp();
+      }
+    });
+  }
+  
+  private async setupPushNotifications() {
+    await PushNotifications.requestPermissions();
+    const { receive } = await PushNotifications.checkPermissions();
+  
+    if (receive === 'granted') {
+      this.registerPushNotificationListeners();
+    } else {
+      // Handle error or deny situation for push notifications
+    }
+  }
+  
+  private registerPushNotificationListeners() {
+    PushNotifications.addListener('registration', async (token) => {
+      console.log('Push registration success, token:', token.value);
+  
+      FCM.subscribeTo({ topic: 'demo' })
+        .then(() => console.log('Subscribed to topic: demo'))
+        .catch(err => console.error('Error subscribing to topic:', err));
+  
+      const userData = await this.storage.get('member');
+      if (userData && userData.user_id) {
+        const userId = parseInt(userData.user_id, 10);
+        this.sendTokenToServer(token.value, userId);
+      } else {
+        // Handle the case where user data or userId is not available
+      }
+    });
+  
+    PushNotifications.register();
+    PushNotifications.addListener('pushNotificationReceived', (notification) => {
+      console.log('Push received:', notification);
+      // Perform actions based on the received notification
+    });
+  
+    PushNotifications.addListener('pushNotificationActionPerformed', (notification) => {
+      console.log('Push action performed:', notification);
+      // Perform actions based on the performed action in the notification
+    });
+  }
+  
+  private sendTokenToServer(token: string, userId: number) {
+    const requestData = {
+      user_id: userId,
+      remember_token: token
+    };
+  
+    this.http.post(`${this.url.serverUrl}update_token`, requestData).subscribe(
+      (response) => {
+        console.log('Token sent to server successfully:', response);
+      },
+      (error) => {
+        console.error('Error sending token to server:', error);
+      }
+    );
+  }
+
+  sendTokenToServerOnRegistration() {
+    PushNotifications.addListener('registration', async (token) => {
+      console.log('Push registration success, token:', token.value);
+      alert('Push registration success, token: ' + token.value);
+      // Use the received token for further operations, e.g., subscribing to topics
+      FCM.subscribeTo({ topic: 'demo' })
+        .then(() => console.log('Subscribed to topic: demo'))
+        .catch(err => console.error('Error subscribing to topic:', err));
+
+      // Retrieve the userId here or from wherever it's available in your app
+      const userData = await this.storage.get('member');
+      if (userData && userData.user_id) {
+        const userId = parseInt(userData.user_id, 10);
+        this.sendTokenToServer(token.value, userId); // Send the token and userId to the server
+      } else {
+        // Handle the case where user data or userId is not available
+      }
+    });
+  }

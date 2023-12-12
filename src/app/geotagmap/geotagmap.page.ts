@@ -82,7 +82,7 @@ export class GeotagmapPage implements OnInit {
       lat +
       ',' +
       lng +
-      '&sensor=true&key=ASHU';
+      '&sensor=true&key=AIzaSyAuoy_mOPfYGqoZDE2JUT0aceQFEe73yZE';
 
     fetch(reverseGeocodingUrl)
       .then((result) => result.json())
