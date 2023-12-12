@@ -10,6 +10,7 @@ import { NgForm } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { IonAccordionGroup } from '@ionic/angular';
 import { IonSegment } from '@ionic/angular';
+import * as CryptoJS from 'crypto-js';
 
 interface PropertyType {
   id: number;
@@ -469,8 +470,19 @@ export class BasicnewPage implements OnInit {
     // this.profiledata.volunteer_flag = true;
   }
 
+  // decryptValuationId(encryptedValuationId: string): string {
+  //   const decryptedValuationId = CryptoJS.AES.decrypt(encryptedValuationId, 'secretKey').toString(CryptoJS.enc.Utf8);
+  //   return decryptedValuationId;
+  // }
 
   ionViewWillEnter() {
+
+    // this.route.queryParams.subscribe((params) => {
+    //   const encryptedValuationId = params['encrypted_valuation_id'];
+    //   const decryptedValuationId = this.decryptValuationId(encryptedValuationId);
+    //   console.log('Decrypted Valuation ID:', decryptedValuationId);
+    // });
+
     this.route.queryParams.subscribe((params) => {
       this.address = this.url.user_map_address;
       this.lat = this.url.user_map_lat;
@@ -1486,11 +1498,11 @@ export class BasicnewPage implements OnInit {
                   this.aminitiesdata.Lift = true
                   this.selectedaminities.push(element);
                 }
-                if (element == "Swimming Pool") {
+                if (element == "Swimming Pool"){
                   this.aminitiesdata.Swimming_Pool = true
                   this.selectedaminities.push(element);
                 }
-                if (element == "Electric car Charging Station") {
+                if (element == "Electric car Charging Station"){
                   this.aminitiesdata.Electric_car = true
                   this.selectedaminities.push(element);
                 }
@@ -1499,12 +1511,8 @@ export class BasicnewPage implements OnInit {
                   this.selectedaminities.push(element);
                 }
               }
-
-
               this.four_borders[0] = data[0].four_borders[0];
-
               this.four_borders[1] = data[0].four_borders[1];
-
               this.four_borders[2] = data[0].four_borders[2];
 
               this.four_borders[3] = data[0].four_borders[3];

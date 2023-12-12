@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage-angular';
 import { AlertController } from '@ionic/angular';
 import * as moment from 'moment';
 import * as d3 from 'd3';
+import * as CryptoJS from 'crypto-js';
 // import { setInterval } from 'timers';
 
 
@@ -144,6 +145,23 @@ export class DashboardPage implements OnInit {
     };
     this.router.navigate(['basicnew'], navigationExtras);
   }
+
+  // encryptValuationId(valuationId: string): string {
+  //   const encryptedValuationId = CryptoJS.AES.encrypt(valuationId, 'secretKey').toString();
+  //   return encryptedValuationId;
+  // }
+
+  // bookEFcase(adc: any) {
+  //   const encryptedValuationId = this.encryptValuationId(adc);
+  
+  //   const navigationExtras: NavigationExtras = {
+  //     queryParams: {
+  //       id: JSON.stringify(adc), 
+  //       encrypted_valuation_id: encryptedValuationId, 
+  //     },
+  //   };
+  //   this.router.navigate(['basicnew'], navigationExtras);
+  // }
 
 
   alltables(alltables: any) {
