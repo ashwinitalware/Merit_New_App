@@ -36,61 +36,53 @@
 
     <ion-grid>
       <ion-row>
+        <!-- <ion-col size="12">
+          <app-gauge-chart></app-gauge-chart>
+        </ion-col> -->
         <ion-col size="12">
+          <!-- <div rounterLink="/overall" align="center"
+            class="border-b-4 border-orange-200 p-2 bg-gray-50 pb-2 h-35 rounded-md ">
+            <div class="flex justify-between">
+              <h5 class="text-xs font-bold">This month</h5>
+              <ion-label class=" text-xs">Average Tat</ion-label>
+            </div>
+            <img class="mb-2" src="assets/1.png" alt="">
+          </div> -->
+          <!-- <app-gauge-chart></app-gauge-chart> -->
           <app-gauge-chart></app-gauge-chart>
         </ion-col>
 
 
         <ion-col size="6">
-          <ion-row>
-            <ion-col size="6">
-              <div class="flex justify-start">
-                <p style="font-size: 11px;">
-                  <ion-icon style="color: rgb(255, 99, 132); font-size: 9px;" name="square"></ion-icon>
-                  Pending: {{ allcount.monthwise_pending_count }}
-                </p>
-              </div>
-            </ion-col>
-          
-            <ion-col size="6">
-              <div class="flex justify-start">
-                <p style="font-size: 11px;">
-                  <ion-icon style="color: rgb(255, 205, 86); font-size: 9px;" name="square"></ion-icon>
-                  Overdue: {{ allcount.overdueRecords_count }}
-                </p>
-              </div>
-            </ion-col>
-          
-            <ion-col size="12">
-              <div class="flex justify-start">
-                <p style="font-size: 11px;">
-                  <ion-icon style="color: rgb(54, 162, 235); font-size: 9px;" name="square"></ion-icon>
-                  Complete: {{ allcount.monthwise_complete_count }}
-                </p>
-              </div>
-            </ion-col>
-          </ion-row>
-
           <app-donut-chart></app-donut-chart>
         </ion-col>
 
         <ion-col size="6">
-            <ion-row>
-              <ion-col size="12">
-                <div class="flex justify-start" >
-                  <p style="font-size: 11px;">  Total number of visits</p>
-                </div>
-              </ion-col>
-          
-              <ion-col size="12"></ion-col> 
-            </ion-row>
-              <p class="chart-area shadow-none "></p>
+          <div align="center" class=" p-3">
+            <p>All Visits</p>
+            <div class="flex justify-between shadow-none  mt-2">
+              <!-- <ion-label class=" pl-10 text-lg flex items-center">All Visits</ion-label> -->
+              <div class="chart-area shadow-none "></div>
+            </div>
+
+            <!--  <ion-grid>
+              <ion-row>
+                <ion-col size="6" align="center" class="flex items-center pl-4">
+                  <ion-label class="text-sm"><span><b>70 KM</b></span><br>Travelled</ion-label>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-label class="mt-5 text-xs ">Visits</ion-label>
+                  <img src="assets/3.png" alt="">
+                </ion-col>
+              </ion-row>
+            </ion-grid> -->
+          </div>
         </ion-col>
       </ion-row>
     </ion-grid>
 
 
-    <div class="flex justify-between p-2 mt-12 mb-2">
+    <div class="flex justify-between p-2 mt-2 mb-2">
       <p class="text-sm pl-2 font-bold "> Assigned Cases</p>
       <p routerLink="/assigned" class="text-orange-500 text-xs pr-2">View All<ion-icon class="mt-1"
           name="chevron-forward-outline"></ion-icon></p>
@@ -117,6 +109,7 @@
           *ngIf="btable.status !== 'Visited by FE' && btable.status !== 'Resubmitted By FE' && btable.status !== 'Approved'">
           <ion-grid>
             <ion-row (click)="bookEFcase(btable.valuation_id)">
+
               <ion-col size="9">
                 <p class="text-sm text-black font-bold">{{btable.firstname}} {{btable.middelname}} {{btable.lastname}}
                 </p>

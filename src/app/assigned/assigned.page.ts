@@ -164,6 +164,7 @@ export class AssignedPage implements OnInit {
   }
 
   async get_all_data_admin() {
+    // Your existing code to fetch data
     const userData = await this.storage.get('member');
     const user_id = parseInt(userData.user_id, 10);
     this.http.get(`${this.url.serverUrl}get_all_data_admin?user_id=${user_id}`).subscribe(
@@ -210,21 +211,26 @@ export class AssignedPage implements OnInit {
       hours: hours,
       minutes: minutes
     };
+
     return btable;
   }
 
   calculateTimeDifferencenew(ctable: any): any {
     const adminTime = moment(ctable.admin, 'YYYY-MM-DD HH:mm:ss');
+    
     const currentTime = moment();
     const duration = moment.duration(currentTime.diff(adminTime));
+
     const days = duration.days();
     const hours = duration.hours();
     const minutes = duration.minutes();
+
     ctable.timeDifference = {
       days: days,
       hours: hours,
       minutes: minutes
     };
+
     return ctable;
   }
 
@@ -232,6 +238,7 @@ export class AssignedPage implements OnInit {
 
   pushCardToAnotherSegment(cardData: any) {
     this.overdueBooktables.push(cardData);
+    
     const index = this.allbooktables.indexOf(cardData);
     if (index !== -1) {
       this.allbooktables.splice(index, 1);
@@ -248,6 +255,8 @@ export class AssignedPage implements OnInit {
         } else {
           this.allcomtables = res.data;
           this.allcomtables = res.data.map((ctable: any) => this.calculateTimeDifferencenew(ctable));
+          // this.status = res.data;
+          // alert(this.status);
           // Sidemenu start
           this.url.publishSomeData({
             field_executive_name: res.data[0].field_executive_name,
@@ -261,7 +270,60 @@ export class AssignedPage implements OnInit {
     );
   }
 
-  get_sort_data_admin1() {
+  // get_all_data_admin() {
+  //   this.storage.get('member').then((res1) => {
+  //     this.user_id1 = parseInt(res1.user_id, 10);
+  //     this.http
+  //       .get(`${this.url.serverUrl}get_all_data_admin?user_id=${this.user_id1}`)
+  //       .subscribe(
+  //         (res: any) => {
+  //           if (res === 0) {
+  //             this.url.presentToast('You Have no booking.');
+  //           } else {
+  //             console.log(res.data);
+  //             this.allbooktables = res.data;
+
+  //             var dd = this.dateDifference(res.data[0].created_at, true);
+  //             console.log(dd, 0);
+
+  //             this.allassigned = [];
+  //             Array.from(this.allbooktables).forEach((i: any) => {
+  //               if (i.status === 'Assign to FE') {
+  //                 this.allassigned.push(i);
+  //               }
+  //             });
+
+  //           }
+  //         },
+  //         (err) => {}
+  //       );
+  //   });
+  // }
+  // async get_all_data_admin_comp() {
+  //   await this.storage.get('member').then((res1) => {
+  //     this.user_id1 = parseInt(res1.user_id, 10);
+  //     this.http
+  //       .get(`${this.url.serverUrl}get_all_data_admin?user_id=${this.user_id1}`)
+  //       .subscribe(
+  //         (res: any) => {
+  //           if (res === 0) {
+  //             this.url.presentToast('You Have no booking.');
+  //           } else {
+  //             console.log(res.data, 70);
+  //             this.allcomtables = res.data;
+  //             var dd = this.dateDifference(res.data[0].created_at, true);
+  //             console.log(dd, 0);
+  //             this.url.publishSomeData({
+  //               field_executive_name: res.data[0].field_executive_name,
+  //             });
+  //           }
+  //         },
+  //         (err) => {}
+  //       );
+  //   });
+  // }
+
+  get_sort_data_admin() {
     this.storage.get('member').then((res1) => {
       this.user_id1 = parseInt(res1.user_id, 10);
       this.http
@@ -287,120 +349,6 @@ export class AssignedPage implements OnInit {
         );
     });
   }
-
-  async get_sort_data_admin2() {
-    // Ensure both 'from_date' and 'to_date' are defined before proceeding
-    if (this.from_date && this.to_date) {
-      const userData = await this.storage.get('member');
-      const user_id = parseInt(userData.user_id, 10);
-      this.http.get(`${this.url.serverUrl}get_all_data_admin?user_id=${user_id}`).subscribe(
-        (res: any) => {
-          if (res === 0) {
-            this.url.presentToast('You Have no booking.');
-          } else {
-            if (res.data[0].status !== "visited by fe") {
-              // Update allbooktables and calculate the time difference
-              this.allbooktables = res.data.map((btable: any) => this.calculateTimeDifference(btable));
-  
-              // Filter based on date range
-              this.allbooktables = this.allbooktables.filter((btable: any) => {
-                const currentDate = new Date(btable.date); // Assuming 'date' is the property in your data
-                return currentDate >= new Date(this.from_date) && currentDate <= new Date(this.to_date);
-              });
-  
-              // Filter overdue items and move them to the "alloverdue" array
-              this.overdueBooktables = this.allbooktables.filter((btable: any) => {
-                const days = btable.timeDifference.days;
-                return days >= 2;
-              });
-  
-              // Remove overdue items from the "allbooktables" array
-              this.allbooktables = this.allbooktables.filter((btable: any) => {
-                const days = btable.timeDifference.days;
-                return days < 2;
-              });
-            } else {
-              this.shouldHideCard = true;
-            }
-          }
-        },
-        (err) => {
-          // Handle errors
-        }
-      );
-    } else {
-      // Handle cases where from_date or to_date is not selected
-      // You might want to show a message to select both dates
-    }
-  }
-
-  async get_sort_data_admin() {
-    // Ensure both 'from_date' and 'to_date' are defined before proceeding
-    if (this.from_date && this.to_date) {
-      const userData = await this.storage.get('member');
-      const user_id = parseInt(userData.user_id, 10);
-      this.http.get(`${this.url.serverUrl}get_all_data_admin?user_id=${user_id}`).subscribe(
-        (res: any) => {
-          if (res === 0) {
-            this.url.presentToast('You Have no booking.');
-          } else {
-            if (res.data[0].status !== "visited by fe") {
-              // Update allbooktables and calculate the time difference
-              this.allbooktables = res.data.map((btable: any) => this.calculateTimeDifference(btable));
-  
-              // Filter based on date range for allbooktables
-              this.allbooktables = this.allbooktables.filter((btable: any) => {
-                const currentDate = new Date(btable.date); // Assuming 'date' is the property in your data
-                return currentDate >= new Date(this.from_date) && currentDate <= new Date(this.to_date);
-              });
-  
-              // Filter overdue items and move them to the "alloverdue" array
-              this.overdueBooktables = this.allbooktables.filter((btable: any) => {
-                const days = btable.timeDifference.days;
-                return days >= 2;
-              });
-  
-              // Remove overdue items from the "allbooktables" array
-              this.allbooktables = this.allbooktables.filter((btable: any) => {
-                const days = btable.timeDifference.days;
-                return days < 2;
-              });
-            } else {
-              this.shouldHideCard = true;
-            }
-          }
-  
-          // Filter for completed tab (similar to above)
-          this.allcomtables = res.data.map((ctable: any) => this.calculateTimeDifference(ctable));
-  
-          this.allcomtables = this.allcomtables.filter((ctable: any) => {
-            const currentDate = new Date(ctable.date); // Assuming 'date' is the property in your data
-            return currentDate >= new Date(this.from_date) && currentDate <= new Date(this.to_date);
-          });
-  
-          // Filter completed items based on status
-          this.allcomtables = this.allcomtables.filter((ctable: any) => {
-            return (
-              ctable.status === 'Visited by FE' ||
-              ctable.status === 'Resubmitted By FE' ||
-              ctable.status === 'Approved'
-            );
-          });
-        },
-        (err) => {
-          // Handle errors
-        }
-      );
-    } else {
-      // Handle cases where from_date or to_date is not selected
-      // You might want to show a message to select both dates
-    }
-  }
-  
-  
-
-
-  
 
   contact(type: any, contact: any) {
     if (type == 'call') {

@@ -16,7 +16,6 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class DonutChartComponent  implements OnInit {
 user_id: any;
-// monthwise_pending_count:any;
   private donutChart: Chart<'doughnut', number[], string> | undefined;
 
   constructor(
@@ -49,7 +48,33 @@ user_id: any;
     this.createDonutChart();
   }
 
- 
+  createDonutChart1() {
+    const ctx = document.getElementById('donutCanvas') as HTMLCanvasElement;
+
+    const data: ChartData<'doughnut', number[], string> = {
+      labels: ['Month', 'Today', 'Yesterday'],
+      datasets: [
+        {
+          data: [300, 50, 100],
+          backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+          hoverOffset: 4,
+        },
+      ],
+    };
+
+    const options: ChartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+    };
+
+    const config: ChartConfiguration<'doughnut', number[], string> = {
+      type: 'doughnut',
+      data: data,
+      options: options,
+    };
+
+    this.donutChart = new Chart(ctx, config);
+  }
 
   createDonutChart() {
     const ctx = document.getElementById('donutCanvas') as HTMLCanvasElement;
@@ -57,27 +82,34 @@ user_id: any;
     this.http.get(`${this.url.serverUrl}pending_count?user_id=${this.user_id}`).subscribe(
       (res: any) => {
         if (res.status) {
-          console.log('API Response Data:', res.data, 79);
+          console.log('API Response Data:', res.data,79);
   
+          // Replace static data with dynamic data from the API response
           const dataValues = [
-            res.data.monthwise_pending_count,
-            res.data.monthwise_complete_count,
-            res.data.overdueRecords_count
+            res.data.preview_count, 
+            res.data.today,          // Use the API data for "today"
+            res.data.yesterday_count // Use the API data for "yesterday_count"
           ];
   
           console.log('Data Values:', dataValues, 89);
   
+          // Define dynamic labels if needed
+          // const labels = ['Preview', 'Today', 'Yesterday'];
+          // console.log('Labels:', labels);
+  
           const data: ChartData<'doughnut', number[], string> = {
+            // labels: labels, 
+            // Use dynamic labels if needed
             datasets: [
               {
-                data: dataValues,
+                data: dataValues, // Use the dynamic data values
                 backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
-                hoverOffset: 3,
+                hoverOffset: 4,
               },
             ],
           };
   
-          const options: ChartOptions<'doughnut'> = {
+          const options: ChartOptions = {
             responsive: true,
             maintainAspectRatio: false,
           };
@@ -117,6 +149,7 @@ user_id: any;
   
   //         // Define dynamic labels if needed
   //         const labels = ['p', 'T', 'Y'];
+  
   //         const data: ChartData<'doughnut', number[], string> = {
   //           labels: labels, // Use dynamic labels if needed
   //           datasets: [

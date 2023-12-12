@@ -66,9 +66,7 @@ export class DashboardPage implements OnInit {
   status: any;
   user_id: any;
   res: any;
-  // allcount: any;
 
-  allcount: any = {};
   segmentChanged(ev: any) {
     this.switchTab = ev.detail.value;
     console.log('Segment changed', ev);
@@ -91,7 +89,6 @@ export class DashboardPage implements OnInit {
     this.url.presentLoading();
     this.get_all_data_admin();
     this.get_all_data_admin_comp();
-    this.get_all_pending_count();
     this.url.dismiss();
   }
 
@@ -386,15 +383,13 @@ export class DashboardPage implements OnInit {
             .attr('fill', '#fff')
             .attr('font-size', '1.3em')
             .attr('text-anchor', 'middle')
-            .attr('x', 2)
+            .attr('x', 6)
             .attr('y', 8)
             .transition()
             .ease(d3.easeLinear)
             .duration(750)
             .attr('fill', '#000')
-            .text(data);
-
-            // .text(data + '%');
+            .text(data + '%');
         } else {
           this.url.presentToast('You Have no booking.');
         }
@@ -650,41 +645,6 @@ export class DashboardPage implements OnInit {
 
   show_map() {
     this.router.navigate([`show-map`]);
-  }
-
-
-  async get_all_pending_count1() {
-    const userData = await this.storage.get('member');
-    const user_id = parseInt(userData.user_id, 10);
-    this.http.get(`${this.url.serverUrl}pending_count?user_id=${user_id}`).subscribe(
-      (res: any) => {
-        if (res) {
-          this.allcount = res.data;
-          console.log(this.allcount,77);
-        } else {
-          this.url.presentToast('No count.');
-        }
-        // this.allcount = res.data;
-      },
-      (err) => {
-      }
-    );
-  }
-
-  get_all_pending_count() {
-    this.storage.get('member').then((res1) => {
-      this.user_id1 = parseInt(res1.user_id, 10);
-      this.http
-        .get(`${this.url.serverUrl}pending_count?user_id=${this.user_id1}`)
-        .subscribe(
-          (res: any) => {
-            if (res && res.status && res.status === true && res.data) {
-              this.allcount = res.data;
-            }
-          },
-          (err) => { }
-        );
-    });
   }
 
 
