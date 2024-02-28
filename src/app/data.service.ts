@@ -63,6 +63,7 @@ constructor(
     .get('user_data')
     .then((res: any) => {
       this.loginData = res;
+      // console.log(this.loginData);
     })
     .catch((err) => {
       console.log(err);

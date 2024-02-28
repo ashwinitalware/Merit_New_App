@@ -113,134 +113,223 @@ export class LoginPage implements OnInit {
     }
   }
 
+  // verify_submit(f: NgForm) {
+  //   if (
+  //     this.t1 === undefined ||
+  //     this.t2 === undefined ||
+  //     this.t3 === undefined ||
+  //     this.t4 === undefined
+  //   ) {
+  //     this.router.navigate(['/login']);
+  //     this.url.presentToast('Please Fill OTP.');
+  //     return;
+  //   }
+  //   this.type_otp =
+  //     this.t1.toString() +
+  //     this.t2.toString() +
+  //     this.t3.toString() +
+  //     this.t4.toString();
+  //   console.log(this.type_otp);
+  //   console.log(this.otp);
+  //   {
+  //     this.type_otp = parseInt(this.type_otp);
+  //     if (this.type_otp === this.otp) {
+  //       if (this.contact_no !== '') {
+  //         console.log(f.value);
+  //         f.value.contact = this.contact_no;
+  //         this.url.presentLoading();
+  //         this.session_data['mobile_no'] = f.value.contact;
+  //         console.log(this.session_data, 2);
+  //         this.http
+  //           .post(`${this.url.serverUrl}user_registration`, this.session_data)
+  //           .subscribe(
+  //             (res: any) => {
+  //               console.log(res);
+  //               {
+  //                 this.isShown = true;
+  //                 this.isShown1 = false;
+  //                 this.session_data['user_id'] = res.data.user_id;
+  //                 this.session_data['contact'] = '';
+              
+  //                 this.storage.set('member', this.session_data).then(() => {
+  //                   console.log('Data stored successfully');
+  //                 }).catch((error) => {
+  //                   console.error('Error storing data:', error);
+  //                 });
+
+  //                 this.session_data['user_id'] = res.data.user_id;
+  //                 this.session_data['contact'] = '';
+  //                 this.storage.set('member', this.session_data);
+  //                 console.log(this.storage.get('member'));
+  //                 this.storage.get('member').then((res) => {
+  //                   this.user_id1 = parseInt(res.user_id, 10);
+  //                   console.log(this.user_id1);
+  //                 });
+         
+  //               }
+  //               f.resetForm();
+  //               this.url.dismiss();
+  //               this.router.navigate(['/dashboard']);
+  //             },
+  //             (err) => {
+  //               this.url.dismiss();
+  //             }
+  //           );
+  //       } else {
+  //         this.url.presentToast('Please Fill OTP.');
+  //       }
+  //     } else {
+  //       if (this.type_otp === 1234) {
+  //         if (this.contact_no !== '') {
+  //           f.value.mobile = this.contact_no;
+  //           console.log(f.value);
+  //           this.url.presentLoading();
+  //           this.http
+  //             .post(`${this.url.serverUrl}user_registration`, this.session_data)
+  //             .subscribe(
+  //               (res: any) => {
+  //                 console.log(res);
+  //                 {
+  //                   this.isShown = true;
+  //                   this.isShown1 = false;
+  //                   this.session_data['user_id'] = res.data.user_id;
+
+  //                   this.session_data['mobile_no'] = '';
+  //                   this.storage.set('member', this.session_data);
+  //                   console.log(this.storage.get('member'));
+
+  //                   this.storage.get('member').then((res) => {
+  //                     this.user_id1 = parseInt(res.user_id, 10);
+  //                     console.log(this.user_id1);
+  //                   });
+  //                 }
+  //                 f.resetForm();
+  //                 this.url.dismiss();
+  //                 this.router.navigate(['/dashboard']);
+  //               },
+  //               (err) => {
+  //                 this.url.dismiss();
+  //               }
+  //             );
+  //         }
+  //       } else {
+  //         f.resetForm();
+  //         this.router.navigate(['/login']);
+  //         this.url.presentToast('Invalid OTP.');
+  //       }
+  //     }
+  //   }
+  // }
+
   verify_submit(f: NgForm) {
-    //console.log(f.value);
     if (
       this.t1 === undefined ||
       this.t2 === undefined ||
       this.t3 === undefined ||
       this.t4 === undefined
-      // this.t5 === undefined ||
-      // this.t6 === undefined
     ) {
       this.router.navigate(['/login']);
       this.url.presentToast('Please Fill OTP.');
       return;
     }
+  
     this.type_otp =
       this.t1.toString() +
       this.t2.toString() +
       this.t3.toString() +
       this.t4.toString();
-    // this.t5.toString() +
-    // this.t6.toString();
+  
     console.log(this.type_otp);
     console.log(this.otp);
-    {
-      this.type_otp = parseInt(this.type_otp);
-      if (this.type_otp === this.otp) {
-        if (this.contact_no !== '') {
-          // alert('1');
-          console.log(f.value);
-          f.value.contact = this.contact_no;
-          this.url.presentLoading();
-          this.session_data['mobile_no'] = f.value.contact;
-          console.log(this.session_data, 2);
-          this.http
-            .post(`${this.url.serverUrl}user_registration`, this.session_data)
-            .subscribe(
-              (res: any) => {
-                console.log(res);
-                // if(res.Name=="200")
-                {
-                  this.isShown = true;
-                  this.isShown1 = false;
-                  this.session_data['user_id'] = res.data.user_id;
-                  this.session_data['contact'] = '';
-                  this.storage.set('member', this.session_data);
-                  console.log(this.storage.get('member'));
-
+  
+    this.type_otp = parseInt(this.type_otp);
+  
+    if (this.type_otp === this.otp) {
+      if (this.contact_no !== '') {
+        console.log(f.value);
+        f.value.contact = this.contact_no;
+  
+        this.url.presentLoading();
+        this.session_data['mobile_no'] = f.value.contact;
+  
+        this.http.post(`${this.url.serverUrl}user_registration`, this.session_data)
+          .subscribe(
+            (res: any) => {
+              console.log(res);
+              this.isShown = true;
+              this.isShown1 = false;
+              this.session_data['user_id'] = res.data.user_id;
+              this.session_data['mobile_no'] = '';
+  
+              // Store data in storage
+              this.storage.set('member', this.session_data)
+                .then(() => {
+                  console.log('Data stored successfully');
                   this.storage.get('member').then((res) => {
                     this.user_id1 = parseInt(res.user_id, 10);
                     console.log(this.user_id1);
                   });
-
-                  // this.storage.set('var', this.session_data);
-                  // console.log(this.storage.get('var'));
-
-                  // // eslint-disable-next-line @typescript-eslint/no-shadow
-                  // this.storage.get('var').then((res) => {
-                  //   this.var_id1 = parseInt(res.var_id, 10);
-                  //   console.log(this.var_id1);
-                  // });
-                }
+                })
+                .catch((error) => {
+                  console.error('Error storing data:', error);
+                });
+  
+              f.resetForm();
+              this.url.dismiss();
+              this.router.navigate(['/dashboard']);
+            },
+            (err) => {
+              this.url.dismiss();
+            }
+          );
+      } else {
+        this.url.presentToast('Please Fill OTP.');
+      }
+    } else {
+      if (this.type_otp === 1234) {
+        if (this.contact_no !== '') {
+          f.value.mobile = this.contact_no;
+          this.url.presentLoading();
+          this.http.post(`${this.url.serverUrl}user_registration`, this.session_data)
+            .subscribe(
+              (res: any) => {
+                console.log(res);
+                this.isShown = true;
+                this.isShown1 = false;
+  
+                this.session_data['user_id'] = res.data.user_id;
+                this.session_data['mobile_no'] = '';
+  
+                // Store data in storage
+                this.storage.set('member', this.session_data)
+                  .then(() => {
+                    console.log('Data stored successfully');
+                    this.storage.get('member').then((res) => {
+                      this.user_id1 = parseInt(res.user_id, 10);
+                      console.log(this.user_id1);
+                    });
+                  })
+                  .catch((error) => {
+                    console.error('Error storing data:', error);
+                  });
+  
                 f.resetForm();
                 this.url.dismiss();
                 this.router.navigate(['/dashboard']);
               },
               (err) => {
                 this.url.dismiss();
-                // this.loader_visibility = false;
-                //this.func.presentToast("Server Error. Please try after some time.");
               }
             );
-        } else {
-          this.url.presentToast('Please Fill OTP.');
         }
       } else {
-        if (this.type_otp === 1234) {
-          if (this.contact_no !== '') {
-            //alert(f.value.contact_no);
-            f.value.mobile = this.contact_no;
-            // alert();
-            console.log(f.value);
-            this.url.presentLoading();
-            this.http
-              .post(`${this.url.serverUrl}user_registration`, this.session_data)
-              .subscribe(
-                (res: any) => {
-                  console.log(res);
-                  // if(res.Name=="200")
-                  {
-                    this.isShown = true;
-                    this.isShown1 = false;
-                    this.session_data['user_id'] = res.data.user_id;
-
-                    this.session_data['mobile_no'] = '';
-                    this.storage.set('member', this.session_data);
-                    console.log(this.storage.get('member'));
-
-                    this.storage.get('member').then((res) => {
-                      this.user_id1 = parseInt(res.user_id, 10);
-                      console.log(this.user_id1);
-                    });
-
-                    // this.storage.set('var', this.session_data);
-                    // console.log(this.storage.get('var'));
-
-                    // // eslint-disable-next-line @typescript-eslint/no-shadow
-                    // this.storage.get('var').then((res) => {
-                    //   this.var_id1 = parseInt(res.var_id, 10);
-                    //   console.log(this.var_id1);
-                    // });
-                  }
-                  f.resetForm();
-                  this.url.dismiss();
-                  this.router.navigate(['/dashboard']);
-                },
-                (err) => {
-                  this.url.dismiss();
-                }
-              );
-          }
-        } else {
-          f.resetForm();
-          this.router.navigate(['/login']);
-          this.url.presentToast('Invalid OTP.');
-        }
+        f.resetForm();
+        this.router.navigate(['/login']);
+        this.url.presentToast('Invalid OTP.');
       }
     }
   }
+  
 
   login_submit(f: NgForm) {
     //console.log(f.value.contact_no)

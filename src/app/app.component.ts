@@ -124,71 +124,77 @@ export class AppComponent {
     });
   }
 
-  async initializeApp(){
+
+
+  async initializeApp() {
     await this.storage.create();
     await this.platform.ready();
-    this.platform.ready().then(async () => {
-      const userData = await this.storage.get('member');
-      if (userData && userData.user_id) {
-        this.cust_id1 = parseInt(userData.user_id, 10);
-        // alert(this.cust_id1);
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.router.navigate(['/login']);
-      }
-    });
 
+    const userData = await this.storage.get('member');
+    if (userData && userData.user_id) {
+      this.cust_id1 = parseInt(userData.user_id, 10);
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/login']);
+    }
+  
+    // Subscribe to URL observable
     this.url.getObservable().subscribe((data) => {
       this.field_executive_name = data.field_executive_name;
-      console.log(this.field_executive_name, 90);
+      console.log(this.field_executive_name);
     });
-
-    // backbutton code start
+  
+    // Handle back button behavior
     this.platform.backButton.subscribeWithPriority(-1, () => {
-      const currentLocation = window.location + '';
+      const currentLocation = window.location.href;
+      const { directNavigate } = this.dataService;
       if (
-        currentLocation.includes('localhost/dashboard') ||
-        currentLocation.includes('localhost' + this.dataService.directNavigate) ||
-        currentLocation.includes('localhost/login')
+        currentLocation.includes('/dashboard') ||
+        currentLocation.includes('/' + directNavigate) ||
+        currentLocation.includes('/login')
       ) {
         App.exitApp();
       }
     });
-    // backbutton code End
-    // this.initializePushNotifications();
+    // Other initializations (e.g., push notifications) can be added here
   }
-
-  // async initializePushNotifications() {
-  //   PushNotifications.requestPermissions().then(async (permission) => {
-  //     if (permission.receive === 'granted') {
-  //       PushNotifications.register();
   
-  //       PushNotifications.addListener('registration', (token: PushNotificationToken) => {
-  //         console.log('FCM Token:', token.value);
-  //         // Send this token to your server for handling notifications
-  //         this.sendTokenToServer(token.value);
-  //         alert(token.value);
-  //       });
+
+  
+
+  // following code staruyday
+  // async initializeApp(){
+  //   await this.storage.create();
+  //   await this.platform.ready();
+  //   this.platform.ready().then(async () => {
+  //     const userData = await this.storage.get('member');
+  //     if (userData && userData.user_id) {
+  //       this.cust_id1 = parseInt(userData.user_id, 10);
+  //       // alert(this.cust_id1);
+  //       this.router.navigate(['/dashboard']);
+  //     } else {
+  //       this.router.navigate(['/login']);
   //     }
   //   });
-  // }
 
-  // async sendTokenToServer(token: string) {
-  //   const userData = await this.storage.get('member');
-  //   if (userData && userData.user_id) {
-  //     const user_id = parseInt(userData.user_id, 10);
-  
-  //     this.http.post(`${this.url.serverUrl}update_token`, { user_id, remember_token: token })
-  //       .subscribe(
-  //         (response: any) => {
-  //           console.log('Token sent to server:', response);
-  //         },
-  //         (error) => {
-  //           console.error('Error sending token to server:', error);
-  //           // Handle errors
-  //         }
-  //       );
-  //   }
+  //   this.url.getObservable().subscribe((data) => {
+  //     this.field_executive_name = data.field_executive_name;
+  //     console.log(this.field_executive_name, 90);
+  //   });
+
+  //   // backbutton code start
+  //   this.platform.backButton.subscribeWithPriority(-1, () => {
+  //     const currentLocation = window.location + '';
+  //     if (
+  //       currentLocation.includes('localhost/dashboard') ||
+  //       currentLocation.includes('localhost' + this.dataService.directNavigate) ||
+  //       currentLocation.includes('localhost/login')
+  //     ) {
+  //       App.exitApp();
+  //     }
+  //   });
+  //   // backbutton code End
+  //   // this.initializePushNotifications();
   // }
 
 

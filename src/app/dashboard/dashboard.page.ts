@@ -7,7 +7,6 @@ import { Storage } from '@ionic/storage-angular';
 import { AlertController } from '@ionic/angular';
 import * as moment from 'moment';
 import * as d3 from 'd3';
-import * as CryptoJS from 'crypto-js';
 // import { setInterval } from 'timers';
 
 
@@ -126,7 +125,7 @@ export class DashboardPage implements OnInit {
 
   isAccordionOpen = false;
 
-  anystatus(adc: any) {
+  anystatus(adc: any){
     this.isAccordionOpen = true;
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -145,23 +144,6 @@ export class DashboardPage implements OnInit {
     };
     this.router.navigate(['basicnew'], navigationExtras);
   }
-
-  // encryptValuationId(valuationId: string): string {
-  //   const encryptedValuationId = CryptoJS.AES.encrypt(valuationId, 'secretKey').toString();
-  //   return encryptedValuationId;
-  // }
-
-  // bookEFcase(adc: any) {
-  //   const encryptedValuationId = this.encryptValuationId(adc);
-  
-  //   const navigationExtras: NavigationExtras = {
-  //     queryParams: {
-  //       id: JSON.stringify(adc), 
-  //       encrypted_valuation_id: encryptedValuationId, 
-  //     },
-  //   };
-  //   this.router.navigate(['basicnew'], navigationExtras);
-  // }
 
 
   alltables(alltables: any) {
@@ -316,8 +298,8 @@ export class DashboardPage implements OnInit {
             .append('svg')
             .attr('preserveAspectRatio', 'xMinYMin meet')
             .attr('viewBox', '0 0 100 100')
-            .attr('class', 'shadow')
-            .classed('svg-content', true);
+            .attr('class', '')
+            // .classed('svg-content', true);
 
           const pie = d3.pie()([data, 100 - data]);
 
@@ -527,8 +509,9 @@ export class DashboardPage implements OnInit {
   //   );
   // }
 
+  
+
   async get_all_data_admin() {
-    // Your existing code to fetch data
     const userData = await this.storage.get('member');
     const user_id = parseInt(userData.user_id, 10);
     this.http.get(`${this.url.serverUrl}get_all_data_admin?user_id=${user_id}`).subscribe(
@@ -536,6 +519,7 @@ export class DashboardPage implements OnInit {
         if (res === 0) {
           this.url.presentToast('You Have no booking.');
         } else {
+          this.allbooktables = [];
           if (res.data[0].status !== "visited by fe") {
             // Update allbooktables and calculate the time difference
             this.allbooktables = res.data.map((btable: any) => this.calculateTimeDifference(btable));
@@ -562,10 +546,8 @@ export class DashboardPage implements OnInit {
 
   calculateTimeDifference(btable: any): any {
     const adminTime = moment(btable.admin, 'YYYY-MM-DD HH:mm:ss');
-
     const currentTime = moment();
     const duration = moment.duration(currentTime.diff(adminTime));
-
     const days = duration.days();
     const hours = duration.hours();
     const minutes = duration.minutes();
@@ -581,10 +563,8 @@ export class DashboardPage implements OnInit {
 
   calculateTimeDifferencenew(ctable: any): any {
     const adminTime = moment(ctable.admin, 'YYYY-MM-DD HH:mm:ss');
-
     const currentTime = moment();
     const duration = moment.duration(currentTime.diff(adminTime));
-
     const days = duration.days();
     const hours = duration.hours();
     const minutes = duration.minutes();
@@ -602,7 +582,6 @@ export class DashboardPage implements OnInit {
 
   pushCardToAnotherSegment(cardData: any) {
     this.overdueBooktables.push(cardData);
-
     const index = this.allbooktables.indexOf(cardData);
     if (index !== -1) {
       this.allbooktables.splice(index, 1);

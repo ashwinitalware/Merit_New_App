@@ -10,7 +10,6 @@ import { NgForm } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { IonAccordionGroup } from '@ionic/angular';
 import { IonSegment } from '@ionic/angular';
-import * as CryptoJS from 'crypto-js';
 
 interface PropertyType {
   id: number;
@@ -49,6 +48,7 @@ export class BasicnewPage implements OnInit {
   // alladminimg: { document_name: string[], image: string[] } = { document_name: [], image: [] };
 
   profiledata = {
+    NA:false,
     High_Tension: false,
     Temple_In: false,
     Near_Nala: false,
@@ -467,22 +467,11 @@ export class BasicnewPage implements OnInit {
     await this.storage.create();
     this.get_year(); 
     this.get_fe_data();
-    // this.profiledata.volunteer_flag = true;
+    this.get_capture_data();
   }
 
-  // decryptValuationId(encryptedValuationId: string): string {
-  //   const decryptedValuationId = CryptoJS.AES.decrypt(encryptedValuationId, 'secretKey').toString(CryptoJS.enc.Utf8);
-  //   return decryptedValuationId;
-  // }
 
   ionViewWillEnter() {
-
-    // this.route.queryParams.subscribe((params) => {
-    //   const encryptedValuationId = params['encrypted_valuation_id'];
-    //   const decryptedValuationId = this.decryptValuationId(encryptedValuationId);
-    //   console.log('Decrypted Valuation ID:', decryptedValuationId);
-    // });
-
     this.route.queryParams.subscribe((params) => {
       this.address = this.url.user_map_address;
       this.lat = this.url.user_map_lat;
@@ -931,36 +920,95 @@ export class BasicnewPage implements OnInit {
     });
   }
 
+
   new_field_executive(f: NgForm) {
-    console.log("sendingdata", this.data);
-    this.storage.get('member').then((res) => {
-      this.user_id1 = parseInt(res.user_id, 10);
-      this.field_update_data.valuation_id = this.valuation_id;
-      console.clear();
-      console.log(this.data, 25);
-      this.url.presentLoading();
-      this.url.dismiss();
-      console.log(this.field_update_data);
+    this.http.post(`${this.url.serverUrl}store_image`, this.data)
+      .subscribe(
+        (res: any) => {
+          console.log('HTTP POST Success:', res);
+          this.get_capture_data(); // Call after successful response
+        },
+        (err) => {
+          console.error('HTTP POST Error:', err);
+          if (err.error && err.error.text) {
+            const jsonStart = err.error.text.indexOf('{'); // Find the index of the JSON start
+            const jsonString = err.error.text.substring(jsonStart); // Extract JSON string
+            try {
+              const jsonResponse = JSON.parse(jsonString); // Attempt to parse the extracted JSON
+              console.log('Parsed JSON:', jsonResponse);
+            } catch (e) {
+              console.error('Error parsing JSON:', e);
+            }
+          }
+          this.url.dismiss(); // Handle error, if any
+        }
+      )
+      .add(() => {
+        this.get_capture_data(); // Call after completion (success or error)
+        // this.data = [];
+        // this.selectedOption23 = null;
+        // this.selectedOption24 = null;
+        // this.fileToUpload = null;
+      });
+  }
+
+// ye get wala
+  get_capture_data() {
+    this.storage.get('member').then((res2) => {
+      this.valuation_id1 = parseInt(res2.valuation_id, 10);
       this.http
-        .post(`${this.url.serverUrl}store_image`, this.data)
+        .get(
+          `${this.url.serverUrl}get_capture_data?valuation_id=${this.session_data1}`
+        )
         .subscribe(
           (res: any) => {
-            this.url.dismiss();
-            this.get_capture_data();
-            console.log(res, 56);
-            console.log(this.data, 57);
-            this.data = [];
-            this.selectedOption23 = null;
-            this.selectedOption24 = null;
-            this.fileToUpload = null;
+            if (res === 0) {
+              this.url.presentToast('You Have no Data.');
+            } else {
+              let data = res.data;
+              console.log(data, 85);
+              this.image = data[0].image;
+              this.allcapture_image = (data[0].image);
+              console.log(this.allcapture_image,90);
+              this.allcapture_cat = (data[0].categorys).split(',');
+              this.allcapture_tags = (data[0].tags).split(',');
+            }
           },
-
-          (err) => {
-            this.url.dismiss();
-          }
+          (err) => { }
         );
     });
   }
+  
+  // new_field_executive(f: NgForm) {
+  //   console.log("sendingdata", this.data);
+  //   this.storage.get('member').then((res) => {
+  //     this.user_id1 = parseInt(res.user_id, 10);
+  //     this.field_update_data.valuation_id = this.valuation_id;
+  //     console.clear();
+  //     console.log(this.data, 25);
+  //     this.url.presentLoading();
+  //     this.url.dismiss();
+  //     console.log(this.field_update_data);
+  //     this.http
+  //       .post(`${this.url.serverUrl}store_image`, this.data)
+  //       .subscribe(
+  //         (res: any) => {
+  //           this.url.dismiss();
+  //           console.log(res, 56);
+  //           console.log(this.data, 57);
+  //           this.data = [];
+  //           this.selectedOption23 = null;
+  //           this.selectedOption24 = null;
+  //           this.fileToUpload = null;
+  //           this.get_capture_data(); 
+  //         },
+
+  //         (err) => {
+  //           this.url.dismiss();
+  //         }
+  //       );
+  //   });
+  // }
 
   //Get all category
   category() {
@@ -977,9 +1025,6 @@ export class BasicnewPage implements OnInit {
       (err) => { }
     );
   }
-
-
-  
 
 
   //Get all Tag
@@ -1014,9 +1059,7 @@ export class BasicnewPage implements OnInit {
     console.log(this.selectedOption24, 14);
   }
 
-  
-  addData() {
-
+  addData(){
     if (this.selectedOption23 && this.selectedOption23.id && this.selectedOption23.category && this.selectedOption24) {
       this.data.push({
         category_id: this.selectedOption23.id,
@@ -1031,8 +1074,7 @@ export class BasicnewPage implements OnInit {
     }
   }
 
-
-  addDocument() {
+  addDocument(){
     if (this.selectedOption23 && this.selectedOption24 && this.customer_file1) {
       this.documents.push({
         category: this.selectedOption23.category,
@@ -1047,33 +1089,58 @@ export class BasicnewPage implements OnInit {
     }
   }
 
+  // get_capture_data() {
+  //   this.storage.get('member').then((res2) => {
+  //     this.valuation_id1 = parseInt(res2.valuation_id, 10);
+  //     this.http
+  //       .get(`${this.url.serverUrl}get_capture_data?valuation_id=${this.session_data1}`)
+  //       .subscribe(
+  //         (res: any) => {
+  //           if (res === 0) {
+  //             this.url.presentToast('You Have no booking.');
+  //           } else {
+  //             let data = res.data;
+  //             this.image = data[0].image;
+  //             console.log(this.image,89);
+  //             this.allcapture_image = (data[0].image);
+  //             console.log(this.allcapture_image,78);
+  //             this.allcapture_cat = (data[0].categorys).split(',');
+  //             console.log(this.allcapture_cat, 77);
+  //             this.allcapture_tags = (data[0].tags).split(',');
+  //           }
+  //         },
+  //         (err) => { }
+  //       );
+  //   });
+  // }
 
-  get_capture_data() {
-    this.storage.get('member').then((res2) => {
-      this.valuation_id1 = parseInt(res2.valuation_id, 10);
-      this.http
-        .get(`${this.url.serverUrl}get_capture_data?valuation_id=${this.session_data1}`)
-        .subscribe(
-          (res: any) => {
-            if (res === 0) {
-              this.url.presentToast('You Have no booking.');
-            } else {
-              let data = res.data;
-              // console.log(this.data, 56);
-              this.image = data[0].image;
-              console.log(this.image,89);
-              this.allcapture_image = (data[0].image);
-              console.log(this.allcapture_image,78);
-              this.allcapture_cat = (data[0].categorys).split(',');
-              console.log(this.allcapture_cat, 77);
-              this.allcapture_tags = (data[0].tags).split(',');
-              // console.log(this.allcapture_tags, 88);// 
-            }
-          },
-          (err) => { }
-        );
-    });
-  }
+
+
+
+  // get_capture_data() {
+  //   this.storage.get('member').then((res2) => {
+  //     this.valuation_id1 = parseInt(res2.valuation_id, 10);
+  //     this.http
+  //       .get(`${this.url.serverUrl}get_capture_data?valuation_id=${this.valuation_id1}`) // Change session_data1 to valuation_id1
+  //       .subscribe(
+  //         (res: any) => {
+  //           if (res === 0) {
+  //             this.url.presentToast('You Have no booking.');
+  //           } else {
+  //             let data = res.data;
+  //             this.image = data[0].image;
+  //             console.log(this.image, 89);
+  //             this.allcapture_image = data[0].image;
+  //             console.log(this.allcapture_image, 78);
+  //             this.allcapture_cat = data[0].categorys.split(',');
+  //             console.log(this.allcapture_cat, 77);
+  //             this.allcapture_tags = data[0].tags.split(',');
+  //           }
+  //         },
+  //         (err) => { }
+  //       );
+  //   });
+  // }
 
 
   removeDocument1(index: number) {
@@ -1227,6 +1294,7 @@ export class BasicnewPage implements OnInit {
             // console.log(res.data,77);
             this.url.dismiss();
             this.get_fe_data();
+            // this.get_capture_data();
           },
           (err) => {
             this.url.dismiss();
@@ -1239,6 +1307,7 @@ export class BasicnewPage implements OnInit {
     this.url.dismiss();
     this.url.presentToast('Data saved successfully!');
     this.get_fe_data();
+    // this.get_capture_data();
   }
 
   showSubmitToast() {
@@ -1299,6 +1368,7 @@ export class BasicnewPage implements OnInit {
 
   //segment code start
   //segment code start
+
   moveToPreviewSegment() {
     // if (this.segment) {
     //   this.segment.value = 'preview';
@@ -1438,7 +1508,7 @@ export class BasicnewPage implements OnInit {
               if (selectedPropertyType) {
                 selectedPropertyType.property = data[0].property;
               }
-
+              
               this.meter_no = data[0].meter_no;
               this.person_met_at_site = data[0].person_met_at_site;
               this.house_no = data[0].house_no;
@@ -1471,6 +1541,8 @@ export class BasicnewPage implements OnInit {
               this.aminities = [data[0].aminities];
 
               var amini = this.aminities[0];
+//               console.log('Aminities:', this.aminities);
+// console.log('First element of Aminities:', this.aminities[0]);
 
               for (let i = 0; i < amini.length; i++) {
                 const element = amini[i];
@@ -1498,11 +1570,11 @@ export class BasicnewPage implements OnInit {
                   this.aminitiesdata.Lift = true
                   this.selectedaminities.push(element);
                 }
-                if (element == "Swimming Pool"){
+                if (element == "Swimming Pool") {
                   this.aminitiesdata.Swimming_Pool = true
                   this.selectedaminities.push(element);
                 }
-                if (element == "Electric car Charging Station"){
+                if (element == "Electric car Charging Station") {
                   this.aminitiesdata.Electric_car = true
                   this.selectedaminities.push(element);
                 }
@@ -1511,8 +1583,12 @@ export class BasicnewPage implements OnInit {
                   this.selectedaminities.push(element);
                 }
               }
+
+
               this.four_borders[0] = data[0].four_borders[0];
+
               this.four_borders[1] = data[0].four_borders[1];
+
               this.four_borders[2] = data[0].four_borders[2];
 
               this.four_borders[3] = data[0].four_borders[3];
@@ -1630,6 +1706,10 @@ export class BasicnewPage implements OnInit {
              
               for (let i = 0; i < devi.length; i++) {
                 const elementdata = devi[i];
+                if (elementdata == "NA") {
+                  this.profiledata.NA = true
+                  this.selectedDeviation.push(elementdata);
+                }
                 if (elementdata == "High_Tension") {
                   this.profiledata.High_Tension = true
                   this.selectedDeviation.push(elementdata);
@@ -1714,6 +1794,36 @@ export class BasicnewPage implements OnInit {
         );
     });
   }
+
+
+  
+  // get_capture_data() {
+  //   this.storage.get('member').then((res2) => {
+  //     this.valuation_id1 = parseInt(res2.valuation_id, 10);
+  //     this.http
+  //       .get(`${this.url.serverUrl}get_capture_data?valuation_id=${this.session_data1}`)
+  //       .subscribe(
+  //         (res: any) => {
+  //           if (res === 0) {
+  //             this.url.presentToast('You Have no booking.');
+  //           } else {
+  //             let data = res.data;
+  //             this.image = data[0].image;
+  //             console.log(this.image,89);
+  //             this.allcapture_image = (data[0].image);
+  //             console.log(this.allcapture_image,78);
+  //             this.allcapture_cat = (data[0].categorys).split(',');
+  //             console.log(this.allcapture_cat, 77);
+  //             this.allcapture_tags = (data[0].tags).split(',');
+  //           }
+  //         },
+  //         (err) => { }
+  //       );
+  //   });
+  // }
+
+
+
 
 
 

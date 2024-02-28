@@ -1082,6 +1082,12 @@
     </div>
   
     <div class="ion-padding" *ngIf="switchTab === 'deviation'">
+
+      <ion-item>
+        <ion-checkbox  [(ngModel)]="profiledata['NA']" [checked]="profiledata.NA" (ionChange)="updateSelectedDeviation('NA', $event)"></ion-checkbox>
+        <ion-label class="pl-4">NA</ion-label>
+      </ion-item>
+
     
       <ion-item>
         <ion-checkbox  [(ngModel)]="profiledata['High_Tension']" [checked]="profiledata.High_Tension" (ionChange)="updateSelectedDeviation('High_Tension', $event)"></ion-checkbox>
@@ -1626,7 +1632,6 @@
           </ion-col>
 
           <ion-col align="left" size="3.5" class="flex items-center">
-            <!-- <ion-label>{{selectedTagName[i]}}</ion-label> -->
             <ion-label>{{document.tag_id1}}</ion-label>
           </ion-col>
 
@@ -1665,10 +1670,6 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-
-      <!-- <ion-button routerLink="/cap-photo" >
-        CapPhoto
-      </ion-button> -->
 
       <div>
         <ion-fab class="scrollable-fab" horizontal="end" vertical="bottom">
@@ -2392,7 +2393,6 @@
           Submit
         </button>
         </div>
-
       </div>
     </div>
   </form>

@@ -47,6 +47,10 @@ const routes: Routes = [
     path: 'cap-photo',
     loadChildren: () => import('./cap-photo/cap-photo.module').then( m => m.CapPhotoPageModule)
   },
+  {
+    path: 'chart',
+    loadChildren: () => import('./chart/chart.module').then( m => m.ChartPageModule)
+  },
 ];
 
 @NgModule({

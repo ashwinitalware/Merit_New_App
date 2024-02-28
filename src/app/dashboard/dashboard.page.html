@@ -36,26 +36,26 @@
 
     <ion-grid>
       <ion-row>
-        <ion-col size="12">
+        <!-- <ion-col size="12">
           <app-gauge-chart></app-gauge-chart>
-        </ion-col>
+        </ion-col> -->
 
 
-        <ion-col size="6">
+        <ion-col size="5.5">
           <ion-row>
             <ion-col size="6">
               <div class="flex justify-start">
                 <p style="font-size: 11px;">
-                  <ion-icon style="color: rgb(255, 99, 132); font-size: 9px;" name="square"></ion-icon>
+                  <ion-icon style="color: rgb(255, 99, 132); font-size: 12px;" name="square"></ion-icon>
                   Pending: {{ allcount.monthwise_pending_count }}
                 </p>
               </div>
             </ion-col>
           
-            <ion-col size="6">
+            <ion-col size="12">
               <div class="flex justify-start">
                 <p style="font-size: 11px;">
-                  <ion-icon style="color: rgb(255, 205, 86); font-size: 9px;" name="square"></ion-icon>
+                  <ion-icon style="color: rgb(255, 205, 86); font-size: 12px;" name="square"></ion-icon>
                   Overdue: {{ allcount.overdueRecords_count }}
                 </p>
               </div>
@@ -64,33 +64,53 @@
             <ion-col size="12">
               <div class="flex justify-start">
                 <p style="font-size: 11px;">
-                  <ion-icon style="color: rgb(54, 162, 235); font-size: 9px;" name="square"></ion-icon>
+                  <ion-icon style="color: rgb(54, 162, 235); font-size: 12px;" name="square"></ion-icon>
                   Complete: {{ allcount.monthwise_complete_count }}
                 </p>
               </div>
             </ion-col>
           </ion-row>
 
-          <app-donut-chart></app-donut-chart>
         </ion-col>
 
-        <ion-col size="6">
+        <ion-col size="6.5">
+          <app-donut-chart class="w-full h-24"></app-donut-chart>
+        </ion-col>
+
+        <ion-col size="6" >
             <ion-row>
               <ion-col size="12">
                 <div class="flex justify-start" >
                   <p style="font-size: 11px;">  Total number of visits</p>
                 </div>
               </ion-col>
-          
-              <ion-col size="12"></ion-col> 
+              <!-- <ion-col size="12"></ion-col>  -->
             </ion-row>
-              <p class="chart-area shadow-none "></p>
+             
+              <div align="center" class="mb-4 pb-4 " style="border: 1px solid rgb(228, 228, 228); margin-top: 14px;">
+              <p class="chart-area"></p> 
+
+            </div>
+            <!-- <p style="font-size: 11px;">  Total number of visits</p> -->
         </ion-col>
+
+        <ion-col size="6" class="">
+          <p style="font-size: 11px;" class="mt-1" > Average Tat</p>
+          <div class="sc-gauge pr-3 pl-3" style="border: 1px solid rgb(228, 228, 228); margin-top: 20px;">
+            <div class="sc-background">
+              <div class="sc-percentage"></div>
+              <div class="sc-mask"></div>
+              <span class="sc-value">88</span>
+            </div>
+            <span class="sc-min">0</span>
+            <span class="sc-max">100</span>
+        </div>
+      </ion-col>
       </ion-row>
     </ion-grid>
 
 
-    <div class="flex justify-between p-2 mt-12 mb-2">
+    <div class="flex justify-between p-2  mb-2" style="margin-top: -10%;">
       <p class="text-sm pl-2 font-bold "> Assigned Cases</p>
       <p routerLink="/assigned" class="text-orange-500 text-xs pr-2">View All<ion-icon class="mt-1"
           name="chevron-forward-outline"></ion-icon></p>
@@ -109,9 +129,8 @@
         <ion-label>Completed</ion-label>
       </ion-segment-button>
     </ion-segment>
-    <!-- [ngClass]="{'accordion-open': isAccordionOpen}" -->
-    <div *ngIf="switchTab === 'planned'" class="p-1">
 
+    <div *ngIf="switchTab === 'planned'" class="p-1">
       <ng-container *ngFor="let btable of allbooktables">
         <ion-card class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
           *ngIf="btable.status !== 'Visited by FE' && btable.status !== 'Resubmitted By FE' && btable.status !== 'Approved'">
@@ -231,7 +250,7 @@
         </ion-card>
       </ng-container>
     </div>
-    <!-- [ngClass]="{'accordion-open': isAccordionOpen}" -->
+
     <div *ngIf="switchTab === 'overdue'" class="p-1">
       <ng-container *ngFor="let btable of overdueBooktables">
         <ion-card class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
@@ -352,7 +371,7 @@
         </ion-card>
       </ng-container>
     </div>
-    <!-- [ngClass]="{'accordion-open': isAccordionOpen}" -->
+
     <div *ngIf="switchTab === 'completed'" class="p-1">
       <ng-container *ngFor="let ctable of allcomtables">
         <ion-card class="border-b-2 border-orange-500 bg-gray-50 rounded-md shadow-md p-1 "
@@ -470,5 +489,6 @@
         </ion-card>
       </ng-container>
     </div>
+    
   </div>
 </ion-content>
